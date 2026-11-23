@@ -46,17 +46,10 @@ modeOptions.forEach((option) => {
   });
 });
 
-const roleSelect = document.getElementById('role');
-if (roleSelect) {
-  roleSelect.addEventListener('change', () => {
-    roleSelect.style.color = 'var(--color-text-main)';
-  });
-}
-
 const loginForm = document.getElementById('loginForm');
 if (loginForm) {
   loginForm.addEventListener('submit', (event) => {
     event.preventDefault();
-    window.location.href = 'index.html';
+    window.location.href = 'app.html';
   });
 }
