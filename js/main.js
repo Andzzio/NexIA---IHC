@@ -1,6 +1,7 @@
 const menuToggle = document.getElementById('menuToggle');
 const mobileDrawer = document.getElementById('mobileDrawer');
 const mobileLinks = document.querySelectorAll('.mobile-drawer__link');
+const desktopLinks = document.querySelectorAll('.desktop-nav__link');
 
 if (menuToggle && mobileDrawer) {
   menuToggle.addEventListener('click', () => {
@@ -20,12 +21,22 @@ if (menuToggle && mobileDrawer) {
   });
 }
 
+desktopLinks.forEach((link) => {
+  link.addEventListener('click', () => {
+    desktopLinks.forEach((item) => item.removeAttribute('aria-current'));
+    link.setAttribute('aria-current', 'location');
+  });
+});
+
 const formatTabs = document.querySelectorAll('.format-tab');
 formatTabs.forEach((tab) => {
-  tab.style.cursor = 'pointer';
   tab.addEventListener('click', () => {
-    formatTabs.forEach((t) => t.classList.remove('format-tab--active'));
+    formatTabs.forEach((t) => {
+      t.classList.remove('format-tab--active');
+      t.setAttribute('aria-selected', 'false');
+    });
     tab.classList.add('format-tab--active');
+    tab.setAttribute('aria-selected', 'true');
   });
 });
 

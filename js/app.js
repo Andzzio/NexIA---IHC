@@ -28,11 +28,23 @@ function navigateToView(targetViewId) {
   }
 
   sidebarButtons.forEach((btn) => {
-    btn.classList.toggle('is-active', btn.dataset.navGroup === activeGroup);
+    const isActive = btn.dataset.navGroup === activeGroup;
+    btn.classList.toggle('is-active', isActive);
+    if (isActive) {
+      btn.setAttribute('aria-current', 'page');
+    } else {
+      btn.removeAttribute('aria-current');
+    }
   });
 
   bottomNavButtons.forEach((btn) => {
-    btn.classList.toggle('is-active', btn.dataset.navGroup === activeGroup);
+    const isActive = btn.dataset.navGroup === activeGroup;
+    btn.classList.toggle('is-active', isActive);
+    if (isActive) {
+      btn.setAttribute('aria-current', 'page');
+    } else {
+      btn.removeAttribute('aria-current');
+    }
   });
 
   if (appSidebar) {

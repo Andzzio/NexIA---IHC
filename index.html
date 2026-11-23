@@ -11,10 +11,12 @@
   <link rel="stylesheet" href="css/styles.css">
 </head>
 <body>
+  <a href="#contenido-principal" class="skip-link">Saltar al contenido</a>
+
   <header class="site-header">
     <div class="container">
       <div class="header-inner">
-        <a href="index.html" class="brand-logo">
+        <a href="index.html" class="brand-logo" aria-current="page">
           <img src="assets/img/logo-nexia.png" alt="NexIA" class="brand-logo-img">
         </a>
 
@@ -29,8 +31,8 @@
           <span aria-hidden="true">↗</span>
         </a>
 
-        <button class="menu-toggle" id="menuToggle" aria-label="Abrir menú de navegación" aria-expanded="false">
-          <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round">
+        <button class="menu-toggle" id="menuToggle" aria-label="Abrir menú de navegación" aria-expanded="false" aria-controls="mobileDrawer">
+          <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" aria-hidden="true">
             <line x1="3" y1="6" x2="21" y2="6"></line>
             <line x1="3" y1="12" x2="21" y2="12"></line>
             <line x1="3" y1="18" x2="21" y2="18"></line>
@@ -39,7 +41,7 @@
       </div>
     </div>
 
-    <div class="mobile-drawer" id="mobileDrawer" aria-hidden="true">
+    <nav class="mobile-drawer" id="mobileDrawer" aria-label="Menú móvil" aria-hidden="true">
       <div>
         <p class="mobile-drawer__eyebrow">EXPLORA NEXIA</p>
         <ul class="mobile-drawer__list">
@@ -68,10 +70,10 @@
         <span>Iniciar sesión</span>
         <span aria-hidden="true">↗</span>
       </a>
-    </div>
+    </nav>
   </header>
 
-  <main>
+  <main id="contenido-principal">
     <section class="hero">
       <div class="container">
         <div class="hero-grid">
@@ -270,10 +272,10 @@
             </div>
 
             <div class="feature-inner-box">
-              <div class="format-tabs">
-                <span class="format-tab format-tab--active">Lectura</span>
-                <span class="format-tab">Audio</span>
-                <span class="format-tab">Práctica</span>
+              <div class="format-tabs" role="tablist" aria-label="Formatos de aprendizaje">
+                <button type="button" class="format-tab format-tab--active" role="tab" aria-selected="true">Lectura</button>
+                <button type="button" class="format-tab" role="tab" aria-selected="false">Audio</button>
+                <button type="button" class="format-tab" role="tab" aria-selected="false">Práctica</button>
               </div>
 
               <h4 class="inner-box__title">¿Qué es la IA generativa?</h4>
@@ -381,7 +383,9 @@
               </div>
 
               <div class="radar-chart-container">
-                <svg class="radar-svg" viewBox="0 0 380 300" role="img" aria-label="Gráfico radar de evolución de competencias: Comprender, Aplicar, Analizar, Crear y Evaluar">
+                <svg class="radar-svg" viewBox="0 0 380 300" role="img" aria-labelledby="radarTitle radarDesc">
+                  <title id="radarTitle">Evolución de competencias en NexIA</title>
+                  <desc id="radarDesc">Comparación entre Antes (línea discontinua: Comprender 47 %, Aplicar 50 %, Analizar 52 %, Crear 40 %, Evaluar 44 %) y Ahora (línea continua: Comprender 80 %, Aplicar 83 %, Analizar 81 %, Crear 82 %, Evaluar 78 %).</desc>
                   <polygon points="190,45 299,124 257,252 123,252 81,124" fill="none" stroke="#EAECEF" stroke-width="1" />
                   <polygon points="190,74 272,133 240,229 140,229 108,133" fill="none" stroke="#EAECEF" stroke-width="1" />
                   <polygon points="190,103 244,142 224,206 156,206 136,142" fill="none" stroke="#EAECEF" stroke-width="1" />
@@ -393,9 +397,9 @@
                   <line x1="190" y1="160" x2="123" y2="252" stroke="#EAECEF" stroke-width="1" />
                   <line x1="190" y1="160" x2="81" y2="124" stroke="#EAECEF" stroke-width="1" />
 
-                  <polygon points="190,106 244,143 226,209 164,196 142,144" fill="rgba(163, 165, 247, 0.25)" stroke="#989AF5" stroke-width="1.6" />
+                  <polygon points="190,106 244,143 226,209 164,196 142,144" fill="rgba(163, 165, 247, 0.25)" stroke="#989AF5" stroke-width="1.8" stroke-dasharray="5 4" />
 
-                  <polygon points="190,68 281,130 245,235 132,240 105,132" fill="rgba(85, 88, 245, 0.20)" stroke="#5558F5" stroke-width="2" />
+                  <polygon points="190,68 281,130 245,235 132,240 105,132" fill="rgba(85, 88, 245, 0.20)" stroke="#5558F5" stroke-width="2.2" />
 
                   <text x="190" y="30" text-anchor="middle" class="radar-label">Comprender</text>
                   <text x="315" y="130" text-anchor="start" class="radar-label">Aplicar</text>
@@ -439,14 +443,14 @@
         <div class="footer-bottom__right">
           <div class="footer-socials">
             <a href="#" class="footer-social-link" aria-label="Instagram de NexIA">
-              <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+              <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
                 <rect x="2" y="2" width="20" height="20" rx="5" ry="5"></rect>
                 <path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z"></path>
                 <line x1="17.5" y1="6.5" x2="17.51" y2="6.5"></line>
               </svg>
             </a>
             <a href="#" class="footer-social-link" aria-label="TikTok de NexIA">
-              <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+              <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
                 <path d="M9 12a4 4 0 1 0 4 4V4a5 5 0 0 0 5 5v3a8 8 0 0 1-5-1.5V16a4 4 0 0 1-4 4"></path>
               </svg>
             </a>
