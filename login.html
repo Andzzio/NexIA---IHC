@@ -1,0 +1,106 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Iniciar sesión — NexIA</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="css/styles.css">
+</head>
+<body class="auth-body">
+  <header class="auth-header">
+    <div class="container auth-header__inner">
+      <a href="index.html" class="brand-logo brand-logo--auth">NexIA</a>
+      <a href="index.html" class="auth-back-btn">Volver al inicio</a>
+    </div>
+  </header>
+
+  <main class="auth-main">
+    <div class="container">
+      <div class="auth-grid">
+        <section class="auth-promo" aria-label="Beneficios de aprendizaje">
+          <p class="auth-promo__eyebrow">TU APRENDIZAJE CONTINÚA AQUÍ</p>
+          <h1 class="auth-promo__title">
+            Un paso más cerca<br>
+            de comprender.
+          </h1>
+          <p class="auth-promo__desc">
+            Retoma tus contenidos, resuelve dudas y sigue avanzando a tu ritmo.
+          </p>
+
+          <div class="auth-promo__box">
+            <div class="auth-promo__item">
+              <h2 class="auth-promo__item-title">Antes de clase</h2>
+              <p class="auth-promo__item-sub">Micromódulos breves + tutor IA</p>
+            </div>
+            <hr class="auth-promo__divider">
+            <div class="auth-promo__item">
+              <h2 class="auth-promo__item-title">Después de clase</h2>
+              <p class="auth-promo__item-sub">Desafíos y refuerzo personalizado</p>
+            </div>
+          </div>
+        </section>
+
+        <div class="auth-column-right">
+          <section class="auth-card" aria-labelledby="loginHeading">
+            <p class="auth-card__eyebrow">BIENVENIDO A NEXIA</p>
+            <h1 class="auth-card__title" id="loginHeading">Inicia sesión</h1>
+            <p class="auth-card__subtitle">Accede con tu correo institucional.</p>
+
+            <form class="auth-form" id="loginForm">
+              <div class="form-group">
+                <label for="email" class="form-label">Correo institucional</label>
+                <input
+                  type="email"
+                  id="email"
+                  name="email"
+                  class="form-input"
+                  placeholder="tu.correo@universidad.edu"
+                  required
+                >
+              </div>
+
+              <div class="form-group">
+                <label for="password" class="form-label">Contraseña</label>
+                <input
+                  type="password"
+                  id="password"
+                  name="password"
+                  class="form-input"
+                  placeholder="Ingresa tu contraseña"
+                  required
+                >
+              </div>
+
+              <div class="form-group">
+                <label for="role" class="form-label">Ingresar como</label>
+                <div class="select-wrapper">
+                  <select id="role" name="role" class="form-select" required>
+                    <option value="" disabled selected>Estudiante o docente</option>
+                    <option value="estudiante">Estudiante</option>
+                    <option value="docente">Docente</option>
+                  </select>
+                  <span class="select-chevron" aria-hidden="true">∨</span>
+                </div>
+              </div>
+
+              <div class="auth-actions">
+                <button type="submit" class="auth-btn auth-btn--primary">Iniciar sesión</button>
+                <button type="button" class="auth-btn auth-btn--secondary">¿Necesitas ayuda para ingresar?</button>
+              </div>
+            </form>
+
+            <p class="auth-card__footnote">Usa las credenciales de tu institución.</p>
+          </section>
+
+          <p class="auth-caption">NexIA · Aprender, comprender, avanzar.</p>
+        </div>
+      </div>
+    </div>
+  </main>
+
+  <script src="js/main.js"></script>
+</body>
+</html>

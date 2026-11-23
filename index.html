@@ -1,0 +1,464 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>NexIA — Tu curiosidad. Tu ritmo. Tu próximo nivel.</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="css/styles.css">
+</head>
+<body>
+  <header class="site-header">
+    <div class="container">
+      <div class="header-inner">
+        <a href="index.html" class="brand-logo">NexIA</a>
+
+        <nav class="desktop-nav" aria-label="Navegación principal">
+          <a href="#como-funciona" class="desktop-nav__link">Cómo funciona</a>
+          <a href="#funcionalidades" class="desktop-nav__link">Funcionalidades</a>
+          <a href="#progreso" class="desktop-nav__link">Progreso</a>
+        </nav>
+
+        <a href="login.html" class="header-cta-desktop">
+          <span>Iniciar Sesión</span>
+          <span aria-hidden="true">↗</span>
+        </a>
+
+        <button class="menu-toggle" id="menuToggle" aria-label="Abrir menú de navegación" aria-expanded="false">
+          <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round">
+            <line x1="3" y1="6" x2="21" y2="6"></line>
+            <line x1="3" y1="12" x2="21" y2="12"></line>
+            <line x1="3" y1="18" x2="21" y2="18"></line>
+          </svg>
+        </button>
+      </div>
+    </div>
+
+    <div class="mobile-drawer" id="mobileDrawer" aria-hidden="true">
+      <div>
+        <p class="mobile-drawer__eyebrow">EXPLORA NEXIA</p>
+        <ul class="mobile-drawer__list">
+          <li>
+            <a href="#como-funciona" class="mobile-drawer__link">
+              <span>Cómo funciona</span>
+              <span class="mobile-drawer__arrow" aria-hidden="true">↗</span>
+            </a>
+          </li>
+          <li>
+            <a href="#funcionalidades" class="mobile-drawer__link">
+              <span>Funcionalidades</span>
+              <span class="mobile-drawer__arrow" aria-hidden="true">↗</span>
+            </a>
+          </li>
+          <li>
+            <a href="#progreso" class="mobile-drawer__link">
+              <span>Progreso y racha</span>
+              <span class="mobile-drawer__arrow" aria-hidden="true">↗</span>
+            </a>
+          </li>
+        </ul>
+      </div>
+
+      <a href="login.html" class="mobile-drawer__cta">
+        <span>Iniciar sesión</span>
+        <span aria-hidden="true">↗</span>
+      </a>
+    </div>
+  </header>
+
+  <main>
+    <section class="hero">
+      <div class="container">
+        <div class="hero-grid">
+          <div class="hero-content">
+            <span class="pill-badge pill-badge--purple">IA QUE SE ADAPTA A TI</span>
+            <h1 class="hero-title">
+              Tu curiosidad.<br>
+              Tu ritmo.<br>
+              Tu próximo nivel.
+            </h1>
+            <p class="hero-description">
+              Convierte tus documentos o un tema de investigación en un curso diseñado para ti. Tú marcas el objetivo. NexIA traza el camino.
+            </p>
+            <p class="hero-footnote">A tu medida. Desde el primer paso.</p>
+          </div>
+
+          <div class="hero-showcase">
+            <div class="showcase-top-row">
+              <div class="showcase-source-card">
+                <span class="pdf-pill">PDF</span>
+                <div>
+                  <p class="source-card__title">Tu investigación</p>
+                  <p class="source-card__subtitle">El punto de partida</p>
+                </div>
+              </div>
+
+              <div class="showcase-floating-pill">
+                <span aria-hidden="true">✓</span>
+                <span>Un objetivo. Tu propia ruta.</span>
+              </div>
+            </div>
+
+            <div class="showcase-route-card">
+              <span class="pill-badge pill-badge--purple">TU RUTA, CONECTADA</span>
+              <h2 class="route-card__title">Domina la IA generativa</h2>
+              <p class="route-card__subtitle">Objetivo: aplicar IA en tu investigación</p>
+
+              <div class="route-card__meta">
+                <span class="meta-chip">4 semanas</span>
+                <span class="meta-chip">20 min / día</span>
+              </div>
+
+              <div class="route-card__modules">
+                <div class="module-item module-item--done">
+                  <span class="module-item__check" aria-hidden="true">✓</span>
+                  <span>Fundamentos y posibilidades</span>
+                </div>
+                <div class="module-item module-item--next">
+                  <span class="module-item__num">02</span>
+                  <span>Diseña mejores instrucciones</span>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="section-pathway">
+      <div class="container">
+        <h2 class="section-title">
+          No necesitas más contenido.<br>
+          Necesitas tu propio camino.
+        </h2>
+
+        <div class="pathway-grid">
+          <article class="pathway-card">
+            <p class="pathway-card__from">Documentos dispersos</p>
+            <h3 class="pathway-card__to">
+              <span class="pathway-card__arrow" aria-hidden="true">↳</span>
+              <span>Del caos a la claridad</span>
+            </h3>
+            <p class="pathway-card__result">Una ruta con sentido</p>
+          </article>
+
+          <article class="pathway-card">
+            <p class="pathway-card__from">Un temario para todos</p>
+            <h3 class="pathway-card__to">
+              <span class="pathway-card__arrow" aria-hidden="true">↳</span>
+              <span>De lo genérico a lo tuyo</span>
+            </h3>
+            <p class="pathway-card__result">Un objetivo que te mueve</p>
+          </article>
+
+          <article class="pathway-card">
+            <p class="pathway-card__from">Horas sin saber si avanzas</p>
+            <h3 class="pathway-card__to">
+              <span class="pathway-card__arrow" aria-hidden="true">↳</span>
+              <span>De estudiar a comprender</span>
+            </h3>
+            <p class="pathway-card__result">Competencias que puedes ver</p>
+          </article>
+        </div>
+      </div>
+    </section>
+
+    <section class="section-steps" id="como-funciona">
+      <div class="container">
+        <h2 class="section-title">De una idea a un «lo entiendo».</h2>
+        <p class="section-subtitle">Tres pasos. Una experiencia que se adapta a ti.</p>
+
+        <div class="steps-grid">
+          <article class="step-card">
+            <span class="step-badge step-badge--purple">01</span>
+            <h3 class="step-card__title">Dale un punto de partida</h3>
+            <p class="step-card__desc">
+              Sube documentos o explora un tema que quieras investigar.
+            </p>
+          </article>
+
+          <article class="step-card">
+            <span class="step-badge step-badge--purple">02</span>
+            <h3 class="step-card__title">Dibuja tu propia meta</h3>
+            <p class="step-card__desc">
+              Define tu objetivo, tu nivel y el tiempo del que dispones.
+            </p>
+          </article>
+
+          <article class="step-card">
+            <span class="step-badge step-badge--mint">03</span>
+            <h3 class="step-card__title">Aprende a tu manera</h3>
+            <p class="step-card__desc">
+              Empieza con un diagnóstico o ve directo a aprender.
+            </p>
+          </article>
+        </div>
+      </div>
+    </section>
+
+    <section class="section-features" id="funcionalidades">
+      <div class="container">
+        <h2 class="section-title">
+          No todos aprendemos igual.<br>
+          Tu curso tampoco debería.
+        </h2>
+
+        <div class="features-grid">
+          <article class="feature-card feature-card--purple">
+            <div class="feature-card__header">
+              <h3 class="feature-card__title">Comprueba lo aprendido</h3>
+              <p class="feature-card__subtitle">Desafíos rápidos para medir el progreso diario.</p>
+            </div>
+
+            <div class="feature-inner-box">
+              <p class="inner-box__eyebrow">QUIERO PONERME A PRUEBA...</p>
+              <h4 class="inner-box__title">¿Comprendistes este concepto?</h4>
+              <p class="inner-box__text">Pon a prueba tus conocimientos con preguntas personalizadas.</p>
+
+              <div class="quiz-actions">
+                <span class="quiz-btn quiz-btn--primary">Practicar conceptos</span>
+                <span class="quiz-btn quiz-btn--secondary">
+                  <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                    <rect x="2" y="3" width="20" height="14" rx="2" ry="2"></rect>
+                    <line x1="8" y1="21" x2="16" y2="21"></line>
+                    <line x1="12" y1="17" x2="12" y2="21"></line>
+                  </svg>
+                  <span>Tutor IA</span>
+                </span>
+              </div>
+
+              <p class="inner-box__footnote">Tus respuestas adaptan las próximas lecciones.</p>
+            </div>
+          </article>
+
+          <article class="feature-card feature-card--mint">
+            <div class="feature-card__header">
+              <h3 class="feature-card__title">Elige cómo empezar.</h3>
+              <p class="feature-card__subtitle">Con diagnóstico o directamente al contenido.</p>
+            </div>
+
+            <div class="feature-inner-box">
+              <div class="mode-options-grid">
+                <div class="mode-option mode-option--active">
+                  <div class="mode-option__head">
+                    <span class="radio-dot radio-dot--active" aria-hidden="true"></span>
+                    <span class="mode-option__title">Evaluación diagnóstica</span>
+                  </div>
+                  <p class="mode-option__desc">Descubre tu punto de partida.</p>
+                </div>
+
+                <div class="mode-option mode-option--muted">
+                  <div class="mode-option__head">
+                    <span class="radio-dot" aria-hidden="true"></span>
+                    <span class="mode-option__title">Enseñanza directa</span>
+                  </div>
+                  <p class="mode-option__desc">Empieza a aprender sin test inicial.</p>
+                </div>
+              </div>
+            </div>
+          </article>
+
+          <article class="feature-card feature-card--neutral">
+            <div class="feature-card__header">
+              <h3 class="feature-card__title">Un concepto. Distintas formas.</h3>
+              <p class="feature-card__subtitle">Lee, escucha y pon a prueba lo aprendido.</p>
+            </div>
+
+            <div class="feature-inner-box">
+              <div class="format-tabs">
+                <span class="format-tab format-tab--active">Lectura</span>
+                <span class="format-tab">Audio</span>
+                <span class="format-tab">Práctica</span>
+              </div>
+
+              <h4 class="inner-box__title">¿Qué es la IA generativa?</h4>
+              <p class="inner-box__text">
+                Aprende el concepto, explora un ejemplo<br>
+                y comprueba lo que has comprendido.
+              </p>
+            </div>
+          </article>
+
+          <article class="feature-card feature-card--amber">
+            <div class="feature-card__header">
+              <h3 class="feature-card__title">Aprende conectado a tus fuentes.</h3>
+              <p class="feature-card__subtitle">De tus documentos a explicaciones con contexto.</p>
+            </div>
+
+            <div class="feature-inner-box">
+              <span class="pill-badge pill-badge--amber">TU MATERIAL</span>
+              <h4 class="inner-box__title inner-box__title--spaced">«Relaciona esta idea con mi tema».</h4>
+              <p class="inner-box__text">Una explicación que parte de lo que estudias.</p>
+            </div>
+          </article>
+        </div>
+      </div>
+    </section>
+
+    <section class="section-progress" id="progreso">
+      <div class="container">
+        <div class="progress-grid">
+          <div class="progress-left">
+            <h2 class="section-title">
+              No cuentes horas.<br>
+              Descubre lo que ya sabes.
+            </h2>
+            <p class="progress-description">
+              Visualiza tus competencias, identifica qué reforzar y decide tu siguiente paso con más claridad.
+            </p>
+
+            <ul class="progress-checks">
+              <li class="progress-check-item">
+                <span class="progress-check-icon" aria-hidden="true">✓</span>
+                <span>Reconoce tus fortalezas</span>
+              </li>
+              <li class="progress-check-item">
+                <span class="progress-check-icon" aria-hidden="true">✓</span>
+                <span>Enfoca el esfuerzo donde más importa</span>
+              </li>
+            </ul>
+
+            <p class="progress-small-note">Un aprendizaje que puedes entender y orientar.</p>
+
+            <div class="streak-card">
+              <p class="streak-card__eyebrow">LA CONSTANCIA TAMBIÉN CUENTA</p>
+              <h3 class="streak-card__title">5 días de racha</h3>
+              <p class="streak-card__subtitle">Un pequeño avance cada día.</p>
+
+              <div class="streak-days">
+                <div class="streak-day">
+                  <span class="streak-day__label">L</span>
+                  <span class="streak-day__box streak-day__box--done" aria-label="Completado">✓</span>
+                </div>
+                <div class="streak-day">
+                  <span class="streak-day__label">M</span>
+                  <span class="streak-day__box streak-day__box--done" aria-label="Completado">✓</span>
+                </div>
+                <div class="streak-day">
+                  <span class="streak-day__label">X</span>
+                  <span class="streak-day__box streak-day__box--done" aria-label="Completado">✓</span>
+                </div>
+                <div class="streak-day">
+                  <span class="streak-day__label">J</span>
+                  <span class="streak-day__box streak-day__box--done" aria-label="Completado">✓</span>
+                </div>
+                <div class="streak-day">
+                  <span class="streak-day__label">V</span>
+                  <span class="streak-day__box streak-day__box--current" aria-label="Racha actual">✓</span>
+                </div>
+                <div class="streak-day">
+                  <span class="streak-day__label">S</span>
+                  <span class="streak-day__box streak-day__box--pending" aria-label="Pendiente">–</span>
+                </div>
+                <div class="streak-day">
+                  <span class="streak-day__label">D</span>
+                  <span class="streak-day__box streak-day__box--pending" aria-label="Pendiente">–</span>
+                </div>
+              </div>
+
+              <p class="streak-card__footer">Cada día de aprendizaje suma a tu constancia.</p>
+            </div>
+          </div>
+
+          <div class="progress-right">
+            <div class="radar-card">
+              <h3 class="radar-card__title">Así se ve tu evolución</h3>
+
+              <div class="radar-legend">
+                <span class="radar-legend__item radar-legend__item--before">
+                  <span class="radar-legend__line radar-legend__line--before"></span>
+                  <span>Antes</span>
+                </span>
+                <span class="radar-legend__item radar-legend__item--now">
+                  <span class="radar-legend__line radar-legend__line--now"></span>
+                  <span>Ahora</span>
+                </span>
+              </div>
+
+              <div class="radar-chart-container">
+                <svg class="radar-svg" viewBox="0 0 380 300" role="img" aria-label="Gráfico radar de evolución de competencias: Comprender, Aplicar, Analizar, Crear y Evaluar">
+                  <polygon points="190,45 299,124 257,252 123,252 81,124" fill="none" stroke="#EAECEF" stroke-width="1" />
+                  <polygon points="190,74 272,133 240,229 140,229 108,133" fill="none" stroke="#EAECEF" stroke-width="1" />
+                  <polygon points="190,103 244,142 224,206 156,206 136,142" fill="none" stroke="#EAECEF" stroke-width="1" />
+                  <polygon points="190,132 217,151 207,183 173,183 163,151" fill="none" stroke="#EAECEF" stroke-width="1" />
+
+                  <line x1="190" y1="160" x2="190" y2="45" stroke="#EAECEF" stroke-width="1" />
+                  <line x1="190" y1="160" x2="299" y2="124" stroke="#EAECEF" stroke-width="1" />
+                  <line x1="190" y1="160" x2="257" y2="252" stroke="#EAECEF" stroke-width="1" />
+                  <line x1="190" y1="160" x2="123" y2="252" stroke="#EAECEF" stroke-width="1" />
+                  <line x1="190" y1="160" x2="81" y2="124" stroke="#EAECEF" stroke-width="1" />
+
+                  <polygon points="190,106 244,143 226,209 164,196 142,144" fill="rgba(163, 165, 247, 0.25)" stroke="#989AF5" stroke-width="1.6" />
+
+                  <polygon points="190,68 281,130 245,235 132,240 105,132" fill="rgba(85, 88, 245, 0.20)" stroke="#5558F5" stroke-width="2" />
+
+                  <text x="190" y="30" text-anchor="middle" class="radar-label">Comprender</text>
+                  <text x="315" y="130" text-anchor="start" class="radar-label">Aplicar</text>
+                  <text x="268" y="274" text-anchor="start" class="radar-label">Analizar</text>
+                  <text x="112" y="274" text-anchor="end" class="radar-label">Crear</text>
+                  <text x="65" y="130" text-anchor="end" class="radar-label">Evaluar</text>
+                </svg>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <footer class="site-footer">
+    <div class="container">
+      <div class="footer-cta">
+        <h2 class="footer-cta__title">
+          Haz espacio para<br>
+          lo que puedes llegar a saber.
+        </h2>
+        <p class="footer-cta__subtitle">
+          Empieza con una idea. Conviértela en tu propia ruta.
+        </p>
+      </div>
+
+      <hr class="footer-divider">
+
+      <div class="footer-brand">
+        <a href="index.html" class="footer-brand__logo">NexIA</a>
+        <p class="footer-brand__tagline">Aprender a tu manera.</p>
+      </div>
+
+      <div class="footer-bottom">
+        <div class="footer-bottom__left">
+          <p class="footer-copyright">© 2026 NexIA. Aprende. Conecta. Evoluciona.</p>
+          <a href="#como-funciona" class="footer-link">Acerca de</a>
+        </div>
+
+        <div class="footer-bottom__right">
+          <div class="footer-socials">
+            <a href="#" class="footer-social-link" aria-label="Instagram de NexIA">
+              <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+                <rect x="2" y="2" width="20" height="20" rx="5" ry="5"></rect>
+                <path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z"></path>
+                <line x1="17.5" y1="6.5" x2="17.51" y2="6.5"></line>
+              </svg>
+            </a>
+            <a href="#" class="footer-social-link" aria-label="TikTok de NexIA">
+              <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+                <path d="M9 12a4 4 0 1 0 4 4V4a5 5 0 0 0 5 5v3a8 8 0 0 1-5-1.5V16a4 4 0 0 1-4 4"></path>
+              </svg>
+            </a>
+          </div>
+
+          <div class="footer-legal-links">
+            <a href="#" class="footer-link">Privacidad</a>
+            <a href="#" class="footer-link">Términos</a>
+            <a href="#" class="footer-link">Contacto</a>
+          </div>
+        </div>
+      </div>
+    </div>
+  </footer>
+
+  <script src="js/main.js"></script>
+</body>
+</html>
