@@ -124,10 +124,18 @@ select {
 }
 
 .brand-logo {
+  display: inline-flex;
+  align-items: center;
   font-size: 1.75rem;
   font-weight: 700;
   color: var(--color-primary-text);
   letter-spacing: -0.02em;
+}
+
+.brand-logo-img {
+  height: 36px;
+  width: auto;
+  display: block;
 }
 
 .desktop-nav,
