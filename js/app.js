@@ -443,3 +443,68 @@ savedFilterChips.forEach((chip) => {
 if (savedSearch) {
   savedSearch.addEventListener('input', applySavedFilters);
 }
+
+const spaceSelectFileBtn = document.getElementById('spaceSelectFileBtn');
+const spaceFileInput = document.getElementById('spaceFileInput');
+if (spaceSelectFileBtn && spaceFileInput) {
+  spaceSelectFileBtn.addEventListener('click', () => {
+    spaceFileInput.click();
+  });
+}
+
+const spaceQtyRadios = document.querySelectorAll('input[name="spaceQty"]');
+spaceQtyRadios.forEach((radio) => {
+  radio.addEventListener('change', () => {
+    document.querySelectorAll('.space-qty-card').forEach((card) => {
+      card.classList.remove('is-selected');
+    });
+    const parent = radio.closest('.space-qty-card');
+    if (parent) parent.classList.add('is-selected');
+  });
+});
+
+const generateSpaceBtn = document.getElementById('generateSpaceBtn');
+const spaceTopicInput = document.getElementById('spaceTopicInput');
+const createdSpaceTitle = document.getElementById('createdSpaceTitle');
+const createdSpaceQty = document.getElementById('createdSpaceQty');
+
+if (generateSpaceBtn) {
+  generateSpaceBtn.addEventListener('click', () => {
+    const topic = spaceTopicInput ? spaceTopicInput.value.trim() : '';
+    if (topic && createdSpaceTitle) {
+      createdSpaceTitle.textContent = topic;
+    }
+    const checkedQty = document.querySelector('input[name="spaceQty"]:checked');
+    if (checkedQty && createdSpaceQty) {
+      createdSpaceQty.textContent = `${checkedQty.value} preguntas`;
+    }
+  });
+}
+
+const copySpaceCodeBtn = document.getElementById('copySpaceCodeBtn');
+const shareSpaceCodeBtn = document.getElementById('shareSpaceCodeBtn');
+const copyCodeFeedback = document.getElementById('copyCodeFeedback');
+
+function handleCopySpaceCode() {
+  if (navigator.clipboard) {
+    navigator.clipboard.writeText('NX4821').catch(() => {});
+  }
+  if (copyCodeFeedback) {
+    copyCodeFeedback.textContent = 'Código NX4821 copiado al portapapeles. Compártelo con tu grupo.';
+  }
+}
+
+if (copySpaceCodeBtn) copySpaceCodeBtn.addEventListener('click', handleCopySpaceCode);
+if (shareSpaceCodeBtn) shareSpaceCodeBtn.addEventListener('click', handleCopySpaceCode);
+
+const spaceExerciseOptions = document.querySelectorAll('#spaceExerciseOptions .quiz-option');
+spaceExerciseOptions.forEach((opt) => {
+  opt.addEventListener('click', () => {
+    spaceExerciseOptions.forEach((item) => {
+      item.classList.remove('is-selected');
+      item.setAttribute('aria-checked', 'false');
+    });
+    opt.classList.add('is-selected');
+    opt.setAttribute('aria-checked', 'true');
+  });
+});

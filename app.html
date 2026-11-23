@@ -51,6 +51,23 @@
         <circle cx="70" cy="30" r="2" fill="#FFFFFF"/>
         <path d="M44 98C40 90 44 84 50 86C48 92 50 96 44 98Z" fill="#14B8A6"/>
       </symbol>
+      <symbol id="illus-team" viewBox="0 0 220 130">
+        <rect x="74" y="14" width="38" height="24" rx="5" fill="#FFFFFF" stroke="#5558F5" stroke-width="1.6"/>
+        <line x1="80" y1="22" x2="104" y2="22" stroke="#5558F5" stroke-width="1.6" stroke-linecap="round"/>
+        <line x1="80" y1="29" x2="96" y2="29" stroke="#14B8A6" stroke-width="1.6" stroke-linecap="round"/>
+        <rect x="128" y="16" width="30" height="20" rx="5" fill="#5558F5"/>
+        <line x1="134" y1="24" x2="152" y2="24" stroke="#FFFFFF" stroke-width="1.6" stroke-linecap="round"/>
+        <line x1="134" y1="30" x2="146" y2="30" stroke="#C7C8FB" stroke-width="1.6" stroke-linecap="round"/>
+        <circle cx="62" cy="54" r="14" fill="#F2C5A0" stroke="#181A20" stroke-width="1.5"/>
+        <path d="M48 52C48 40 76 38 76 52C70 46 54 46 48 52Z" fill="#181A20"/>
+        <path d="M38 112C38 86 48 74 62 74C76 74 86 86 86 112Z" fill="#7C7FF7" stroke="#181A20" stroke-width="1.5"/>
+        <circle cx="158" cy="54" r="14" fill="#8D5A3C" stroke="#181A20" stroke-width="1.5"/>
+        <circle cx="158" cy="40" r="12" fill="#181A20"/>
+        <path d="M134 112C134 86 144 74 158 74C172 74 182 86 182 112Z" fill="#14B8A6" stroke="#181A20" stroke-width="1.5"/>
+        <rect x="78" y="76" width="64" height="38" rx="6" fill="#5558F5" stroke="#181A20" stroke-width="1.5"/>
+        <polygon points="110,90 114,96 110,102 106,96" fill="#FFFFFF"/>
+        <rect x="68" y="114" width="84" height="6" rx="3" fill="#FFFFFF" stroke="#181A20" stroke-width="1.5"/>
+      </symbol>
     </defs>
   </svg>
 
@@ -153,6 +170,16 @@
               <line x1="6" y1="20" x2="6" y2="14"></line>
             </svg>
             <span>Mi progreso</span>
+          </button>
+
+          <button type="button" class="sidebar-nav__btn" data-nav-group="espacios" data-nav-target="espacios-crear">
+            <svg width="19" height="19" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"></path>
+              <circle cx="9" cy="7" r="4"></circle>
+              <path d="M23 21v-2a4 4 0 0 0-3-3.87"></path>
+              <path d="M16 3.13a4 4 0 0 1 0 7.75"></path>
+            </svg>
+            <span>Espacios compartidos</span>
           </button>
 
           <button type="button" class="sidebar-nav__btn" data-nav-group="perfil" data-nav-target="perfil">
@@ -1887,6 +1914,632 @@
             <span>Tu cuenta está protegida.</span>
           </span>
         </div>
+      </section>
+
+      <section class="app-view" data-view="espacios-crear" data-group="espacios" data-title="Espacios compartidos">
+        <div class="view-header">
+          <p class="view-eyebrow">APRENDIZAJE COLABORATIVO</p>
+          <h1 class="view-title">Espacios compartidos</h1>
+          <p class="view-subtitle">Crea experiencias de aprendizaje con IA o participa mediante un código.</p>
+        </div>
+
+        <div class="spaces-tabs" role="tablist" aria-label="Navegación de espacios compartidos">
+          <button type="button" class="spaces-tab is-active" role="tab" aria-selected="true" data-nav-target="espacios-crear">Crear espacio</button>
+          <button type="button" class="spaces-tab" role="tab" aria-selected="false" data-nav-target="espacios-unirse">Unirse</button>
+          <button type="button" class="spaces-tab" role="tab" aria-selected="false" data-nav-target="espacios-lista">Mis espacios</button>
+        </div>
+
+        <div class="spaces-grid">
+          <article class="spaces-form-card">
+            <h2 class="spaces-card__title">Crear nuevo espacio</h2>
+            <p class="spaces-card__sub">Convierte tu material en una experiencia para compartir.</p>
+
+            <div class="form-group">
+              <label for="spaceTopicInput" class="form-label">Tema de aprendizaje</label>
+              <input type="text" id="spaceTopicInput" class="form-input" placeholder="Ej. Herencia y polimorfismo">
+            </div>
+
+            <div class="space-dropzone">
+              <p class="space-dropzone__title">Material de aprendizaje</p>
+              <p class="space-dropzone__sub">Arrastra tu material aquí o selecciona un archivo</p>
+              <p class="space-dropzone__meta">PDF o DOCX · Tu contenido guía las preguntas</p>
+              <input type="file" id="spaceFileInput" accept=".pdf,.doc,.docx" hidden>
+              <button type="button" class="app-btn app-btn--outline app-btn--sm" id="spaceSelectFileBtn">Seleccionar archivo</button>
+            </div>
+
+            <div class="form-group">
+              <span class="form-label">Cantidad de preguntas</span>
+              <div class="space-qty-grid" role="radiogroup" aria-label="Cantidad de preguntas">
+                <label class="space-qty-card">
+                  <input type="radio" name="spaceQty" value="5">
+                  <span>5 preguntas</span>
+                </label>
+                <label class="space-qty-card is-selected">
+                  <input type="radio" name="spaceQty" value="10" checked>
+                  <span>10 preguntas</span>
+                </label>
+              </div>
+            </div>
+
+            <button type="button" class="app-btn app-btn--primary app-btn--full" id="generateSpaceBtn" data-nav-target="espacios-creado">Generar preguntas con IA</button>
+          </article>
+
+          <aside class="spaces-promo-card">
+            <div>
+              <h2 class="spaces-promo-card__title">Una idea. Muchas formas de aprender.</h2>
+              <p class="spaces-promo-card__text">Tú compartes el conocimiento. NexIA te ayuda a ponerlo en práctica.</p>
+            </div>
+            <div class="spaces-promo-card__illus-box">
+              <svg viewBox="0 0 220 130" aria-hidden="true"><use href="#illus-team"></use></svg>
+            </div>
+            <ol class="spaces-promo-steps">
+              <li><strong>01</strong><span>Sube tu material</span></li>
+              <li><strong>02</strong><span>Genera preguntas con IA</span></li>
+              <li><strong>03</strong><span>Aprende y comparte</span></li>
+            </ol>
+          </aside>
+        </div>
+
+        <p class="view-footnote">Tus preguntas se generan a partir del tema y del material que adjuntes.</p>
+      </section>
+
+      <section class="app-view" data-view="espacios-unirse" data-group="espacios" data-title="Espacios compartidos">
+        <div class="view-header">
+          <p class="view-eyebrow">APRENDIZAJE COLABORATIVO</p>
+          <h1 class="view-title">Espacios compartidos</h1>
+          <p class="view-subtitle">Crea experiencias de aprendizaje con IA o participa mediante un código.</p>
+        </div>
+
+        <div class="spaces-tabs" role="tablist" aria-label="Navegación de espacios compartidos">
+          <button type="button" class="spaces-tab" role="tab" aria-selected="false" data-nav-target="espacios-crear">Crear espacio</button>
+          <button type="button" class="spaces-tab is-active" role="tab" aria-selected="true" data-nav-target="espacios-unirse">Unirse</button>
+          <button type="button" class="spaces-tab" role="tab" aria-selected="false" data-nav-target="espacios-lista">Mis espacios</button>
+        </div>
+
+        <div class="spaces-grid">
+          <article class="spaces-form-card">
+            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#5558F5" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+              <path d="M21 2l-2 2m-7.61 7.61a5.5 5.5 0 1 1-7.778 7.778 5.5 5.5 0 0 1 7.777-7.777zm0 0L15.5 7.5m0 0l3 3L22 7l-3-3m-3.5 3.5L19 4"></path>
+            </svg>
+            <h2 class="spaces-card__title">Unirse a un espacio</h2>
+            <p class="spaces-card__sub">Ingresa el código que te compartieron para acceder a las preguntas y aprender con tu grupo.</p>
+
+            <div class="form-group">
+              <label for="spaceCodeInput" class="form-label">Código del espacio</label>
+              <input type="text" id="spaceCodeInput" class="form-input" value="NX4821">
+            </div>
+
+            <button type="button" class="app-btn app-btn--primary app-btn--full" data-nav-target="espacios-ejercicio">Continuar</button>
+
+            <hr class="scheduled-divider">
+
+            <p class="view-eyebrow">ESPACIO ENCONTRADO</p>
+            <div class="space-found-card">
+              <div>
+                <h3 class="space-found-card__title">Herencia y polimorfismo</h3>
+                <p class="space-found-card__course">Programación orientada a objetos</p>
+                <p class="space-found-card__meta">Código NX4821 · 10 preguntas</p>
+              </div>
+              <button type="button" class="app-btn app-btn--primary" data-nav-target="espacios-ejercicio">Unirse</button>
+            </div>
+          </article>
+
+          <aside class="spaces-promo-card">
+            <div>
+              <h2 class="spaces-promo-card__title">El conocimiento crece cuando se comparte.</h2>
+              <p class="spaces-promo-card__text">Conecta con tu grupo y pon a prueba lo que sabes, una pregunta a la vez.</p>
+            </div>
+            <div class="spaces-promo-card__illus-box">
+              <svg viewBox="0 0 220 130" aria-hidden="true"><use href="#illus-team"></use></svg>
+            </div>
+            <ol class="spaces-promo-steps">
+              <li><strong>01</strong><span>Ingresa el código</span></li>
+              <li><strong>02</strong><span>Encuentra tu espacio</span></li>
+              <li><strong>03</strong><span>Responde a tu ritmo</span></li>
+            </ol>
+          </aside>
+        </div>
+
+        <p class="view-footnote">Solo necesitas el código de tu espacio para comenzar.</p>
+      </section>
+
+      <section class="app-view" data-view="espacios-lista" data-group="espacios" data-title="Espacios compartidos">
+        <div class="view-header">
+          <p class="view-eyebrow">APRENDIZAJE COLABORATIVO</p>
+          <h1 class="view-title">Espacios compartidos</h1>
+          <p class="view-subtitle">Crea experiencias de aprendizaje con IA o participa mediante un código.</p>
+        </div>
+
+        <div class="spaces-tabs" role="tablist" aria-label="Navegación de espacios compartidos">
+          <button type="button" class="spaces-tab" role="tab" aria-selected="false" data-nav-target="espacios-crear">Crear espacio</button>
+          <button type="button" class="spaces-tab" role="tab" aria-selected="false" data-nav-target="espacios-unirse">Unirse</button>
+          <button type="button" class="spaces-tab is-active" role="tab" aria-selected="true" data-nav-target="espacios-lista">Mis espacios</button>
+        </div>
+
+        <div class="spaces-list-header">
+          <div>
+            <h2 class="spaces-card__title">Mis espacios</h2>
+            <p class="spaces-card__sub">2 espacios para seguir aprendiendo en equipo</p>
+          </div>
+          <button type="button" class="app-btn app-btn--outline app-btn--sm" data-nav-target="espacios-crear">Ejemplos</button>
+        </div>
+
+        <div class="spaces-list">
+          <article class="space-list-card">
+            <div class="space-list-card__preview space-list-card__preview--dark">
+              <p class="code-block__lang">&lt;/&gt; JavaScript · POO</p>
+<pre class="code-block__pre"><code>class Animal {
+  hablar() { ... }
+}
+class Perro extends Animal {
+  hablar() { return "Guau"; }
+}</code></pre>
+            </div>
+            <div class="space-list-card__body">
+              <span class="status-chip status-chip--purple">PROGRAMACIÓN</span>
+              <h3 class="space-list-card__title">Herencia y polimorfismo</h3>
+              <p class="space-list-card__desc">Descubre cómo las clases comparten y transforman comportamientos.</p>
+              <div class="space-list-card__meta">
+                <span class="space-code-text">Código: NX4821</span>
+                <span>24 participantes</span>
+              </div>
+              <div class="space-list-card__footer">
+                <div class="avatar-stack">
+                  <span class="avatar-mini avatar-mini--mint">A</span>
+                  <span class="avatar-mini avatar-mini--purple">M</span>
+                  <span class="avatar-mini avatar-mini--purple">L</span>
+                  <span class="avatar-stack__more">+21 estudiantes</span>
+                </div>
+                <button type="button" class="app-btn app-btn--primary app-btn--wide" data-nav-target="espacios-analisis">Ver análisis</button>
+              </div>
+            </div>
+          </article>
+
+          <article class="space-list-card">
+            <div class="space-list-card__preview space-list-card__preview--mint">
+              <p class="circuit-title">CIRCUITO EN SERIE</p>
+              <svg viewBox="0 0 180 76" width="170" height="72" aria-hidden="true">
+                <rect x="20" y="18" width="140" height="44" fill="none" stroke="#0F766E" stroke-width="2"/>
+                <rect x="64" y="12" width="52" height="12" fill="#C6FAEA"/>
+                <polyline points="64,18 70,12 78,24 86,12 94,24 102,12 110,24 116,18" fill="none" stroke="#0F766E" stroke-width="2"/>
+                <circle cx="160" cy="40" r="10" fill="#C6FAEA" stroke="#0F766E" stroke-width="2"/>
+                <line x1="154" y1="34" x2="166" y2="46" stroke="#0F766E" stroke-width="2"/>
+                <line x1="166" y1="34" x2="154" y2="46" stroke="#0F766E" stroke-width="2"/>
+                <rect x="12" y="34" width="16" height="12" fill="#C6FAEA"/>
+                <line x1="12" y1="37" x2="28" y2="37" stroke="#0F766E" stroke-width="2.5"/>
+                <line x1="16" y1="43" x2="24" y2="43" stroke="#0F766E" stroke-width="2.5"/>
+              </svg>
+              <p class="circuit-formula">V = I × R</p>
+            </div>
+            <div class="space-list-card__body">
+              <span class="status-chip status-chip--mint">FÍSICA</span>
+              <h3 class="space-list-card__title">Circuitos eléctricos</h3>
+              <p class="space-list-card__desc">Explora cómo se relacionan el voltaje, la corriente y la resistencia.</p>
+              <div class="space-list-card__meta">
+                <span class="space-code-text">Código: NX7392</span>
+                <span>12 participantes</span>
+              </div>
+              <div class="space-list-card__footer">
+                <div class="avatar-stack">
+                  <span class="avatar-mini avatar-mini--mint">A</span>
+                  <span class="avatar-mini avatar-mini--purple">M</span>
+                  <span class="avatar-mini avatar-mini--purple">L</span>
+                  <span class="avatar-stack__more">+9 estudiantes</span>
+                </div>
+                <button type="button" class="app-btn app-btn--primary app-btn--wide" data-nav-target="espacios-analisis">Ver análisis</button>
+              </div>
+            </div>
+          </article>
+        </div>
+
+        <p class="view-footnote">Cada espacio, una nueva oportunidad para entender mejor.</p>
+      </section>
+
+      <section class="app-view" data-view="espacios-creado" data-group="espacios" data-title="Espacios compartidos">
+        <div class="view-header">
+          <p class="view-eyebrow">ESPACIOS COMPARTIDOS</p>
+          <h1 class="view-title">Espacio creado</h1>
+          <p class="view-subtitle">Tu espacio de aprendizaje ya está listo para compartir.</p>
+        </div>
+
+        <article class="space-created-card">
+          <div class="space-created-card__top">
+            <div>
+              <p class="continue-card__eyebrow">PROGRAMACIÓN ORIENTADA A OBJETOS</p>
+              <h2 class="space-created-card__title" id="createdSpaceTitle">Herencia y polimorfismo</h2>
+              <p class="space-created-card__date">Creado el 22 de nov. de 2026</p>
+            </div>
+            <span class="status-chip status-chip--mint" id="createdSpaceQty">10 preguntas</span>
+          </div>
+
+          <div class="space-created-card__bottom">
+            <p class="form-label">Código del espacio</p>
+            <div class="space-code-row">
+              <button type="button" class="space-code-copy" id="copySpaceCodeBtn" aria-label="Copiar código NX4821">
+                <span>NX4821</span>
+                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                  <rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect>
+                  <path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path>
+                </svg>
+              </button>
+              <p class="space-code-row__desc" id="copyCodeFeedback">Comparte este código con los demás para que puedan unirse y responder.</p>
+            </div>
+
+            <div class="space-created-actions">
+              <div class="space-created-actions__left">
+                <button type="button" class="app-btn app-btn--outline app-btn--sm" data-nav-target="espacios-ejercicio">Ver preguntas</button>
+                <button type="button" class="app-btn app-btn--outline app-btn--sm" data-nav-target="espacios-analisis">Ver participantes</button>
+              </div>
+              <button type="button" class="app-btn app-btn--primary app-btn--wide" id="shareSpaceCodeBtn">Compartir código</button>
+            </div>
+          </div>
+        </article>
+
+        <div class="space-created-bottom-grid">
+          <article class="spaces-form-card">
+            <h2 class="spaces-card__title">Un concepto, distintas respuestas</h2>
+            <p class="spaces-card__sub">Así se conectan la herencia y el polimorfismo.</p>
+            <div class="class-diagram">
+              <span class="class-diagram__parent">Animal · hablar()</span>
+              <span class="class-diagram__lines" aria-hidden="true"></span>
+              <div class="class-diagram__children">
+                <span class="class-diagram__child">Perro → “Guau”</span>
+                <span class="class-diagram__child">Gato → “Miau”</span>
+              </div>
+            </div>
+          </article>
+
+          <aside class="space-next-card">
+            <div class="spaces-promo-card__illus-box">
+              <svg viewBox="0 0 220 130" aria-hidden="true"><use href="#illus-team"></use></svg>
+            </div>
+            <h3 class="space-next-card__title">El siguiente paso es compartir.</h3>
+            <p class="space-next-card__text">Tu grupo ya tiene un punto de encuentro.</p>
+          </aside>
+        </div>
+      </section>
+
+      <section class="app-view" data-view="espacios-ejercicio" data-group="espacios" data-title="Espacios compartidos">
+        <div class="space-exercise-header">
+          <div>
+            <p class="view-eyebrow">ESPACIOS COMPARTIDOS / EN PRÁCTICA</p>
+            <h1 class="view-title">Herencia y polimorfismo</h1>
+          </div>
+          <span class="status-chip status-chip--purple">NX4821</span>
+        </div>
+
+        <div class="space-progress-row">
+          <div class="space-progress-row__meta">
+            <strong>Pregunta 8 de 10</strong>
+            <span class="space-code-text">80 % completado</span>
+          </div>
+          <div class="progress-track">
+            <span class="progress-fill" style="width: 80%"></span>
+          </div>
+        </div>
+
+        <div class="quiz-layout">
+          <article class="quiz-card">
+            <span class="status-chip status-chip--mint">SELECCIÓN ÚNICA</span>
+            <h2 class="quiz-card__question">¿Cuál es la principal ventaja del polimorfismo?</h2>
+            <p class="quiz-card__hint">Selecciona una respuesta para continuar.</p>
+
+            <div class="quiz-options" id="spaceExerciseOptions" role="radiogroup" aria-label="Opciones del ejercicio">
+              <button type="button" class="quiz-option" role="radio" aria-checked="false">
+                <span class="quiz-option__mark" aria-hidden="true"></span>
+                <span class="quiz-option__text">A) Reutilizar código</span>
+              </button>
+              <button type="button" class="quiz-option is-selected" role="radio" aria-checked="true">
+                <span class="quiz-option__mark" aria-hidden="true"></span>
+                <span class="quiz-option__text">B) Permitir que un mismo método tenga diferentes comportamientos</span>
+              </button>
+              <button type="button" class="quiz-option" role="radio" aria-checked="false">
+                <span class="quiz-option__mark" aria-hidden="true"></span>
+                <span class="quiz-option__text">C) Evitar la herencia entre clases</span>
+              </button>
+              <button type="button" class="quiz-option" role="radio" aria-checked="false">
+                <span class="quiz-option__mark" aria-hidden="true"></span>
+                <span class="quiz-option__text">D) Aumentar el número de clases</span>
+              </button>
+            </div>
+
+            <p class="quiz-card__note">Puedes cambiar tu respuesta antes de avanzar.</p>
+          </article>
+
+          <aside class="space-exercise-side">
+            <div class="code-block">
+              <p class="code-block__lang">&lt;/&gt; JavaScript</p>
+<pre class="code-block__pre"><code><span class="ln">01</span>class Animal {
+<span class="ln">02</span>  hablar() { return "..."; }
+<span class="ln">03</span>}
+<span class="ln">04</span>
+<span class="ln">05</span>class Perro extends Animal {
+<span class="ln">06</span>  hablar() { return "Guau"; }
+<span class="ln">07</span>}
+<span class="ln">08</span>
+<span class="ln">09</span>class Gato extends Animal {
+<span class="ln">10</span>  hablar() { return "Miau"; }
+<span class="ln">11</span>}</code></pre>
+            </div>
+
+            <div class="space-tip-card">
+              <h3 class="space-tip-card__title">Piensa en el comportamiento</h3>
+              <p class="space-tip-card__text">Observa el método hablar() en cada clase. ¿Qué se mantiene y qué cambia entre los objetos?</p>
+            </div>
+          </aside>
+        </div>
+
+        <div class="flashcard-nav space-exercise-footer">
+          <button type="button" class="app-btn app-btn--outline app-btn--wide" data-nav-target="espacios-unirse">← Anterior</button>
+          <span class="quiz-card__note">Avanza a tu ritmo. Cada pregunta cuenta.</span>
+          <button type="button" class="app-btn app-btn--primary app-btn--wide" data-nav-target="espacios-completado">Siguiente →</button>
+        </div>
+      </section>
+
+      <section class="app-view" data-view="espacios-completado" data-group="espacios" data-title="Espacios compartidos">
+        <div class="view-header">
+          <p class="view-eyebrow">ESPACIOS COMPARTIDOS / ACTIVIDAD COMPLETADA</p>
+        </div>
+
+        <article class="space-done-card">
+          <div class="space-done-card__check" aria-hidden="true">✓</div>
+          <h1 class="space-done-card__title">¡Respuestas enviadas correctamente!</h1>
+          <p class="space-done-card__sub">Has completado las 10 preguntas del espacio</p>
+          <p class="space-done-card__topic">Herencia y polimorfismo</p>
+          <span class="status-chip status-chip--mint">10 de 10 preguntas completadas</span>
+
+          <div class="space-done-stats">
+            <div class="stat-card">
+              <span class="icon-box icon-box--purple" aria-hidden="true">
+                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                  <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"></path>
+                  <polyline points="14 2 14 8 20 8"></polyline>
+                </svg>
+              </span>
+              <div>
+                <p class="stat-card__value">10</p>
+                <p class="stat-card__label">Preguntas</p>
+              </div>
+            </div>
+
+            <div class="stat-card">
+              <span class="icon-box icon-box--purple" aria-hidden="true">✓</span>
+              <div>
+                <p class="stat-card__value">10</p>
+                <p class="stat-card__label">Respondidas</p>
+              </div>
+            </div>
+
+            <div class="stat-card">
+              <span class="icon-box icon-box--purple" aria-hidden="true">
+                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                  <circle cx="12" cy="12" r="10"></circle>
+                  <polyline points="12 6 12 12 16 14"></polyline>
+                </svg>
+              </span>
+              <div>
+                <p class="stat-card__value">12 min</p>
+                <p class="stat-card__label">Tiempo total</p>
+              </div>
+            </div>
+          </div>
+
+          <div class="space-done-actions">
+            <button type="button" class="app-btn app-btn--primary app-btn--full" data-nav-target="espacios-analisis">Ver mis resultados</button>
+            <button type="button" class="app-btn app-btn--outline app-btn--full" data-nav-target="espacios-lista">Volver a espacios compartidos</button>
+          </div>
+        </article>
+
+        <p class="auth-caption">Cada práctica es un paso más hacia lo que quieres aprender.</p>
+      </section>
+
+      <section class="app-view" data-view="espacios-analisis" data-group="espacios" data-title="Espacios compartidos">
+        <div class="view-header">
+          <p class="view-eyebrow">ESPACIOS COMPARTIDOS / RESULTADOS DEL GRUPO</p>
+          <h1 class="view-title">Análisis IA del espacio</h1>
+          <p class="view-subtitle">Resultados y recomendaciones basadas en el desempeño del grupo.</p>
+        </div>
+
+        <article class="analysis-hero">
+          <div>
+            <h2 class="analysis-hero__title">Herencia y polimorfismo</h2>
+            <p class="analysis-hero__meta">Código: NX4821 · 10 preguntas</p>
+            <p class="analysis-hero__date">Creado el 20 de nov. de 2026</p>
+          </div>
+          <button type="button" class="app-btn app-btn--white">Exportar reporte</button>
+        </article>
+
+        <div class="analysis-kpis">
+          <article class="stat-card stat-card--tall">
+            <div class="stat-card__top">
+              <span class="icon-box icon-box--purple" aria-hidden="true">
+                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                  <path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"></path>
+                  <circle cx="9" cy="7" r="4"></circle>
+                </svg>
+              </span>
+              <p class="stat-card__value">24</p>
+            </div>
+            <div>
+              <p class="stat-card__label">Participantes</p>
+              <p class="stat-card__foot">Estudiantes en el espacio</p>
+            </div>
+          </article>
+
+          <article class="stat-card stat-card--tall">
+            <div class="stat-card__top">
+              <span class="icon-box icon-box--mint" aria-hidden="true">✓</span>
+              <p class="stat-card__value">68%</p>
+            </div>
+            <div>
+              <p class="stat-card__label">Acierto general</p>
+              <p class="stat-card__foot">Resultado global del grupo</p>
+            </div>
+          </article>
+
+          <article class="stat-card stat-card--tall">
+            <div class="stat-card__top">
+              <span class="icon-box icon-box--purple" aria-hidden="true">
+                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                  <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"></path>
+                  <polyline points="14 2 14 8 20 8"></polyline>
+                </svg>
+              </span>
+              <p class="stat-card__value">7/10</p>
+            </div>
+            <div>
+              <p class="stat-card__label">Preguntas promedio</p>
+              <p class="stat-card__foot">Respuestas correctas</p>
+            </div>
+          </article>
+
+          <article class="stat-card stat-card--tall">
+            <div class="stat-card__top">
+              <span class="icon-box icon-box--purple" aria-hidden="true">
+                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                  <circle cx="12" cy="12" r="10"></circle>
+                  <polyline points="12 6 12 12 16 14"></polyline>
+                </svg>
+              </span>
+              <p class="stat-card__value">12 min</p>
+            </div>
+            <div>
+              <p class="stat-card__label">Tiempo promedio</p>
+              <p class="stat-card__foot">Por estudiante</p>
+            </div>
+          </article>
+        </div>
+
+        <div class="analysis-mid-grid">
+          <article class="chart-card chart-card--flush">
+            <h2 class="chart-card__title">Desempeño por tema</h2>
+            <p class="chart-card__sub">Porcentaje de respuestas correctas</p>
+
+            <div class="topic-bars">
+              <div class="topic-bar-item">
+                <div class="topic-bar-item__head"><span>Herencia</span><span class="space-code-text">80%</span></div>
+                <div class="progress-track"><span class="progress-fill" style="width: 80%"></span></div>
+              </div>
+              <div class="topic-bar-item">
+                <div class="topic-bar-item__head"><span>Polimorfismo</span><span class="space-code-text">40%</span></div>
+                <div class="progress-track"><span class="progress-fill" style="width: 40%"></span></div>
+              </div>
+              <div class="topic-bar-item">
+                <div class="topic-bar-item__head"><span>Sobreescritura de métodos</span><span class="space-code-text">60%</span></div>
+                <div class="progress-track"><span class="progress-fill" style="width: 60%"></span></div>
+              </div>
+              <div class="topic-bar-item">
+                <div class="topic-bar-item__head"><span>Clases abstractas</span><span class="space-code-text">80%</span></div>
+                <div class="progress-track"><span class="progress-fill" style="width: 80%"></span></div>
+              </div>
+            </div>
+          </article>
+
+          <article class="analysis-rec-card">
+            <p class="analysis-rec-card__eyebrow">
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                <path d="M12 3l1.9 5.8a2 2 0 0 0 1.3 1.3L21 12l-5.8 1.9a2 2 0 0 0-1.3 1.3L12 21l-1.9-5.8a2 2 0 0 0-1.3-1.3L3 12l5.8-1.9a2 2 0 0 0 1.3-1.3L12 3z"></path>
+              </svg>
+              <span>Recomendación de NexIA</span>
+            </p>
+            <h2 class="analysis-rec-card__title">Refuerza el polimorfismo</h2>
+            <p class="analysis-rec-card__text">
+              El grupo alcanza un 40% de acierto en este tema, frente al 80% en herencia. Trabaja con un mismo método en distintas subclases para comparar sus comportamientos.
+            </p>
+            <div class="analysis-rec-card__next">
+              <p class="view-eyebrow">PRÓXIMA PRÁCTICA</p>
+              <p class="analysis-rec-card__next-title">Perro y Gato: dos formas de hablar()</p>
+            </div>
+          </article>
+        </div>
+
+        <div class="analysis-bottom-grid">
+          <article class="chart-card chart-card--flush">
+            <h2 class="chart-card__title">Preguntas con mayor dificultad</h2>
+            <table class="difficulty-table">
+              <thead>
+                <tr>
+                  <th>#</th>
+                  <th>Pregunta / tema</th>
+                  <th>Aciertos</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td class="space-code-text">4</td>
+                  <td>
+                    <p class="difficulty-table__q">¿Cuál es el resultado del siguiente ejemplo de polimorfismo?</p>
+                    <p class="difficulty-table__topic">Polimorfismo</p>
+                  </td>
+                  <td><span class="status-chip status-chip--purple">32%</span></td>
+                </tr>
+                <tr>
+                  <td class="space-code-text">7</td>
+                  <td>
+                    <p class="difficulty-table__q">Identifica la ventaja principal del polimorfismo.</p>
+                    <p class="difficulty-table__topic">Polimorfismo</p>
+                  </td>
+                  <td><span class="status-chip status-chip--purple">32%</span></td>
+                </tr>
+                <tr>
+                  <td class="space-code-text">9</td>
+                  <td>
+                    <p class="difficulty-table__q">¿Qué método se ejecuta en la sobreescritura?</p>
+                    <p class="difficulty-table__topic">Sobreescritura de métodos</p>
+                  </td>
+                  <td><span class="status-chip status-chip--purple">32%</span></td>
+                </tr>
+              </tbody>
+            </table>
+          </article>
+
+          <article class="chart-card chart-card--flush">
+            <h2 class="chart-card__title">Distribución del grupo</h2>
+            <p class="chart-card__sub">Un vistazo al nivel de comprensión</p>
+
+            <div class="group-dist-layout">
+              <div class="donut donut--lg" role="img" aria-label="24 estudiantes: 33% dominan el tema, 42% comprensión parcial, 25% requieren refuerzo">
+                <svg viewBox="0 0 120 120" width="136" height="136">
+                  <circle cx="60" cy="60" r="46" fill="none" stroke="#9CA3AF" stroke-width="14" stroke-dasharray="72.26 289.03" stroke-dashoffset="0" transform="rotate(-90 60 60)"/>
+                  <circle cx="60" cy="60" r="46" fill="none" stroke="#5558F5" stroke-width="14" stroke-dasharray="95.38 289.03" stroke-dashoffset="-72.26" transform="rotate(-90 60 60)"/>
+                  <circle cx="60" cy="60" r="46" fill="none" stroke="#14B8A6" stroke-width="14" stroke-dasharray="121.39 289.03" stroke-dashoffset="-167.64" transform="rotate(-90 60 60)"/>
+                </svg>
+                <div class="donut__center">
+                  <span class="donut__num">24</span>
+                  <span class="donut__sub">estudiantes</span>
+                </div>
+              </div>
+
+              <ul class="dist-legend">
+                <li>
+                  <span class="dist-dot dist-dot--purple"></span>
+                  <div>
+                    <p class="dist-legend__title">Dominan el tema</p>
+                    <p class="dist-legend__sub">8 estudiantes · 33%</p>
+                  </div>
+                </li>
+                <li>
+                  <span class="dist-dot dist-dot--mint"></span>
+                  <div>
+                    <p class="dist-legend__title">Comprensión parcial</p>
+                    <p class="dist-legend__sub">10 estudiantes · 42%</p>
+                  </div>
+                </li>
+                <li>
+                  <span class="dist-dot dist-dot--gray"></span>
+                  <div>
+                    <p class="dist-legend__title">Requieren refuerzo</p>
+                    <p class="dist-legend__sub">6 estudiantes · 25%</p>
+                  </div>
+                </li>
+              </ul>
+            </div>
+
+            <p class="stat-card__foot">Total: 24 estudiantes · 100% del grupo</p>
+          </article>
+        </div>
+
+        <p class="view-footnote">NexIA convierte los resultados en oportunidades de aprendizaje.</p>
       </section>
     </main>
   </div>

@@ -245,22 +245,22 @@
             </div>
 
             <div class="feature-inner-box">
-              <div class="mode-options-grid">
-                <div class="mode-option mode-option--active">
+              <div class="mode-options-grid" role="radiogroup" aria-label="Modo de inicio">
+                <button type="button" class="mode-option mode-option--active" role="radio" aria-checked="true">
                   <div class="mode-option__head">
                     <span class="radio-dot radio-dot--active" aria-hidden="true"></span>
                     <span class="mode-option__title">Evaluación diagnóstica</span>
                   </div>
                   <p class="mode-option__desc">Descubre tu punto de partida.</p>
-                </div>
+                </button>
 
-                <div class="mode-option mode-option--muted">
+                <button type="button" class="mode-option mode-option--muted" role="radio" aria-checked="false">
                   <div class="mode-option__head">
                     <span class="radio-dot" aria-hidden="true"></span>
                     <span class="mode-option__title">Enseñanza directa</span>
                   </div>
                   <p class="mode-option__desc">Empieza a aprender sin test inicial.</p>
-                </div>
+                </button>
               </div>
             </div>
           </article>
@@ -273,15 +273,14 @@
 
             <div class="feature-inner-box">
               <div class="format-tabs" role="tablist" aria-label="Formatos de aprendizaje">
-                <button type="button" class="format-tab format-tab--active" role="tab" aria-selected="true">Lectura</button>
-                <button type="button" class="format-tab" role="tab" aria-selected="false">Audio</button>
-                <button type="button" class="format-tab" role="tab" aria-selected="false">Práctica</button>
+                <button type="button" class="format-tab format-tab--active" role="tab" aria-selected="true" data-format="lectura">Lectura</button>
+                <button type="button" class="format-tab" role="tab" aria-selected="false" data-format="audio">Audio</button>
+                <button type="button" class="format-tab" role="tab" aria-selected="false" data-format="practica">Práctica</button>
               </div>
 
-              <h4 class="inner-box__title">¿Qué es la IA generativa?</h4>
-              <p class="inner-box__text">
-                Aprende el concepto, explora un ejemplo<br>
-                y comprueba lo que has comprendido.
+              <h4 class="inner-box__title" id="formatPreviewTitle">¿Qué es la IA generativa?</h4>
+              <p class="inner-box__text" id="formatPreviewText">
+                Aprende el concepto, explora un ejemplo y comprueba lo que has comprendido.
               </p>
             </div>
           </article>
