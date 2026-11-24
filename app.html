@@ -3,18 +3,37 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="NexIA: tu espacio de estudio. Sube tus apuntes y conviértelos en lecciones, preguntas de práctica y repasos programados.">
+  <meta name="color-scheme" content="light dark">
   <title>NexIA — Mi espacio</title>
   <link rel="icon" type="image/png" href="assets/img/favicon.png">
+  <script>
+    /* Protege la aplicación: sin sesión se vuelve al inicio de sesión. También aplica el tema antes de pintar. */
+    (function () {
+      try {
+        var raw = localStorage.getItem('nexia:session') || sessionStorage.getItem('nexia:session');
+        var session = raw ? JSON.parse(raw) : null;
+        if (!session || !session.userId) {
+          location.replace('login.html');
+          return;
+        }
+        if (session.theme === 'dark') document.documentElement.setAttribute('data-theme', 'dark');
+      } catch (err) { /* La comprobación completa se repite al iniciar la aplicación. */ }
+    })();
+  </script>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="css/styles.css">
   <link rel="stylesheet" href="css/app.css">
+  <link rel="stylesheet" href="css/app-extra.css">
 </head>
 <body class="app-body">
-  <a href="#contenido-principal" class="skip-link">Saltar al contenido</a>
-  <svg class="svg-sprite" aria-hidden="true">
+  <a href="#contenido-principal" class="skip-link" data-skip-link>Saltar al contenido</a>
+
+  <svg class="svg-sprite" aria-hidden="true" focusable="false">
     <defs>
+      <!-- Ilustraciones -->
       <symbol id="illus-doc" viewBox="0 0 160 125">
         <path d="M22 78L68 96L112 76L66 58L22 78Z" fill="#EEF0FF" stroke="#5558F5" stroke-width="2.2" stroke-linejoin="round"/>
         <path d="M22 84L68 102L112 82" stroke="#5558F5" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" fill="none"/>
@@ -51,1896 +70,239 @@
         <circle cx="70" cy="30" r="2" fill="#FFFFFF"/>
         <path d="M44 98C40 90 44 84 50 86C48 92 50 96 44 98Z" fill="#14B8A6"/>
       </symbol>
+
+      <!-- Iconos de trazo (24 × 24) -->
+      <symbol id="i-home" viewBox="0 0 24 24"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></symbol>
+      <symbol id="i-book" viewBox="0 0 24 24"><path d="M2 3h6a4 4 0 0 1 4 4v14a3 3 0 0 0-3-3H2z"/><path d="M22 3h-6a4 4 0 0 0-4 4v14a3 3 0 0 1 3-3h7z"/></symbol>
+      <symbol id="i-file" viewBox="0 0 24 24"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="16" y1="13" x2="8" y2="13"/><line x1="16" y1="17" x2="8" y2="17"/></symbol>
+      <symbol id="i-upload" viewBox="0 0 24 24"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="12" y1="18" x2="12" y2="12"/><polyline points="9 15 12 12 15 15"/></symbol>
+      <symbol id="i-bookmark" viewBox="0 0 24 24"><path d="M19 21l-7-5-7 5V5a2 2 0 0 1 2-2h10a2 2 0 0 1 2 2z"/></symbol>
+      <symbol id="i-chart" viewBox="0 0 24 24"><line x1="18" y1="20" x2="18" y2="10"/><line x1="12" y1="20" x2="12" y2="4"/><line x1="6" y1="20" x2="6" y2="14"/></symbol>
+      <symbol id="i-user" viewBox="0 0 24 24"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></symbol>
+      <symbol id="i-menu" viewBox="0 0 24 24"><line x1="4" y1="7" x2="20" y2="7"/><line x1="4" y1="12" x2="16" y2="12"/><line x1="4" y1="17" x2="20" y2="17"/></symbol>
+      <symbol id="i-sparkle" viewBox="0 0 24 24"><path d="M12 3l1.9 5.8a2 2 0 0 0 1.3 1.3L21 12l-5.8 1.9a2 2 0 0 0-1.3 1.3L12 21l-1.9-5.8a2 2 0 0 0-1.3-1.3L3 12l5.8-1.9a2 2 0 0 0 1.3-1.3L12 3z"/></symbol>
+      <symbol id="i-flame" viewBox="0 0 24 24"><path d="M8.5 14.5A2.5 2.5 0 0 0 11 12c0-1.38-.5-2-1-3-1.07-2.14-.22-4.05 2-6 .5 2.5 2 4.9 4 6.5 2 1.6 3 3.5 3 5.5a7 7 0 1 1-14 0c0-1.15.43-2.29 1-3a2.5 2.5 0 0 0 2.5 2.5z"/></symbol>
+      <symbol id="i-brain" viewBox="0 0 24 24"><path d="M9.5 2A2.5 2.5 0 0 1 12 4.5v15a2.5 2.5 0 0 1-4.96.44 2.5 2.5 0 0 1-2.96-3.08 3 3 0 0 1-.34-5.58 2.5 2.5 0 0 1 1.32-4.24 2.5 2.5 0 0 1 4.44-2.04Z"/><path d="M14.5 2A2.5 2.5 0 0 0 12 4.5v15a2.5 2.5 0 0 0 4.96.44 2.5 2.5 0 0 0 2.96-3.08 3 3 0 0 0 .34-5.58 2.5 2.5 0 0 0-1.32-4.24 2.5 2.5 0 0 0-4.44-2.04Z"/></symbol>
+      <symbol id="i-layers" viewBox="0 0 24 24"><polygon points="12 2 2 7 12 12 22 7 12 2"/><polyline points="2 17 12 22 22 17"/><polyline points="2 12 12 17 22 12"/></symbol>
+      <symbol id="i-folder" viewBox="0 0 24 24"><path d="M22 19a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h5l2 3h9a2 2 0 0 1 2 2z"/></symbol>
+      <symbol id="i-clock" viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></symbol>
+      <symbol id="i-check-circle" viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><polyline points="8 12 11 15 16 9"/></symbol>
+      <symbol id="i-check" viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"/></symbol>
+      <symbol id="i-x" viewBox="0 0 24 24"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></symbol>
+      <symbol id="i-search" viewBox="0 0 24 24"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></symbol>
+      <symbol id="i-star" viewBox="0 0 24 24"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></symbol>
+      <symbol id="i-highlight" viewBox="0 0 24 24"><path d="M12 20h9"/><path d="M16.5 3.5a2.12 2.12 0 0 1 3 3L7 19l-4 1 1-4L16.5 3.5z"/></symbol>
+      <symbol id="i-send" viewBox="0 0 24 24"><line x1="22" y1="2" x2="11" y2="13"/><polygon points="22 2 15 22 11 13 2 9 22 2"/></symbol>
+      <symbol id="i-volume" viewBox="0 0 24 24"><polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5"/><path d="M15.54 8.46a5 5 0 0 1 0 7.07"/><path d="M19.07 4.93a10 10 0 0 1 0 14.14"/></symbol>
+      <symbol id="i-calendar" viewBox="0 0 24 24"><rect x="3" y="4" width="18" height="18" rx="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></symbol>
+      <symbol id="i-trash" viewBox="0 0 24 24"><polyline points="3 6 5 6 21 6"/><path d="M19 6l-1 14a2 2 0 0 1-2 2H8a2 2 0 0 1-2-2L5 6"/><path d="M10 11v6"/><path d="M14 11v6"/><path d="M9 6V4a1 1 0 0 1 1-1h4a1 1 0 0 1 1 1v2"/></symbol>
+      <symbol id="i-chevron-right" viewBox="0 0 24 24"><polyline points="9 18 15 12 9 6"/></symbol>
+      <symbol id="i-chevron-left" viewBox="0 0 24 24"><polyline points="15 18 9 12 15 6"/></symbol>
+      <symbol id="i-chevron-down" viewBox="0 0 24 24"><polyline points="6 9 12 15 18 9"/></symbol>
+      <symbol id="i-arrow-right" viewBox="0 0 24 24"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></symbol>
+      <symbol id="i-play" viewBox="0 0 24 24"><polygon points="6 4 20 12 6 20 6 4" fill="currentColor"/></symbol>
+      <symbol id="i-pause" viewBox="0 0 24 24"><rect x="6" y="4" width="4" height="16" fill="currentColor"/><rect x="14" y="4" width="4" height="16" fill="currentColor"/></symbol>
+      <symbol id="i-skip-back" viewBox="0 0 24 24"><polygon points="19 20 9 12 19 4 19 20"/><line x1="5" y1="19" x2="5" y2="5"/></symbol>
+      <symbol id="i-skip-forward" viewBox="0 0 24 24"><polygon points="5 4 15 12 5 20 5 4"/><line x1="19" y1="5" x2="19" y2="19"/></symbol>
+      <symbol id="i-logout" viewBox="0 0 24 24"><path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"/><polyline points="16 17 21 12 16 7"/><line x1="21" y1="12" x2="9" y2="12"/></symbol>
+      <symbol id="i-shield" viewBox="0 0 24 24"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/><polyline points="9 12 11 14 15 10"/></symbol>
+      <symbol id="i-settings" viewBox="0 0 24 24"><line x1="4" y1="21" x2="4" y2="14"/><line x1="4" y1="10" x2="4" y2="3"/><line x1="12" y1="21" x2="12" y2="12"/><line x1="12" y1="8" x2="12" y2="3"/><line x1="20" y1="21" x2="20" y2="16"/><line x1="20" y1="12" x2="20" y2="3"/><line x1="1" y1="14" x2="7" y2="14"/><line x1="9" y1="8" x2="15" y2="8"/><line x1="17" y1="16" x2="23" y2="16"/></symbol>
+      <symbol id="i-bulb" viewBox="0 0 24 24"><path d="M9 18h6"/><path d="M10 22h4"/><path d="M12 2a7 7 0 0 0-4 12.7c.6.5 1 1.3 1 2.3h6c0-1 .4-1.800 1-2.300A7 7 0 0 0 12 2z"/></symbol>
+      <symbol id="i-alert" viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.010" y2="16"/></symbol>
+      <symbol id="i-info" viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><line x1="12" y1="16" x2="12" y2="12"/><line x1="12" y1="8" x2="12.010" y2="8"/></symbol>
+      <symbol id="i-plus" viewBox="0 0 24 24"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></symbol>
+      <symbol id="i-edit" viewBox="0 0 24 24"><path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"/><path d="M18.5 2.5a2.12 2.12 0 0 1 3 3L12 15l-4 1 1-4 9.500-9.500z"/></symbol>
+      <symbol id="i-target" viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><circle cx="12" cy="12" r="6"/><circle cx="12" cy="12" r="2"/></symbol>
+      <symbol id="i-refresh" viewBox="0 0 24 24"><polyline points="23 4 23 10 17 10"/><path d="M20.490 15a9 9 0 1 1-2.120-9.360L23 10"/></symbol>
+      <symbol id="i-lock" viewBox="0 0 24 24"><rect x="3" y="11" width="18" height="11" rx="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></symbol>
+      <symbol id="i-text" viewBox="0 0 24 24"><polyline points="4 7 4 4 20 4 20 7"/><line x1="9" y1="20" x2="15" y2="20"/><line x1="12" y1="4" x2="12" y2="20"/></symbol>
+      <symbol id="i-message" viewBox="0 0 24 24"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></symbol>
+      <symbol id="i-image" viewBox="0 0 24 24"><rect x="3" y="3" width="18" height="18" rx="2"/><circle cx="8.500" cy="8.500" r="1.500"/><polyline points="21 15 16 10 5 21"/></symbol>
+      <symbol id="i-headphones" viewBox="0 0 24 24"><path d="M3 18v-6a9 9 0 0 1 18 0v6"/><path d="M21 19a2 2 0 0 1-2 2h-1a2 2 0 0 1-2-2v-3a2 2 0 0 1 2-2h3zM3 19a2 2 0 0 0 2 2h1a2 2 0 0 0 2-2v-3a2 2 0 0 0-2-2H3z"/></symbol>
+      <symbol id="i-users" viewBox="0 0 24 24"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></symbol>
+      <symbol id="i-key" viewBox="0 0 24 24"><path d="M21 2l-2 2m-7.61 7.61a5.5 5.5 0 1 1-7.778 7.778 5.5 5.5 0 0 1 7.777-7.777zm0 0L15.5 7.5m0 0l3 3L22 7l-3-3m-3.5 3.5L19 4"/><circle cx="7.5" cy="16.5" r="1" fill="currentColor" stroke="none"/></symbol>
+      <symbol id="i-copy" viewBox="0 0 24 24"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/></symbol>
+      <symbol id="i-share" viewBox="0 0 24 24"><circle cx="18" cy="5" r="3"/><circle cx="6" cy="12" r="3"/><circle cx="18" cy="19" r="3"/><line x1="8.59" y1="13.51" x2="15.42" y2="17.49"/><line x1="15.41" y1="6.51" x2="8.59" y2="10.49"/></symbol>
     </defs>
   </svg>
 
   <header class="app-topbar">
     <div class="app-topbar__brand">
-      <button class="app-mobile-menu-btn" id="appSidebarToggle" aria-label="Alternar menú lateral">
-        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round">
-          <line x1="4" y1="7" x2="20" y2="7"></line>
-          <line x1="4" y1="12" x2="16" y2="12"></line>
-          <line x1="4" y1="17" x2="20" y2="17"></line>
-        </svg>
+      <button type="button" class="app-mobile-menu-btn" id="appSidebarToggle" aria-label="Abrir el menú" aria-controls="appSidebar" aria-expanded="false">
+        <svg class="icon" width="20" height="20" aria-hidden="true"><use href="#i-menu"></use></svg>
       </button>
-      <a href="index.html" class="app-logo-link">
-        <img src="assets/img/logo-nexia.png" alt="NexIA" class="app-logo-img">
+      <a href="#/inicio" class="app-logo-link" aria-label="NexIA, ir al inicio">
+        <img src="assets/img/logo-nexia.png" alt="" class="app-logo-img">
       </a>
     </div>
 
     <div class="app-topbar__main">
       <div class="app-topbar__left">
-        <button class="app-collapse-btn" id="desktopSidebarToggle" aria-label="Alternar barra lateral">
-          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round">
-            <line x1="4" y1="7" x2="20" y2="7"></line>
-            <line x1="4" y1="12" x2="14" y2="12"></line>
-            <line x1="4" y1="17" x2="18" y2="17"></line>
-          </svg>
+        <button type="button" class="app-collapse-btn" id="desktopSidebarToggle" aria-label="Ocultar el menú lateral" aria-controls="appSidebar" aria-expanded="true">
+          <svg class="icon" width="18" height="18" aria-hidden="true"><use href="#i-menu"></use></svg>
         </button>
 
         <nav class="app-breadcrumb" aria-label="Ruta de navegación">
           <span class="app-breadcrumb__root">Mi espacio</span>
           <span class="app-breadcrumb__sep" aria-hidden="true">›</span>
-          <span class="app-breadcrumb__current" id="breadcrumbCurrent">Inicio</span>
+          <span class="app-breadcrumb__current" id="breadcrumbCurrent" aria-current="page">Inicio</span>
         </nav>
       </div>
 
       <div class="app-topbar__right">
-        <span class="app-topbar__date">22 de noviembre de 2026</span>
+        <span class="app-topbar__date" id="topbarDate"></span>
 
-        <button class="app-user-trigger" data-nav-target="perfil" aria-label="Ir a perfil de usuario">
-          <img src="assets/img/avatar-usuario.png" alt="" class="app-user-avatar">
-          <span class="app-user-info">
-            <span class="app-user-name">Usuario</span>
-            <span class="app-user-role">Estudiante</span>
-          </span>
-          <span class="app-user-chevron" aria-hidden="true">⌄</span>
-        </button>
+        <div class="user-menu-wrap">
+          <button type="button" class="app-user-trigger" id="userMenuButton" aria-haspopup="true" aria-expanded="false" aria-controls="userMenu">
+            <span class="avatar" data-user-avatar aria-hidden="true"></span>
+            <span class="app-user-info">
+              <span class="app-user-name" data-user-name>Estudiante</span>
+              <span class="app-user-role">Mi cuenta</span>
+            </span>
+            <svg class="icon app-user-chevron" width="16" height="16" aria-hidden="true"><use href="#i-chevron-down"></use></svg>
+          </button>
 
-        <button class="app-mobile-profile-btn" data-nav-target="perfil" aria-label="Mi perfil">
-          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-            <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"></path>
-            <circle cx="12" cy="7" r="4"></circle>
-          </svg>
-        </button>
+          <button type="button" class="app-mobile-profile-btn" id="userMenuButtonMobile" aria-label="Abrir el menú de la cuenta" aria-haspopup="true" aria-expanded="false" aria-controls="userMenu">
+            <svg class="icon" width="20" height="20" aria-hidden="true"><use href="#i-user"></use></svg>
+          </button>
+
+          <div class="user-menu" id="userMenu" hidden>
+            <div class="user-menu__head">
+              <p class="user-menu__name" data-user-name></p>
+              <p class="user-menu__email" data-user-email></p>
+            </div>
+            <a href="#/perfil" class="user-menu__item">
+              <svg class="icon" width="17" height="17" aria-hidden="true"><use href="#i-user"></use></svg>
+              <span>Mi perfil</span>
+            </a>
+            <a href="#/progreso" class="user-menu__item">
+              <svg class="icon" width="17" height="17" aria-hidden="true"><use href="#i-chart"></use></svg>
+              <span>Mi progreso</span>
+            </a>
+            <button type="button" class="user-menu__item" data-action="toggle-theme">
+              <svg class="icon" width="17" height="17" aria-hidden="true"><use href="#i-settings"></use></svg>
+              <span data-theme-label>Activar modo oscuro</span>
+            </button>
+            <button type="button" class="user-menu__item user-menu__item--danger" data-action="logout">
+              <svg class="icon" width="17" height="17" aria-hidden="true"><use href="#i-logout"></use></svg>
+              <span>Cerrar sesión</span>
+            </button>
+          </div>
+        </div>
       </div>
     </div>
   </header>
 
   <div class="app-shell">
-    <aside class="app-sidebar" id="appSidebar" aria-label="Menú principal de la aplicación">
+    <div class="app-backdrop" id="appBackdrop" hidden></div>
+
+    <aside class="app-sidebar" id="appSidebar" aria-label="Menú principal">
       <div class="app-sidebar__top">
         <p class="app-sidebar__eyebrow">APRENDE A TU RITMO</p>
 
-        <nav class="sidebar-nav">
-          <button type="button" class="sidebar-nav__btn is-active" data-nav-group="inicio" data-nav-target="inicio-dashboard">
-            <svg width="19" height="19" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-              <path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"></path>
-              <polyline points="9 22 9 12 15 12 15 22"></polyline>
-            </svg>
+        <nav class="sidebar-nav" aria-label="Secciones">
+          <a href="#/inicio" class="sidebar-nav__btn" data-nav-group="inicio">
+            <svg class="icon" width="19" height="19" aria-hidden="true"><use href="#i-home"></use></svg>
             <span>Inicio</span>
-          </button>
-
-          <button type="button" class="sidebar-nav__btn" data-nav-group="temas" data-nav-target="mis-temas">
-            <svg width="19" height="19" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-              <path d="M2 3h6a4 4 0 0 1 4 4v14a3 3 0 0 0-3-3H2z"></path>
-              <path d="M22 3h-6a4 4 0 0 0-4 4v14a3 3 0 0 1 3-3h7z"></path>
-            </svg>
+          </a>
+          <a href="#/temas" class="sidebar-nav__btn" data-nav-group="temas">
+            <svg class="icon" width="19" height="19" aria-hidden="true"><use href="#i-book"></use></svg>
             <span>Mis temas</span>
-          </button>
-
-          <button type="button" class="sidebar-nav__btn" data-nav-group="repaso" data-nav-target="repaso-home">
-            <svg width="19" height="19" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-              <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"></path>
-              <polyline points="14 2 14 8 20 8"></polyline>
-              <line x1="16" y1="13" x2="8" y2="13"></line>
-              <line x1="16" y1="17" x2="8" y2="17"></line>
-            </svg>
+          </a>
+          <a href="#/repaso" class="sidebar-nav__btn" data-nav-group="repaso">
+            <svg class="icon" width="19" height="19" aria-hidden="true"><use href="#i-file"></use></svg>
             <span>Repaso</span>
-          </button>
-
-          <button type="button" class="sidebar-nav__btn" data-nav-group="guardados" data-nav-target="mis-guardados">
-            <svg width="19" height="19" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-              <path d="M19 21l-7-5-7 5V5a2 2 0 0 1 2-2h10a2 2 0 0 1 2 2z"></path>
-            </svg>
+            <span class="nav-badge" data-review-badge hidden></span>
+          </a>
+          <a href="#/guardados" class="sidebar-nav__btn" data-nav-group="guardados">
+            <svg class="icon" width="19" height="19" aria-hidden="true"><use href="#i-bookmark"></use></svg>
             <span>Mis guardados</span>
-          </button>
-
-          <button type="button" class="sidebar-nav__btn" data-nav-group="progreso" data-nav-target="mi-progreso">
-            <svg width="19" height="19" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-              <line x1="18" y1="20" x2="18" y2="10"></line>
-              <line x1="12" y1="20" x2="12" y2="4"></line>
-              <line x1="6" y1="20" x2="6" y2="14"></line>
-            </svg>
+          </a>
+          <a href="#/progreso" class="sidebar-nav__btn" data-nav-group="progreso">
+            <svg class="icon" width="19" height="19" aria-hidden="true"><use href="#i-chart"></use></svg>
             <span>Mi progreso</span>
-          </button>
-
-          <button type="button" class="sidebar-nav__btn" data-nav-group="perfil" data-nav-target="perfil">
-            <svg width="19" height="19" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-              <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"></path>
-              <circle cx="12" cy="7" r="4"></circle>
-            </svg>
-            <span>Perfil</span>
-          </button>
+          </a>
+          <a href="#/espacios" class="sidebar-nav__btn" data-nav-group="espacios">
+            <svg class="icon" width="19" height="19" aria-hidden="true"><use href="#i-users"></use></svg>
+            <span>Espacios compartidos</span>
+          </a>
         </nav>
       </div>
 
       <div class="app-sidebar__bottom">
         <div class="sidebar-promo">
           <div class="sidebar-promo__icon" aria-hidden="true">
-            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#2DD4BF" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-              <path d="M12 3l1.9 5.8a2 2 0 0 0 1.3 1.3L21 12l-5.8 1.9a2 2 0 0 0-1.3 1.3L12 21l-1.9-5.8a2 2 0 0 0-1.3-1.3L3 12l5.8-1.9a2 2 0 0 0 1.3-1.3L12 3z"></path>
-            </svg>
+            <svg class="icon" width="18" height="18" style="color: #2DD4BF"><use href="#i-sparkle"></use></svg>
           </div>
-          <h2 class="sidebar-promo__title">Cada paso cuenta</h2>
-          <p class="sidebar-promo__text">Retoma tu aprendizaje y sigue avanzando con NexIA.</p>
+          <h2 class="sidebar-promo__title" data-promo-title>Mejor, en equipo</h2>
+          <p class="sidebar-promo__text" data-promo-text>Comparte lo que sabes. Descubre lo que puedes.</p>
         </div>
 
         <div class="sidebar-user">
-          <img src="assets/img/avatar-usuario.png" alt="" class="sidebar-user__avatar">
-          <div>
-            <p class="sidebar-user__name">Usuario</p>
+          <span class="avatar avatar--on-primary" data-user-avatar aria-hidden="true"></span>
+          <div class="sidebar-user__body">
+            <p class="sidebar-user__name" data-user-name>Estudiante</p>
             <p class="sidebar-user__role">Cuenta de estudiante</p>
           </div>
         </div>
       </div>
     </aside>
 
-    <main class="app-main" id="contenido-principal">
-      <section class="app-view is-active" data-view="inicio-dashboard" data-group="inicio" data-title="Inicio">
-        <div class="view-header">
-          <h1 class="view-title">Hola, Usuario</h1>
-          <p class="view-subtitle">¿Qué tema quieres aprender hoy? Tu siguiente logro empieza aquí.</p>
+    <main class="app-main" id="contenido-principal" tabindex="-1">
+      <div class="app-loading" id="appLoading" role="status">
+        <span class="spinner" aria-hidden="true"></span>
+        <p>Preparando tu espacio de estudio…</p>
+      </div>
+      <noscript>
+        <div class="empty-state">
+          <h1 class="empty-state__title">NexIA necesita JavaScript</h1>
+          <p class="empty-state__text">Activa JavaScript en tu navegador para usar tu espacio de estudio.</p>
         </div>
-
-        <div class="dash-hero-row">
-          <article class="continue-card">
-            <div class="continue-card__body">
-              <p class="continue-card__eyebrow">CONTINÚA APRENDIENDO</p>
-              <h2 class="continue-card__title">Herencia y polimorfismo</h2>
-              <p class="continue-card__course">Programación orientada a objetos</p>
-              <div class="continue-card__progress">
-                <div class="progress-track progress-track--on-primary">
-                  <span class="progress-fill progress-fill--mint" style="width: 80%"></span>
-                </div>
-                <span class="continue-card__percent">80 % completado</span>
-              </div>
-              <button type="button" class="app-btn app-btn--white" data-nav-target="leccion">Continuar</button>
-            </div>
-            <svg class="continue-card__illus" viewBox="0 0 220 150" aria-hidden="true"><use href="#illus-student"></use></svg>
-          </article>
-
-          <article class="streak-mini-card">
-            <div class="streak-mini-card__top">
-              <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#5558F5" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
-                <path d="M8.5 14.5A2.5 2.5 0 0 0 11 12c0-1.38-.5-2-1-3-1.07-2.14-.22-4.05 2-6 .5 2.5 2 4.9 4 6.5 2 1.6 3 3.5 3 5.5a7 7 0 1 1-14 0c0-1.15.43-2.29 1-3a2.5 2.5 0 0 0 2.5 2.5z"></path>
-              </svg>
-              <span class="status-chip status-chip--mint">¡Sigue así!</span>
-            </div>
-            <h2 class="streak-mini-card__title">4 semanas</h2>
-            <p class="streak-mini-card__sub">de racha de aprendizaje</p>
-            <p class="streak-mini-card__label">Tu constancia esta semana</p>
-            <div class="week-dots">
-              <span class="week-dot week-dot--done" aria-label="Lunes completado">✓</span>
-              <span class="week-dot week-dot--done" aria-label="Martes completado">✓</span>
-              <span class="week-dot week-dot--done" aria-label="Miércoles completado">✓</span>
-              <span class="week-dot week-dot--done" aria-label="Jueves completado">✓</span>
-              <span class="week-dot week-dot--done" aria-label="Viernes completado">✓</span>
-              <span class="week-dot">S</span>
-              <span class="week-dot">D</span>
-            </div>
-            <p class="streak-mini-card__footer">Cada sesión te acerca a tu meta.</p>
-          </article>
-        </div>
-
-        <div class="dash-actions-row">
-          <article class="action-card">
-            <div class="action-card__head">
-              <span class="icon-box icon-box--purple" aria-hidden="true">
-                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                  <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"></path>
-                  <polyline points="14 2 14 8 20 8"></polyline>
-                  <line x1="12" y1="18" x2="12" y2="12"></line>
-                  <polyline points="9 15 12 12 15 15"></polyline>
-                </svg>
-              </span>
-              <h2 class="action-card__title">Explorar un tema</h2>
-            </div>
-            <div class="action-card__content">
-              <div>
-                <p class="action-card__text">Sube un material y conviértelo en tu próxima oportunidad para aprender.</p>
-                <button type="button" class="app-btn app-btn--primary" data-nav-target="explorar-tema">Subir archivo</button>
-              </div>
-              <svg class="action-card__illus" viewBox="0 0 160 125" aria-hidden="true"><use href="#illus-doc"></use></svg>
-            </div>
-          </article>
-
-          <article class="action-card">
-            <div class="action-card__head">
-              <span class="icon-box icon-box--mint" aria-hidden="true">
-                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                  <path d="M9.5 2A2.5 2.5 0 0 1 12 4.5v15a2.5 2.5 0 0 1-4.96.44 2.5 2.5 0 0 1-2.96-3.08 3 3 0 0 1-.34-5.58 2.5 2.5 0 0 1 1.32-4.24 2.5 2.5 0 0 1 4.44-2.04Z"></path>
-                  <path d="M14.5 2A2.5 2.5 0 0 0 12 4.5v15a2.5 2.5 0 0 0 4.96.44 2.5 2.5 0 0 0 2.96-3.08 3 3 0 0 0 .34-5.58 2.5 2.5 0 0 0-1.32-4.24 2.5 2.5 0 0 0-4.44-2.04Z"></path>
-                </svg>
-              </span>
-              <h2 class="action-card__title">Reforzar conocimientos</h2>
-            </div>
-            <p class="action-card__text">Practica los conceptos que necesitas comprender mejor.</p>
-            <div class="action-card__footer">
-              <button type="button" class="app-btn app-btn--primary app-btn--wide" data-nav-target="repaso-home">Practicar</button>
-              <span class="action-card__tags">Herencia · Polimorfismo</span>
-            </div>
-          </article>
-        </div>
-
-        <article class="recent-card">
-          <div class="recent-card__head">
-            <div>
-              <h2 class="recent-card__title">Temas recientes</h2>
-              <p class="recent-card__sub">Tus materiales estudiados anteriormente</p>
-            </div>
-            <button type="button" class="app-btn app-btn--outline app-btn--wide" data-nav-target="mis-temas">Acceder</button>
-          </div>
-
-          <button type="button" class="recent-row" data-nav-target="leccion">
-            <span class="icon-box icon-box--purple" aria-hidden="true">
-              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                <path d="M2 3h6a4 4 0 0 1 4 4v14a3 3 0 0 0-3-3H2z"></path>
-                <path d="M22 3h-6a4 4 0 0 0-4 4v14a3 3 0 0 1 3-3h7z"></path>
-              </svg>
-            </span>
-            <span class="recent-row__body">
-              <span class="recent-row__title">Programación orientada a objetos</span>
-              <span class="recent-row__meta">Herencia y polimorfismo · Hace 2 horas</span>
-            </span>
-            <span class="recent-row__progress">
-              <span class="progress-track"><span class="progress-fill" style="width: 80%"></span></span>
-              <span class="recent-row__percent">80 %</span>
-            </span>
-            <span class="recent-row__arrow" aria-hidden="true">›</span>
-          </button>
-
-          <button type="button" class="recent-row" data-nav-target="mis-temas">
-            <span class="icon-box icon-box--mint" aria-hidden="true">
-              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                <polygon points="12 2 2 7 12 12 22 7 12 2"></polygon>
-                <polyline points="2 17 12 22 22 17"></polyline>
-                <polyline points="2 12 12 17 22 12"></polyline>
-              </svg>
-            </span>
-            <span class="recent-row__body">
-              <span class="recent-row__title">Física II</span>
-              <span class="recent-row__meta">Campo magnético · Ayer</span>
-            </span>
-            <span class="recent-row__progress">
-              <span class="progress-track"><span class="progress-fill" style="width: 40%"></span></span>
-              <span class="recent-row__percent">40 %</span>
-            </span>
-            <span class="recent-row__arrow" aria-hidden="true">›</span>
-          </button>
-        </article>
-      </section>
-
-      <section class="app-view" data-view="explorar-tema" data-group="inicio" data-title="Inicio">
-        <div class="view-header">
-          <h1 class="view-title">Explorar un tema</h1>
-          <p class="view-subtitle">Convierte tus documentos en una experiencia de aprendizaje personalizada.</p>
-        </div>
-
-        <div class="upload-card">
-          <div class="upload-dropzone" id="uploadDropzone">
-            <div class="upload-dropzone__icon">
-              <svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="#5558F5" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"></path>
-                <polyline points="14 2 14 8 20 8"></polyline>
-                <line x1="12" y1="18" x2="12" y2="12"></line>
-                <polyline points="9 15 12 12 15 15"></polyline>
-              </svg>
-            </div>
-            <h2 class="upload-dropzone__title">Arrastra tu documento aquí</h2>
-            <p class="upload-dropzone__subtitle">O selecciona un archivo desde tu dispositivo</p>
-
-            <input type="file" id="fileUploadInput" accept=".pdf,.doc,.docx" hidden>
-            <button type="button" class="app-btn app-btn--primary" id="selectFileBtn">Seleccionar archivo</button>
-
-            <div class="upload-formats">
-              <span class="format-pill">PDF</span>
-              <span class="format-pill">DOCX</span>
-            </div>
-
-            <p class="upload-dropzone__note">Tus documentos se usan sólo para ayudarte a estudiar.</p>
-          </div>
-
-          <div class="upload-info">
-            <svg class="illus-md" viewBox="0 0 160 125" aria-hidden="true"><use href="#illus-doc"></use></svg>
-            <h3 class="upload-info__title">De documento a conocimiento</h3>
-            <p class="upload-info__desc">Un espacio de estudio creado a partir de tu propio material.</p>
-            <ul class="check-list">
-              <li><span class="check-circle" aria-hidden="true">✓</span><span>Contenido organizado por temas</span></li>
-              <li><span class="check-circle" aria-hidden="true">✓</span><span>Explicaciones adaptadas a ti</span></li>
-              <li><span class="check-circle" aria-hidden="true">✓</span><span>Práctica guiada con IA</span></li>
-            </ul>
-          </div>
-        </div>
-
-        <h2 class="subsection-title">¿Qué hará NexIA con tu documento?</h2>
-
-        <div class="process-steps-grid">
-          <article class="process-step-card">
-            <span class="step-badge step-badge--purple">01</span>
-            <h3 class="process-step-card__title">Identificar</h3>
-            <p class="process-step-card__desc">Los temas y conceptos principales de tu material.</p>
-          </article>
-          <article class="process-step-card">
-            <span class="step-badge step-badge--mint">02</span>
-            <h3 class="process-step-card__title">Organizar</h3>
-            <p class="process-step-card__desc">El contenido en secciones claras para estudiar.</p>
-          </article>
-          <article class="process-step-card">
-            <span class="step-badge step-badge--purple">03</span>
-            <h3 class="process-step-card__title">Comprender</h3>
-            <p class="process-step-card__desc">Explicaciones y ejemplos con tu tutor IA.</p>
-          </article>
-          <article class="process-step-card">
-            <span class="step-badge step-badge--mint">04</span>
-            <h3 class="process-step-card__title">Practicar</h3>
-            <p class="process-step-card__desc">Preguntas para comprobar tu aprendizaje.</p>
-          </article>
-        </div>
-
-        <div class="view-action-footer">
-          <p class="view-action-footer__hint" id="selectedFileHint">Selecciona un documento para empezar.</p>
-          <div class="view-action-footer__buttons">
-            <button type="button" class="app-btn app-btn--outline app-btn--wide" data-nav-target="inicio-dashboard">Cancelar</button>
-            <button type="button" class="app-btn app-btn--primary" data-nav-target="documento-listo">Analizar documento</button>
-          </div>
-        </div>
-      </section>
-
-      <section class="app-view" data-view="documento-listo" data-group="inicio" data-title="Inicio">
-        <div class="view-header">
-          <h1 class="view-title">Tu documento está listo</h1>
-          <p class="view-subtitle">NexIA ha organizado el material para facilitar su comprensión.</p>
-        </div>
-
-        <div class="doc-banner">
-          <span class="doc-banner__icon" aria-hidden="true">
-            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#5558F5" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-              <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"></path>
-              <polyline points="14 2 14 8 20 8"></polyline>
-              <line x1="16" y1="13" x2="8" y2="13"></line>
-              <line x1="16" y1="17" x2="8" y2="17"></line>
-            </svg>
-          </span>
-          <div class="doc-banner__body">
-            <h2 class="doc-banner__title" id="docBannerTitle">Programación Orientada a Objetos.pdf</h2>
-            <p class="doc-banner__meta">18 páginas · 1,8 MB · PDF</p>
-          </div>
-          <div class="doc-banner__status">
-            <span class="status-chip status-chip--white-mint">Listo para aprender</span>
-            <span class="doc-banner__topics">4 temas identificados</span>
-          </div>
-        </div>
-
-        <h2 class="subsection-title subsection-title--tight">Temas identificados</h2>
-        <p class="subsection-sub">Una ruta clara para dominar tu material.</p>
-
-        <div class="doc-topics-layout">
-          <div class="topic-list">
-            <button type="button" class="topic-row" data-nav-target="leccion">
-              <span class="step-badge step-badge--purple">01</span>
-              <span class="topic-row__body">
-                <span class="topic-row__title">Introducción a la POO</span>
-                <span class="topic-row__sub">Clases, objetos y atributos</span>
-              </span>
-              <span class="topic-row__time">12 min</span>
-              <span class="topic-row__arrow" aria-hidden="true">›</span>
-            </button>
-            <button type="button" class="topic-row" data-nav-target="leccion">
-              <span class="step-badge step-badge--mint">02</span>
-              <span class="topic-row__body">
-                <span class="topic-row__title">Herencia</span>
-                <span class="topic-row__sub">Clases base y reutilización</span>
-              </span>
-              <span class="topic-row__time">10 min</span>
-              <span class="topic-row__arrow" aria-hidden="true">›</span>
-            </button>
-            <button type="button" class="topic-row" data-nav-target="leccion">
-              <span class="step-badge step-badge--purple">03</span>
-              <span class="topic-row__body">
-                <span class="topic-row__title">Polimorfismo</span>
-                <span class="topic-row__sub">Métodos y comportamiento</span>
-              </span>
-              <span class="topic-row__time">14 min</span>
-              <span class="topic-row__arrow" aria-hidden="true">›</span>
-            </button>
-            <button type="button" class="topic-row" data-nav-target="leccion">
-              <span class="step-badge step-badge--mint">04</span>
-              <span class="topic-row__body">
-                <span class="topic-row__title">Aplicaciones prácticas</span>
-                <span class="topic-row__sub">Ejemplos del material</span>
-              </span>
-              <span class="topic-row__time">12 min</span>
-              <span class="topic-row__arrow" aria-hidden="true">›</span>
-            </button>
-          </div>
-
-          <aside class="side-info-card">
-            <svg class="illus-md" viewBox="0 0 160 125" aria-hidden="true"><use href="#illus-doc"></use></svg>
-            <h3 class="side-info-card__title">Tu ruta de aprendizaje</h3>
-            <p class="side-info-card__desc">Del primer concepto a la práctica, con acompañamiento en cada paso.</p>
-            <div class="route-summary">
-              <span class="route-summary__topics">4 temas</span>
-              <span class="route-summary__time">48 min</span>
-            </div>
-          </aside>
-        </div>
-
-        <div class="view-action-footer">
-          <p class="view-action-footer__hint">Puedes avanzar a tu ritmo y volver a cada concepto cuando lo necesites.</p>
-          <div class="view-action-footer__buttons">
-            <button type="button" class="app-btn app-btn--primary app-btn--wide" data-nav-target="leccion">Comenzar aprendizaje</button>
-          </div>
-        </div>
-      </section>
-
-      <section class="app-view" data-view="mis-temas" data-group="temas" data-title="Mis temas">
-        <div class="view-header">
-          <h1 class="view-title">Mis temas</h1>
-          <p class="view-subtitle">Todo lo que estás aprendiendo, en un solo lugar.</p>
-        </div>
-
-        <div class="stats-row">
-          <article class="stat-card">
-            <span class="icon-box icon-box--purple" aria-hidden="true">
-              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                <path d="M22 19a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h5l2 3h9a2 2 0 0 1 2 2z"></path>
-              </svg>
-            </span>
-            <div>
-              <p class="stat-card__value">3</p>
-              <p class="stat-card__label">Materiales en tu biblioteca</p>
-            </div>
-          </article>
-          <article class="stat-card">
-            <span class="icon-box icon-box--purple" aria-hidden="true">
-              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                <circle cx="12" cy="12" r="10"></circle>
-                <polyline points="12 6 12 12 16 14"></polyline>
-              </svg>
-            </span>
-            <div>
-              <p class="stat-card__value">2</p>
-              <p class="stat-card__label">En progreso</p>
-            </div>
-          </article>
-          <article class="stat-card">
-            <span class="icon-box icon-box--mint" aria-hidden="true">
-              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                <circle cx="12" cy="12" r="10"></circle>
-                <polyline points="8 12 11 15 16 9"></polyline>
-              </svg>
-            </span>
-            <div>
-              <p class="stat-card__value">1</p>
-              <p class="stat-card__label">Completado</p>
-            </div>
-          </article>
-        </div>
-
-        <div class="library-toolbar">
-          <label class="search-field">
-            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
-              <circle cx="11" cy="11" r="8"></circle>
-              <line x1="21" y1="21" x2="16.65" y2="16.65"></line>
-            </svg>
-            <input type="search" id="librarySearch" class="search-field__input" placeholder="Buscar material o tema" aria-label="Buscar material o tema">
-          </label>
-          <button type="button" class="app-btn app-btn--primary app-btn--wide" data-nav-target="explorar-tema">+ Nuevo material</button>
-        </div>
-
-        <div class="filter-chips" role="tablist" aria-label="Filtrar materiales">
-          <button type="button" class="filter-chip is-active" data-filter="todos">Todos</button>
-          <button type="button" class="filter-chip" data-filter="progreso">En progreso</button>
-          <button type="button" class="filter-chip" data-filter="completado">Completados</button>
-        </div>
-
-        <div class="material-list" id="materialList">
-          <article class="material-card" data-status="progreso" data-search="programación orientada a objetos herencia polimorfismo poo">
-            <div class="material-thumb material-thumb--purple">
-              <svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
-                <polygon points="12 2 2 7 12 12 22 7 12 2"></polygon>
-                <polyline points="2 17 12 22 22 17"></polyline>
-                <polyline points="2 12 12 17 22 12"></polyline>
-              </svg>
-              <span>POO</span>
-            </div>
-            <div class="material-card__body">
-              <h2 class="material-card__title">Programación orientada a objetos</h2>
-              <p class="material-card__topic">Tema: Herencia y polimorfismo</p>
-              <div class="material-card__progress">
-                <span class="progress-track"><span class="progress-fill" style="width: 80%"></span></span>
-                <span class="material-card__percent">80 %</span>
-              </div>
-              <p class="material-card__meta">4 temas · 5 conceptos</p>
-            </div>
-            <div class="material-card__side">
-              <span class="status-chip status-chip--purple">En progreso</span>
-              <button type="button" class="app-btn app-btn--primary app-btn--wide" data-nav-target="leccion">Continuar</button>
-            </div>
-          </article>
-
-          <article class="material-card" data-status="progreso" data-search="física ii campo magnético">
-            <div class="material-thumb material-thumb--mint">
-              <svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
-                <path d="M12 3l1.9 5.8a2 2 0 0 0 1.3 1.3L21 12l-5.8 1.9a2 2 0 0 0-1.3 1.3L12 21l-1.9-5.8a2 2 0 0 0-1.3-1.3L3 12l5.8-1.9a2 2 0 0 0 1.3-1.3L12 3z"></path>
-              </svg>
-              <span>FÍSICA</span>
-            </div>
-            <div class="material-card__body">
-              <h2 class="material-card__title">Física II</h2>
-              <p class="material-card__topic">Tema: Campo magnético</p>
-              <div class="material-card__progress">
-                <span class="progress-track"><span class="progress-fill" style="width: 40%"></span></span>
-                <span class="material-card__percent">40 %</span>
-              </div>
-              <p class="material-card__meta">3 temas · 8 conceptos</p>
-            </div>
-            <div class="material-card__side">
-              <span class="status-chip status-chip--purple">En progreso</span>
-              <button type="button" class="app-btn app-btn--primary app-btn--wide" data-nav-target="leccion">Continuar</button>
-            </div>
-          </article>
-
-          <article class="material-card" data-status="completado" data-search="matemática computacional ecuaciones en diferencia math">
-            <div class="material-thumb material-thumb--purple">
-              <svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
-                <polyline points="22 7 13.5 15.5 8.5 10.5 2 17"></polyline>
-                <polyline points="16 7 22 7 22 13"></polyline>
-              </svg>
-              <span>MATH</span>
-            </div>
-            <div class="material-card__body">
-              <h2 class="material-card__title">Matemática computacional</h2>
-              <p class="material-card__topic">Tema: Ecuaciones en diferencia</p>
-              <div class="material-card__progress">
-                <span class="progress-track"><span class="progress-fill progress-fill--teal" style="width: 100%"></span></span>
-                <span class="material-card__percent">100 %</span>
-              </div>
-              <p class="material-card__meta">5 temas · 12 conceptos</p>
-            </div>
-            <div class="material-card__side">
-              <span class="status-chip status-chip--mint">Completado</span>
-              <button type="button" class="app-btn app-btn--primary app-btn--wide" data-nav-target="calendario-repaso">Repasar</button>
-            </div>
-          </article>
-
-          <p class="material-empty" id="materialEmpty" hidden>No se encontraron materiales con ese criterio.</p>
-        </div>
-      </section>
-
-      <section class="app-view" data-view="leccion" data-group="temas" data-title="Mis temas">
-        <div class="view-header">
-          <h1 class="view-title">Programación orientada a objetos</h1>
-          <p class="view-subtitle">Herencia y polimorfismo · Concepto 2 de 5</p>
-        </div>
-
-        <div class="lesson-layout">
-          <div class="lesson-main">
-            <div class="segmented-tabs" role="tablist" aria-label="Formato de la lección">
-              <button type="button" class="segmented-tab is-active" role="tab" aria-selected="true" data-lesson-tab="lectura">Lectura</button>
-              <button type="button" class="segmented-tab" role="tab" aria-selected="false" data-lesson-tab="audio">Audio</button>
-              <button type="button" class="segmented-tab" role="tab" aria-selected="false" data-lesson-tab="video">Video</button>
-            </div>
-
-            <div class="concept-nav">
-              <button type="button" class="concept-nav__btn">‹ Anterior</button>
-              <span class="concept-nav__label">Concepto 2 de 5</span>
-              <button type="button" class="concept-nav__btn">Siguiente ›</button>
-            </div>
-
-            <article class="lesson-card">
-              <div class="lesson-panel is-active" data-lesson-panel="lectura">
-                <div class="lesson-card__head">
-                  <h2 class="lesson-card__title">Herencia y polimorfismo</h2>
-                  <span class="status-chip status-chip--purple">6 min de lectura</span>
-                </div>
-                <h3 class="lesson-card__lead">Aprender una vez. Reutilizar muchas.</h3>
-                <p class="lesson-card__text">La herencia permite crear una clase a partir de otra. La clase hija reutiliza sus atributos y métodos y puede añadir su propio comportamiento.</p>
-
-                <div class="lesson-visuals">
-                  <div class="code-block">
-                    <p class="code-block__lang">PYTHON</p>
-<pre class="code-block__pre"><code><span class="ln">1</span>class Vehiculo:
-<span class="ln">2</span>  <span class="kw">def moverse(self):</span>
-<span class="ln">3</span>    return "En movimiento"
-<span class="ln">4</span><span class="kw">class Auto(Vehiculo):</span>
-<span class="ln">5</span>  pass</code></pre>
-                  </div>
-                  <div class="class-diagram">
-                    <span class="class-diagram__parent">Vehículo</span>
-                    <span class="class-diagram__lines" aria-hidden="true"></span>
-                    <div class="class-diagram__children">
-                      <span class="class-diagram__child">Auto</span>
-                      <span class="class-diagram__child">Moto</span>
-                    </div>
-                  </div>
-                </div>
-                <p class="lesson-card__caption">Auto hereda el método moverse() sin tener que escribirlo de nuevo.</p>
-
-                <div class="lesson-card__actions">
-                  <button type="button" class="app-btn app-btn--outline app-btn--sm toggle-btn" aria-pressed="false">
-                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
-                      <path d="M19 21l-7-5-7 5V5a2 2 0 0 1 2-2h10a2 2 0 0 1 2 2z"></path>
-                    </svg>
-                    <span>Favorito</span>
-                  </button>
-                  <button type="button" class="app-btn app-btn--outline app-btn--sm toggle-btn" aria-pressed="false">
-                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
-                      <path d="M12 20h9"></path>
-                      <path d="M16.5 3.5a2.12 2.12 0 0 1 3 3L7 19l-4 1 1-4Z"></path>
-                    </svg>
-                    <span>Subrayar</span>
-                  </button>
-                </div>
-              </div>
-
-              <div class="lesson-panel" data-lesson-panel="audio">
-                <div class="lesson-card__head">
-                  <h2 class="lesson-card__title">Herencia y polimorfismo</h2>
-                  <span class="status-chip status-chip--purple">MP3 · 3:48</span>
-                </div>
-
-                <div class="audio-player">
-                  <div class="audio-player__head">
-                    <span class="audio-player__icon" aria-hidden="true">
-                      <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#5558F5" stroke-width="2" stroke-linecap="round">
-                        <line x1="4" y1="10" x2="4" y2="14"></line>
-                        <line x1="8" y1="7" x2="8" y2="17"></line>
-                        <line x1="12" y1="4" x2="12" y2="20"></line>
-                        <line x1="16" y1="7" x2="16" y2="17"></line>
-                        <line x1="20" y1="10" x2="20" y2="14"></line>
-                      </svg>
-                    </span>
-                    <div>
-                      <p class="audio-player__title">Herencia, explicada para ti</p>
-                      <p class="audio-player__sub">Reproduciendo · NexIA Audio</p>
-                    </div>
-                  </div>
-                  <div class="audio-waveform" id="audioWaveform" aria-hidden="true"></div>
-                  <div class="audio-player__times">
-                    <span>01:24</span>
-                    <span>03:48</span>
-                  </div>
-                  <div class="audio-player__controls">
-                    <span class="audio-player__speed">1×</span>
-                    <div class="audio-player__center">
-                      <button type="button" class="icon-btn" aria-label="Anterior">‹</button>
-                      <button type="button" class="play-btn" data-play-toggle aria-label="Pausar">
-                        <span class="play-btn__pause" aria-hidden="true">❚❚</span>
-                        <span class="play-btn__play" aria-hidden="true">▶</span>
-                      </button>
-                      <button type="button" class="icon-btn" aria-label="Siguiente">›</button>
-                    </div>
-                    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#5558F5" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
-                      <polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5"></polygon>
-                      <path d="M15.54 8.46a5 5 0 0 1 0 7.07"></path>
-                    </svg>
-                  </div>
-                </div>
-
-                <p class="lesson-card__text">«Una clase puede heredar lo que otra ya sabe hacer. Así evitas repetir código y mantienes tus programas organizados».</p>
-
-                <div class="lesson-card__actions">
-                  <button type="button" class="app-btn app-btn--outline app-btn--sm app-btn--wide" data-lesson-tab="lectura">Lectura</button>
-                  <span class="lesson-card__caption">También puedes seguir el contenido por escrito.</span>
-                </div>
-              </div>
-
-              <div class="lesson-panel" data-lesson-panel="video">
-                <div class="lesson-card__head">
-                  <h2 class="lesson-card__title">Herencia y polimorfismo</h2>
-                  <span class="status-chip status-chip--purple">MP4 · 3:48</span>
-                </div>
-
-                <div class="video-frame">
-                  <p class="video-frame__crumb">NexIA / PROGRAMACIÓN ORIENTADA A OBJETOS</p>
-                  <h3 class="video-frame__title">Herencia en acción</h3>
-                  <div class="class-diagram class-diagram--dark">
-                    <span class="class-diagram__parent">Vehículo</span>
-                    <span class="class-diagram__lines" aria-hidden="true"></span>
-                    <div class="class-diagram__children">
-                      <span class="class-diagram__child">Auto</span>
-                      <span class="class-diagram__child">Moto</span>
-                    </div>
-                  </div>
-                  <p class="video-frame__caption">Un comportamiento. Muchas posibilidades.</p>
-                </div>
-
-                <div class="video-controls">
-                  <button type="button" class="video-controls__play" data-play-toggle aria-label="Pausar">
-                    <span class="play-btn__pause" aria-hidden="true">❚❚</span>
-                    <span class="play-btn__play" aria-hidden="true">▶</span>
-                  </button>
-                  <span class="video-controls__time">01:24</span>
-                  <span class="progress-track"><span class="progress-fill" style="width: 37%"></span></span>
-                  <span class="video-controls__time">03:48</span>
-                  <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#5558F5" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
-                    <polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5"></polygon>
-                    <path d="M15.54 8.46a5 5 0 0 1 0 7.07"></path>
-                  </svg>
-                </div>
-              </div>
-            </article>
-          </div>
-
-          <aside class="tutor-card" aria-label="Tutor IA">
-            <div class="tutor-card__head">
-              <span class="icon-box icon-box--purple" aria-hidden="true">
-                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                  <rect x="3" y="8" width="18" height="12" rx="3"></rect>
-                  <line x1="12" y1="4" x2="12" y2="8"></line>
-                  <circle cx="9" cy="14" r="1"></circle>
-                  <circle cx="15" cy="14" r="1"></circle>
-                </svg>
-              </span>
-              <div>
-                <p class="tutor-card__title">Tutor IA</p>
-                <p class="tutor-card__status">En línea · para ayudarte</p>
-              </div>
-            </div>
-
-            <div class="chat-log" id="chatLog">
-              <p class="chat-bubble chat-bubble--ai">¡Hola! Vamos a descubrir cómo una clase puede aprovechar lo que ya sabe hacer otra.</p>
-              <p class="chat-bubble chat-bubble--user">¿Heredar es lo mismo que copiar y pegar código?</p>
-              <p class="chat-bubble chat-bubble--ai chat-bubble--mint">No exactamente. Heredar conecta las clases: si mejoras Vehículo, Auto también recibe esa mejora.</p>
-            </div>
-
-            <form class="chat-input" id="chatForm">
-              <input type="text" id="chatInput" class="chat-input__field" placeholder="Escribe tu duda..." aria-label="Escribe tu duda" autocomplete="off">
-              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
-                <path d="M12 1a3 3 0 0 0-3 3v8a3 3 0 0 0 6 0V4a3 3 0 0 0-3-3z"></path>
-                <path d="M19 10v2a7 7 0 0 1-14 0v-2"></path>
-                <line x1="12" y1="19" x2="12" y2="23"></line>
-              </svg>
-              <button type="submit" class="chat-input__send" aria-label="Enviar mensaje">
-                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                  <circle cx="12" cy="12" r="10"></circle>
-                  <polyline points="16 12 12 8 8 12"></polyline>
-                  <line x1="12" y1="16" x2="12" y2="8"></line>
-                </svg>
-              </button>
-            </form>
-          </aside>
-        </div>
-
-        <div class="practice-banner">
-          <span class="icon-box icon-box--white" aria-hidden="true">
-            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#5558F5" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-              <path d="M9.5 2A2.5 2.5 0 0 1 12 4.5v15a2.5 2.5 0 0 1-4.96.44 2.5 2.5 0 0 1-2.96-3.08 3 3 0 0 1-.34-5.58 2.5 2.5 0 0 1 1.32-4.24 2.5 2.5 0 0 1 4.44-2.04Z"></path>
-              <path d="M14.5 2A2.5 2.5 0 0 0 12 4.5v15a2.5 2.5 0 0 0 4.96.44 2.5 2.5 0 0 0 2.96-3.08 3 3 0 0 0 .34-5.58 2.5 2.5 0 0 0-1.32-4.24 2.5 2.5 0 0 0-4.44-2.04Z"></path>
-            </svg>
-          </span>
-          <div class="practice-banner__body">
-            <h2 class="practice-banner__title">Comprueba lo aprendido</h2>
-            <p class="practice-banner__question">¿Comprendiste este concepto?</p>
-            <p class="practice-banner__text">Pon a prueba tus conocimientos con una pregunta generada por NexIA.</p>
-          </div>
-          <button type="button" class="app-btn app-btn--primary app-btn--wide" data-nav-target="autoevaluacion">Practicar concepto</button>
-        </div>
-      </section>
-
-      <section class="app-view" data-view="autoevaluacion" data-group="temas" data-title="Mis temas">
-        <div class="view-header">
-          <h1 class="view-title">Comprueba lo aprendido</h1>
-          <p class="view-subtitle" id="quizSubtitle">Herencia y polimorfismo · Pon a prueba lo que sabes.</p>
-        </div>
-
-        <div class="quiz-progress">
-          <div class="quiz-progress__top">
-            <span class="quiz-progress__pill">Pregunta 2 de 5</span>
-            <span class="status-chip status-chip--purple">Autoevaluación</span>
-          </div>
-          <div class="quiz-progress__bars" aria-hidden="true">
-            <span class="is-filled"></span>
-            <span class="is-filled"></span>
-            <span></span>
-            <span></span>
-            <span></span>
-          </div>
-        </div>
-
-        <div class="quiz-layout">
-          <article class="quiz-card">
-            <h2 class="quiz-card__question">¿Qué permite la herencia en programación orientada a objetos?</h2>
-            <p class="quiz-card__hint">Elige una respuesta.</p>
-
-            <div class="quiz-options" id="quizOptions" role="radiogroup" aria-label="Alternativas">
-              <button type="button" class="quiz-option" role="radio" aria-checked="false" data-correct="true">
-                <span class="quiz-option__letter">A</span>
-                <span class="quiz-option__text">Reutilizar atributos y métodos de otra clase</span>
-                <span class="quiz-option__mark" aria-hidden="true"></span>
-              </button>
-              <button type="button" class="quiz-option" role="radio" aria-checked="false">
-                <span class="quiz-option__letter">B</span>
-                <span class="quiz-option__text">Eliminar automáticamente todos los objetos</span>
-                <span class="quiz-option__mark" aria-hidden="true"></span>
-              </button>
-              <button type="button" class="quiz-option" role="radio" aria-checked="false">
-                <span class="quiz-option__letter">C</span>
-                <span class="quiz-option__text">Ejecutar un programa sin clases</span>
-                <span class="quiz-option__mark" aria-hidden="true"></span>
-              </button>
-            </div>
-
-            <div class="quiz-feedback" id="quizFeedback" hidden>
-              <p class="quiz-feedback__title" id="quizFeedbackTitle"></p>
-              <p class="quiz-feedback__text" id="quizFeedbackText"></p>
-            </div>
-
-            <p class="quiz-card__note" id="quizNote">Tu respuesta te ayudará a encontrar qué conceptos reforzar.</p>
-
-            <div class="quiz-card__actions">
-              <button type="button" class="app-btn app-btn--muted app-btn--wide" id="quizResetBtn" hidden>Reiniciar ejemplo</button>
-              <button type="button" class="app-btn app-btn--primary app-btn--wide" id="quizCheckBtn" disabled>Comprobar respuesta</button>
-              <button type="button" class="app-btn app-btn--primary app-btn--wide" id="quizNextBtn" data-nav-target="resultados" hidden>Siguiente pregunta</button>
-            </div>
-          </article>
-
-          <aside class="side-info-card">
-            <svg class="illus-md" viewBox="0 0 160 125" aria-hidden="true"><use href="#illus-doc"></use></svg>
-            <h3 class="side-info-card__title side-info-card__title--lg" id="quizSideTitle">Demuéstrate lo que sabes</h3>
-            <p class="side-info-card__desc" id="quizSideDesc">Piensa en cómo se relacionan una clase base y sus clases hijas.</p>
-            <ul class="check-list check-list--divided" id="quizSideList">
-              <li><span class="check-circle" aria-hidden="true">✓</span><span>Lee cada alternativa con atención</span></li>
-              <li><span class="check-circle" aria-hidden="true">✓</span><span>Conecta con lo que acabas de estudiar</span></li>
-              <li><span class="check-circle" aria-hidden="true">✓</span><span>No hay límite de tiempo</span></li>
-            </ul>
-          </aside>
-        </div>
-
-        <p class="view-footnote">Después de responder, NexIA mostrará una explicación del resultado.</p>
-      </section>
-
-      <section class="app-view" data-view="resultados" data-group="temas" data-title="Mis temas">
-        <div class="view-header">
-          <h1 class="view-title">Resultados de tu aprendizaje</h1>
-          <p class="view-subtitle">Herencia y polimorfismo · Este es tu punto de partida.</p>
-        </div>
-
-        <article class="result-hero">
-          <div class="result-hero__body">
-            <span class="status-chip status-chip--white">AUTOEVALUACIÓN COMPLETADA</span>
-            <h2 class="result-hero__title">3 de 5 respuestas correctas</h2>
-            <p class="result-hero__text">Ya dominas lo esencial. Ahora sabes dónde concentrar tu práctica.</p>
-            <span class="status-chip status-chip--white">Resultado general: 60 %</span>
-          </div>
-          <div class="donut" role="img" aria-label="Resultado general 60 por ciento">
-            <svg viewBox="0 0 120 120" width="120" height="120">
-              <circle cx="60" cy="60" r="50" fill="none" stroke="#D9DAFD" stroke-width="12"></circle>
-              <circle cx="60" cy="60" r="50" fill="none" stroke="#5558F5" stroke-width="12" stroke-dasharray="188.5 314.16" transform="rotate(-90 60 60)"></circle>
-            </svg>
-            <span class="donut__label">60 %</span>
-          </div>
-        </article>
-
-        <div class="result-cards">
-          <article class="result-card">
-            <div class="result-card__head">
-              <span class="icon-box icon-box--mint" aria-hidden="true">✓</span>
-              <h2 class="result-card__title">Conceptos comprensibles</h2>
-            </div>
-            <ul class="check-list">
-              <li><span class="check-circle" aria-hidden="true">✓</span><span>Clases y objetos</span></li>
-              <li><span class="check-circle" aria-hidden="true">✓</span><span>Atributos y métodos</span></li>
-            </ul>
-          </article>
-
-          <article class="result-card">
-            <div class="result-card__head">
-              <span class="icon-box icon-box--amber" aria-hidden="true">!</span>
-              <h2 class="result-card__title">Necesitas reforzar</h2>
-            </div>
-            <div class="reinforce-row">
-              <span>Herencia</span>
-              <span class="status-chip status-chip--amber">Por reforzar</span>
-            </div>
-            <div class="reinforce-row">
-              <span>Polimorfismo</span>
-              <span class="status-chip status-chip--amber">Practicar</span>
-            </div>
-          </article>
-        </div>
-
-        <article class="recommend-banner">
-          <svg class="recommend-banner__illus" viewBox="0 0 160 125" aria-hidden="true"><use href="#illus-doc"></use></svg>
-          <div class="recommend-banner__body">
-            <h2 class="recommend-banner__title">
-              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#5558F5" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
-                <path d="M12 3l1.9 5.8a2 2 0 0 0 1.3 1.3L21 12l-5.8 1.9a2 2 0 0 0-1.3 1.3L12 21l-1.9-5.8a2 2 0 0 0-1.3-1.3L3 12l5.8-1.9a2 2 0 0 0 1.3-1.3L12 3z"></path>
-              </svg>
-              <span>Recomendación de NexIA</span>
-            </h2>
-            <p class="recommend-banner__text">Te recomendamos repasar los conceptos de herencia y polimorfismo con ejemplos prácticos antes de realizar otra evaluación.</p>
-            <div class="recommend-banner__actions">
-              <button type="button" class="app-btn app-btn--outline app-btn--wide" data-nav-target="autoevaluacion">Revisar respuestas</button>
-              <button type="button" class="app-btn app-btn--primary app-btn--wide" data-nav-target="repaso-home">Reforzar conocimientos</button>
-            </div>
-          </div>
-        </article>
-      </section>
-
-      <section class="app-view" data-view="repaso-home" data-group="repaso" data-title="Repaso">
-        <div class="view-header">
-          <h1 class="view-title">Repaso personalizado</h1>
-          <p class="view-subtitle">Refuerza los conceptos que necesitan más práctica.</p>
-        </div>
-
-        <article class="repaso-hero">
-          <div class="repaso-hero__body">
-            <p class="repaso-hero__eyebrow">
-              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
-                <path d="M12 3l1.9 5.8a2 2 0 0 0 1.3 1.3L21 12l-5.8 1.9a2 2 0 0 0-1.3 1.3L12 21l-1.9-5.8a2 2 0 0 0-1.3-1.3L3 12l5.8-1.9a2 2 0 0 0 1.3-1.3L12 3z"></path>
-              </svg>
-              <span>RECOMENDACIÓN DE NEXIA</span>
-            </p>
-            <h2 class="repaso-hero__title">Tu próximo gran paso<br>está en la práctica.</h2>
-            <p class="repaso-hero__meta">Última autoevaluación: 3 de 5 respuestas correctas</p>
-          </div>
-          <div class="repaso-hero__right">
-            <svg class="illus-md" viewBox="0 0 160 125" aria-hidden="true"><use href="#illus-doc"></use></svg>
-            <span class="status-chip status-chip--white">2 conceptos por reforzar</span>
-          </div>
-        </article>
-
-        <h2 class="subsection-title">Conceptos por reforzar</h2>
-
-        <div class="repaso-cards-grid">
-          <article class="repaso-concept-card">
-            <div class="repaso-concept-card__head">
-              <div class="repaso-concept-card__title-wrap">
-                <span class="icon-box icon-box--purple" aria-hidden="true">
-                  <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                    <path d="M2 3h6a4 4 0 0 1 4 4v14a3 3 0 0 0-3-3H2z"></path>
-                    <path d="M22 3h-6a4 4 0 0 0-4 4v14a3 3 0 0 1 3-3h7z"></path>
-                  </svg>
-                </span>
-                <h3 class="repaso-concept-card__title">Herencia</h3>
-              </div>
-              <span class="status-chip status-chip--purple">5 min</span>
-            </div>
-            <p class="repaso-concept-card__course">Programación orientada a objetos</p>
-            <p class="repaso-concept-card__desc">Repasa cómo se reutilizan atributos y métodos entre clases.</p>
-            <div class="code-snippet"><code>class Auto(Vehiculo):  pass</code></div>
-            <button type="button" class="app-btn app-btn--primary app-btn--full" data-nav-target="practiquemos">Empezar repaso</button>
-          </article>
-
-          <article class="repaso-concept-card">
-            <div class="repaso-concept-card__head">
-              <div class="repaso-concept-card__title-wrap">
-                <span class="icon-box icon-box--mint" aria-hidden="true">
-                  <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                    <polygon points="12 2 2 7 12 12 22 7 12 2"></polygon>
-                    <polyline points="2 17 12 22 22 17"></polyline>
-                    <polyline points="2 12 12 17 22 12"></polyline>
-                  </svg>
-                </span>
-                <h3 class="repaso-concept-card__title">Polimorfismo</h3>
-              </div>
-              <span class="status-chip status-chip--mint">7 min</span>
-            </div>
-            <p class="repaso-concept-card__course">Programación orientada a objetos</p>
-            <p class="repaso-concept-card__desc">Practica cómo un mismo método puede tener distintos comportamientos.</p>
-            <div class="code-snippet"><code>auto.moverse()  # Cada clase decide</code></div>
-            <button type="button" class="app-btn app-btn--primary app-btn--full" data-nav-target="practiquemos">Empezar repaso</button>
-          </article>
-        </div>
-
-        <article class="practice-banner">
-          <span class="icon-box icon-box--white" aria-hidden="true">
-            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#5558F5" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-              <rect x="3" y="4" width="18" height="18" rx="2" ry="2"></rect>
-              <line x1="16" y1="2" x2="16" y2="6"></line>
-              <line x1="8" y1="2" x2="8" y2="6"></line>
-              <line x1="3" y1="10" x2="21" y2="10"></line>
-            </svg>
-          </span>
-          <div class="practice-banner__body">
-            <h2 class="practice-banner__title">Próximos repasos</h2>
-            <p class="practice-banner__text">Consulta los conceptos programados para volver a practicar.</p>
-            <p class="repaso-upcoming-date">24 NOV · Herencia · 5 min</p>
-          </div>
-          <button type="button" class="app-btn app-btn--outline app-btn--wide" data-nav-target="calendario-repaso">Ver calendario</button>
-        </article>
-      </section>
-
-      <section class="app-view" data-view="calendario-repaso" data-group="repaso" data-title="Repaso">
-        <div class="view-header">
-          <h1 class="view-title">Calendario de repaso</h1>
-          <p class="view-subtitle">Pequeñas sesiones, grandes avances. Organiza tu próxima práctica.</p>
-        </div>
-
-        <div class="calendar-layout">
-          <div class="calendar-card">
-            <div class="calendar-card__header">
-              <h2 class="calendar-month-title">Noviembre 2026</h2>
-              <div class="calendar-nav-btns">
-                <button type="button" class="calendar-nav-btn" aria-label="Mes anterior">‹</button>
-                <button type="button" class="calendar-nav-btn" aria-label="Mes siguiente">›</button>
-              </div>
-            </div>
-
-            <div class="calendar-weekdays">
-              <span>Lun</span>
-              <span>Mar</span>
-              <span>Mié</span>
-              <span>Jue</span>
-              <span>Vie</span>
-              <span>Sáb</span>
-              <span>Dom</span>
-            </div>
-
-            <div class="calendar-grid">
-              <div class="cal-cell cal-cell--muted"><span>26</span></div>
-              <div class="cal-cell cal-cell--muted"><span>27</span></div>
-              <div class="cal-cell cal-cell--muted"><span>28</span></div>
-              <div class="cal-cell cal-cell--muted"><span>29</span></div>
-              <div class="cal-cell cal-cell--muted"><span>30</span></div>
-              <div class="cal-cell cal-cell--weekend cal-cell--muted"><span>31</span></div>
-              <div class="cal-cell cal-cell--weekend"><span>1</span></div>
-
-              <div class="cal-cell"><span>2</span></div>
-              <div class="cal-cell"><span>3</span></div>
-              <div class="cal-cell"><span>4</span></div>
-              <div class="cal-cell"><span>5</span></div>
-              <div class="cal-cell"><span>6</span></div>
-              <div class="cal-cell cal-cell--weekend"><span>7</span></div>
-              <div class="cal-cell cal-cell--weekend"><span>8</span></div>
-
-              <div class="cal-cell"><span>9</span></div>
-              <div class="cal-cell"><span>10</span></div>
-              <div class="cal-cell"><span>11</span></div>
-              <div class="cal-cell"><span>12</span></div>
-              <div class="cal-cell"><span>13</span></div>
-              <div class="cal-cell cal-cell--weekend"><span>14</span></div>
-              <div class="cal-cell cal-cell--weekend"><span>15</span></div>
-
-              <div class="cal-cell"><span>16</span></div>
-              <div class="cal-cell"><span>17</span></div>
-              <div class="cal-cell"><span>18</span></div>
-              <div class="cal-cell"><span>19</span></div>
-              <div class="cal-cell"><span>20</span></div>
-              <div class="cal-cell cal-cell--weekend"><span>21</span></div>
-              <div class="cal-cell cal-cell--today"><span>22</span></div>
-
-              <div class="cal-cell"><span>23</span></div>
-              <div class="cal-cell cal-cell--scheduled"><span>24</span><small>Herencia</small></div>
-              <div class="cal-cell"><span>25</span></div>
-              <div class="cal-cell"><span>26</span></div>
-              <div class="cal-cell"><span>27</span></div>
-              <div class="cal-cell cal-cell--weekend cal-cell--tag"><span>28</span><small>Repaso</small></div>
-              <div class="cal-cell cal-cell--weekend"><span>29</span></div>
-
-              <div class="cal-cell"><span>30</span></div>
-              <div class="cal-cell cal-cell--muted"><span>1</span></div>
-              <div class="cal-cell cal-cell--muted"><span>2</span></div>
-              <div class="cal-cell cal-cell--muted"><span>3</span></div>
-              <div class="cal-cell cal-cell--muted"><span>4</span></div>
-              <div class="cal-cell cal-cell--weekend cal-cell--muted"><span>5</span></div>
-              <div class="cal-cell cal-cell--weekend cal-cell--muted"><span>6</span></div>
-            </div>
-
-            <div class="calendar-legend">
-              <span class="calendar-legend__item"><span class="legend-dot legend-dot--today"></span><span>Hoy</span></span>
-              <span class="calendar-legend__item"><span class="legend-dot legend-dot--scheduled"></span><span>Sesión programada</span></span>
-            </div>
-          </div>
-
-          <aside class="scheduled-card">
-            <h2 class="scheduled-card__title">Sesiones programadas</h2>
-            <p class="scheduled-card__label">Tu próxima sesión</p>
-
-            <div class="next-session-badge">
-              <div class="next-session-date">
-                <span class="next-session-date__day">24</span>
-                <span class="next-session-date__month">NOV</span>
-              </div>
-              <div>
-                <p class="next-session-date__weekday">Martes</p>
-                <p class="next-session-date__time">19:00 – 19:05</p>
-              </div>
-            </div>
-
-            <h3 class="scheduled-topic-title">Herencia</h3>
-            <p class="scheduled-topic-desc">Flashcards y preguntas rápidas para consolidar lo aprendido.</p>
-            <span class="status-chip status-chip--mint">5 min</span>
-
-            <hr class="scheduled-divider">
-
-            <p class="scheduled-card__label">Después en tu agenda</p>
-            <div class="upcoming-agenda-item">
-              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#5558F5" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
-                <rect x="3" y="4" width="18" height="18" rx="2" ry="2"></rect>
-                <line x1="16" y1="2" x2="16" y2="6"></line>
-                <line x1="8" y1="2" x2="8" y2="6"></line>
-                <line x1="3" y1="10" x2="21" y2="10"></line>
-              </svg>
-              <span>28 nov. · Polimorfismo</span>
-            </div>
-
-            <button type="button" class="app-btn app-btn--primary app-btn--full" data-nav-target="repaso-flashcards">Iniciar repaso →</button>
-          </aside>
-        </div>
-
-        <div class="memory-tip-banner">
-          <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#5558F5" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
-            <path d="M9.5 2A2.5 2.5 0 0 1 12 4.5v15a2.5 2.5 0 0 1-4.96.44 2.5 2.5 0 0 1-2.96-3.08 3 3 0 0 1-.34-5.58 2.5 2.5 0 0 1 1.32-4.24 2.5 2.5 0 0 1 4.44-2.04Z"></path>
-            <path d="M14.5 2A2.5 2.5 0 0 0 12 4.5v15a2.5 2.5 0 0 0 4.96.44 2.5 2.5 0 0 0 2.96-3.08 3 3 0 0 0 .34-5.58 2.5 2.5 0 0 0-1.32-4.24 2.5 2.5 0 0 0-4.44-2.04Z"></path>
-          </svg>
-          <div>
-            <h3 class="memory-tip-banner__title">Un poco hoy. Mucho más para recordar.</h3>
-            <p class="memory-tip-banner__text">Volver a un concepto en distintos momentos fortalece tu memoria. NexIA organiza tu práctica para que avances a tu ritmo.</p>
-          </div>
-        </div>
-      </section>
-
-      <section class="app-view" data-view="practiquemos" data-group="repaso" data-title="Repaso">
-        <div class="view-header">
-          <h1 class="view-title">Practiquemos juntos</h1>
-          <p class="view-subtitle">Tema: Herencia y polimorfismo · Aprende haciendo.</p>
-        </div>
-
-        <div class="quiz-progress">
-          <div class="quiz-progress__top">
-            <span class="quiz-progress__pill">Actividad 1 de 3</span>
-            <span class="status-chip status-chip--purple">Repaso con NexIA</span>
-          </div>
-          <div class="quiz-progress__bars quiz-progress__bars--3" aria-hidden="true">
-            <span class="is-filled"></span>
-            <span></span>
-            <span></span>
-          </div>
-        </div>
-
-        <div class="quiz-layout">
-          <article class="quiz-card">
-            <h2 class="quiz-card__question quiz-card__question--icon">
-              <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#5558F5" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
-                <path d="M12 3l1.9 5.8a2 2 0 0 0 1.3 1.3L21 12l-5.8 1.9a2 2 0 0 0-1.3 1.3L12 21l-1.9-5.8a2 2 0 0 0-1.3-1.3L3 12l5.8-1.9a2 2 0 0 0 1.3-1.3L12 3z"></path>
-              </svg>
-              <span>NexIA te propone un ejercicio</span>
-            </h2>
-            <p class="lesson-card__text">Una clase «Vehículo» tiene un método llamado «moverse». Una clase «Auto» hereda de «Vehículo».</p>
-
-            <div class="code-block">
-              <p class="code-block__lang">PYTHON</p>
-<pre class="code-block__pre"><code><span class="ln">1</span>class Vehiculo:
-<span class="ln">2</span>  <span class="kw">def moverse(self): ...</span>
-<span class="ln">3</span>class Auto(Vehiculo): pass</code></pre>
-            </div>
-
-            <h3 class="practice-question">¿Qué ventaja ofrece esta relación?</h3>
-
-            <div class="quiz-options" id="practiceOptions" role="radiogroup" aria-label="Opciones del ejercicio">
-              <button type="button" class="quiz-option quiz-option--left-radio" role="radio" aria-checked="false">
-                <span class="quiz-option__mark" aria-hidden="true"></span>
-                <span class="quiz-option__text">La clase Auto puede reutilizar el método moverse</span>
-              </button>
-              <button type="button" class="quiz-option quiz-option--left-radio" role="radio" aria-checked="false">
-                <span class="quiz-option__mark" aria-hidden="true"></span>
-                <span class="quiz-option__text">La clase Vehículo se elimina automáticamente</span>
-              </button>
-              <button type="button" class="quiz-option quiz-option--left-radio" role="radio" aria-checked="false">
-                <span class="quiz-option__mark" aria-hidden="true"></span>
-                <span class="quiz-option__text">La clase Auto deja de ser una clase</span>
-              </button>
-            </div>
-
-            <div class="quiz-card__actions">
-              <button type="button" class="app-btn app-btn--primary app-btn--wide" data-nav-target="repaso-flashcards">Siguiente pregunta</button>
-            </div>
-          </article>
-
-          <aside class="side-info-card">
-            <h3 class="side-info-card__title">Visualiza la relación</h3>
-
-            <div class="uml-box">
-              <div class="uml-parent">
-                <p class="uml-parent__name">Vehículo</p>
-                <p class="uml-parent__method">+ moverse()</p>
-              </div>
-              <div class="uml-connector">
-                <span class="uml-connector__line"></span>
-                <span class="uml-connector__label">hereda de</span>
-              </div>
-              <div class="uml-child">
-                <p class="uml-child__name">Auto</p>
-                <p class="uml-child__method">Reutiliza moverse()</p>
-              </div>
-            </div>
-
-            <div class="mint-tip-card">
-              <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#5558F5" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
-                <path d="M9.5 2A2.5 2.5 0 0 1 12 4.5v15a2.5 2.5 0 0 1-4.96.44 2.5 2.5 0 0 1-2.96-3.08 3 3 0 0 1-.34-5.58 2.5 2.5 0 0 1 1.32-4.24 2.5 2.5 0 0 1 4.44-2.04Z"></path>
-                <path d="M14.5 2A2.5 2.5 0 0 0 12 4.5v15a2.5 2.5 0 0 0 4.96.44 2.5 2.5 0 0 0 2.96-3.08 3 3 0 0 0 .34-5.58 2.5 2.5 0 0 0-1.32-4.24 2.5 2.5 0 0 0-4.44-2.04Z"></path>
-              </svg>
-              <h4 class="mint-tip-card__title">Piensa en reutilizar</h4>
-              <p class="mint-tip-card__text">No hace falta volver a escribir un comportamiento que la clase base ya tiene.</p>
-            </div>
-          </aside>
-        </div>
-      </section>
-
-      <section class="app-view" data-view="repaso-flashcards" data-group="repaso" data-title="Repaso">
-        <div class="view-header">
-          <h1 class="view-title">Flashcards de repaso</h1>
-          <p class="view-subtitle">Tema: Herencia y polimorfismo · Una idea a la vez.</p>
-        </div>
-
-        <div class="quiz-progress">
-          <div class="quiz-progress__top">
-            <span class="quiz-progress__pill" id="flashcardPill">Tarjeta 1 de 3</span>
-            <span class="status-chip status-chip--purple">Repaso rápido</span>
-          </div>
-          <div class="quiz-progress__bars quiz-progress__bars--3" id="flashcardBars" aria-hidden="true">
-            <span class="is-filled"></span>
-            <span></span>
-            <span></span>
-          </div>
-        </div>
-
-        <div class="quiz-layout">
-          <div class="flashcard-column">
-            <article class="flashcard" id="flashcardCard">
-              <svg class="flashcard__illus" viewBox="0 0 160 125" aria-hidden="true"><use href="#illus-doc"></use></svg>
-              <h2 class="flashcard__text" id="flashcardText">¿Qué es la herencia en programación orientada a objetos?</h2>
-              <p class="flashcard__hint" id="flashcardHint">Piensa en lo que una clase puede recibir de otra.</p>
-              <button type="button" class="app-btn app-btn--white" id="flashcardFlipBtn">Ver respuesta</button>
-              <p class="flashcard__caption" id="flashcardCaption">Haz clic para ver la respuesta</p>
-            </article>
-
-            <div class="flashcard-nav">
-              <button type="button" class="app-btn app-btn--outline app-btn--wide" id="flashcardPrevBtn">← Anterior</button>
-              <span class="flashcard-counter" id="flashcardCounter">01 / 03</span>
-              <button type="button" class="app-btn app-btn--primary app-btn--wide" id="flashcardNextBtn">Siguiente →</button>
-            </div>
-
-            <p class="view-footnote">Dedica unos segundos a responder antes de descubrir la explicación.</p>
-          </div>
-
-          <aside class="side-info-card">
-            <span class="icon-box icon-box--mint" aria-hidden="true">
-              <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#5558F5" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                <path d="M9.5 2A2.5 2.5 0 0 1 12 4.5v15a2.5 2.5 0 0 1-4.96.44 2.5 2.5 0 0 1-2.96-3.08 3 3 0 0 1-.34-5.58 2.5 2.5 0 0 1 1.32-4.24 2.5 2.5 0 0 1 4.44-2.04Z"></path>
-                <path d="M14.5 2A2.5 2.5 0 0 0 12 4.5v15a2.5 2.5 0 0 0 4.96.44 2.5 2.5 0 0 0 2.96-3.08 3 3 0 0 0 .34-5.58 2.5 2.5 0 0 0-1.32-4.24 2.5 2.5 0 0 0-4.44-2.04Z"></path>
-              </svg>
-            </span>
-            <h3 class="side-info-card__title side-info-card__title--lg">Recuerda la idea,<br>no sólo la definición.</h3>
-            <p class="side-info-card__desc">Relacionar un concepto con un ejemplo te ayuda a recordarlo mejor.</p>
-
-            <div class="code-block">
-              <p class="code-block__lang">PYTHON</p>
-<pre class="code-block__pre"><code><span class="ln">1</span>class Auto(Vehiculo):
-<span class="ln">2</span>  <span class="kw">pass</span></code></pre>
-            </div>
-
-            <p class="side-info-card__desc">Pista: identifica la clase base y la clase que recibe su comportamiento.</p>
-          </aside>
-        </div>
-      </section>
-
-      <section class="app-view" data-view="repaso-simulacion" data-group="repaso" data-title="Repaso">
-        <div class="view-header">
-          <h1 class="view-title">Simulación de caso práctico</h1>
-          <p class="view-subtitle">Tema: Herencia y polimorfismo · Aplica lo que sabes a un problema real.</p>
-        </div>
-
-        <div class="quiz-progress">
-          <div class="quiz-progress__top">
-            <span class="quiz-progress__pill">Caso 1 de 2</span>
-            <span class="status-chip status-chip--purple">Práctica con NexIA</span>
-          </div>
-        </div>
-
-        <div class="quiz-layout">
-          <div class="sim-left-col">
-            <article class="quiz-card">
-              <div class="action-card__head">
-                <span class="icon-box icon-box--purple" aria-hidden="true">
-                  <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                    <rect x="2" y="7" width="20" height="14" rx="2" ry="2"></rect>
-                    <path d="M16 21V5a2 2 0 0 0-2-2h-4a2 2 0 0 0-2 2v16"></path>
-                  </svg>
-                </span>
-                <h2 class="quiz-card__question">Caso: Sistema de transporte</h2>
-              </div>
-
-              <p class="lesson-card__text">Una empresa necesita desarrollar un sistema que administre automóviles y motocicletas. Ambos vehículos tienen atributos comunes, como marca y velocidad, y pueden desplazarse.</p>
-
-              <h3 class="practice-question">¿Cómo organizarías las clases para reutilizar el código y facilitar su mantenimiento?</h3>
-
-              <div class="sim-chips">
-                <span class="status-chip status-chip--purple">marca</span>
-                <span class="status-chip status-chip--purple">velocidad</span>
-                <span class="status-chip status-chip--mint">moverse()</span>
-              </div>
-            </article>
-
-            <article class="quiz-card">
-              <h2 class="side-info-card__title">Tu propuesta</h2>
-              <div class="proposal-box">
-                <textarea class="proposal-textarea" id="simProposalInput" rows="4" placeholder="Escribe tu respuesta..."></textarea>
-                <p class="proposal-box__helper">Puedes explicar tu idea con palabras o con un ejemplo de programación.</p>
-              </div>
-              <div class="proposal-footer">
-                <span class="quiz-card__note">NexIA te dará retroalimentación sobre tu propuesta.</span>
-                <button type="button" class="app-btn app-btn--primary app-btn--wide" data-nav-target="repaso-resumen">Enviar</button>
-              </div>
-            </article>
-          </div>
-
-          <aside class="side-info-card">
-            <h3 class="side-info-card__title">Del problema a las clases</h3>
-            <p class="side-info-card__desc">Identifica lo que tienen en común antes de especializar.</p>
-
-            <div class="uml-box">
-              <div class="uml-parent">
-                <p class="uml-parent__name">Vehículo</p>
-                <p class="uml-parent__method">+ moverse()</p>
-              </div>
-              <div class="uml-branch">
-                <span class="uml-branch__label">heredan de</span>
-                <span class="class-diagram__lines" aria-hidden="true"></span>
-              </div>
-              <div class="uml-children-grid">
-                <div class="uml-child">
-                  <p class="uml-child__name">Auto</p>
-                  <p class="uml-child__method">moverse()</p>
-                </div>
-                <div class="uml-child">
-                  <p class="uml-child__name">Motocicleta</p>
-                  <p class="uml-child__method">moverse()</p>
-                </div>
-              </div>
-            </div>
-
-            <ul class="check-list">
-              <li><span class="check-circle" aria-hidden="true">✓</span><span>Atributos comunes</span></li>
-              <li><span class="check-circle" aria-hidden="true">✓</span><span>Un comportamiento compartido</span></li>
-              <li><span class="check-circle" aria-hidden="true">✓</span><span>Clases especializadas</span></li>
-            </ul>
-          </aside>
-        </div>
-      </section>
-
-      <section class="app-view" data-view="repaso-resumen" data-group="repaso" data-title="Repaso">
-        <div class="view-header">
-          <h1 class="view-title">¡Terminaste tu repaso!</h1>
-          <p class="view-subtitle">Tema: Herencia y polimorfismo · Tu práctica está dando resultados.</p>
-        </div>
-
-        <article class="result-hero">
-          <div class="result-hero__body">
-            <span class="status-chip status-chip--white">REPASO COMPLETADO</span>
-            <h2 class="result-hero__title">4 de 5 respuestas correctas</h2>
-            <p class="result-hero__text">¡Has mejorado tu comprensión en 20 puntos porcentuales!</p>
-            <span class="status-chip status-chip--mint">+20 puntos porcentuales</span>
-          </div>
-          <div class="donut" role="img" aria-label="Resultado del repaso 80 por ciento">
-            <svg viewBox="0 0 120 120" width="120" height="120">
-              <circle cx="60" cy="60" r="50" fill="none" stroke="#D9DAFD" stroke-width="12"></circle>
-              <circle cx="60" cy="60" r="50" fill="none" stroke="#5558F5" stroke-width="12" stroke-dasharray="251.33 314.16" transform="rotate(-90 60 60)"></circle>
-            </svg>
-            <span class="donut__label">80 %</span>
-          </div>
-        </article>
-
-        <div class="result-cards">
-          <article class="result-card">
-            <div class="result-card__head">
-              <span class="icon-box icon-box--mint" aria-hidden="true">✓</span>
-              <h2 class="result-card__title">Tu mejora</h2>
-            </div>
-            <div class="improvement-compare">
-              <div>
-                <p class="improvement-compare__label">Autoevaluación anterior</p>
-                <p class="improvement-compare__before">60 %</p>
-              </div>
-              <span class="improvement-compare__arrow" aria-hidden="true">›</span>
-              <div>
-                <p class="improvement-compare__label">Después del repaso</p>
-                <p class="improvement-compare__after">80 %</p>
-              </div>
-            </div>
-          </article>
-
-          <article class="result-card">
-            <div class="result-card__head">
-              <span class="icon-box icon-box--amber" aria-hidden="true">!</span>
-              <h2 class="result-card__title">Necesitas reforzar</h2>
-            </div>
-            <div class="reinforce-row">
-              <span>Herencia comprendida</span>
-              <span class="status-chip status-chip--mint">Comprendido</span>
-            </div>
-            <div class="reinforce-row">
-              <span>Polimorfismo: seguir practicando</span>
-              <span class="status-chip status-chip--amber">Practicar</span>
-            </div>
-          </article>
-        </div>
-
-        <article class="recommend-banner">
-          <svg class="recommend-banner__illus" viewBox="0 0 160 125" aria-hidden="true"><use href="#illus-doc"></use></svg>
-          <div class="recommend-banner__body">
-            <h2 class="recommend-banner__title">
-              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#5558F5" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
-                <path d="M12 3l1.9 5.8a2 2 0 0 0 1.3 1.3L21 12l-5.8 1.9a2 2 0 0 0-1.3 1.3L12 21l-1.9-5.8a2 2 0 0 0-1.3-1.3L3 12l5.8-1.9a2 2 0 0 0 1.3-1.3L12 3z"></path>
-              </svg>
-              <span>Recomendación de NexIA</span>
-            </h2>
-            <p class="recommend-banner__text">Tu comprensión está avanzando. Sigue reforzando herencia y polimorfismo con ejemplos prácticos antes de realizar otra evaluación.</p>
-            <div class="recommend-banner__actions">
-              <button type="button" class="app-btn app-btn--outline app-btn--wide" data-nav-target="practiquemos">Revisar respuestas</button>
-              <button type="button" class="app-btn app-btn--primary app-btn--wide" data-nav-target="repaso-home">Reforzar conocimientos</button>
-            </div>
-          </div>
-        </article>
-      </section>
-
-      <section class="app-view" data-view="mis-guardados" data-group="guardados" data-title="Mis guardados">
-        <div class="view-header">
-          <h1 class="view-title">Mis guardados</h1>
-          <p class="view-subtitle">Tus mejores ideas, ejemplos y explicaciones, siempre a mano.</p>
-        </div>
-
-        <label class="search-field">
-          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
-            <circle cx="11" cy="11" r="8"></circle>
-            <line x1="21" y1="21" x2="16.65" y2="16.65"></line>
-          </svg>
-          <input type="search" id="savedSearch" class="search-field__input" placeholder="Buscar material o tema" aria-label="Buscar en mis guardados">
-        </label>
-
-        <div class="filter-chips" role="tablist" aria-label="Filtrar guardados">
-          <button type="button" class="saved-filter-chip is-active" data-saved-filter="todos">Todos</button>
-          <button type="button" class="saved-filter-chip" data-saved-filter="conceptos">Conceptos</button>
-          <button type="button" class="saved-filter-chip" data-saved-filter="fragmentos">Fragmentos</button>
-          <button type="button" class="saved-filter-chip" data-saved-filter="ia">Explicaciones IA</button>
-        </div>
-
-        <div class="saved-header-row">
-          <h2 class="subsection-title subsection-title--inline">Contenido guardado</h2>
-          <span class="saved-count" id="savedCount">4 contenidos</span>
-        </div>
-
-        <div class="saved-grid" id="savedGrid">
-          <article class="saved-card" data-saved-type="conceptos" data-saved-search="herencia en poo programación orientada a objetos vehículo auto">
-            <div class="saved-card__head">
-              <span class="status-chip status-chip--purple">Conceptos</span>
-              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#5558F5" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
-                <path d="M19 21l-7-5-7 5V5a2 2 0 0 1 2-2h10a2 2 0 0 1 2 2z"></path>
-              </svg>
-            </div>
-            <h3 class="saved-card__title">Herencia en POO</h3>
-            <p class="saved-card__course">Programación Orientada a Objetos</p>
-            <div class="saved-preview saved-preview--flow">
-              <span class="status-chip status-chip--white">Vehículo</span>
-              <span class="saved-preview__arrow" aria-hidden="true">›</span>
-              <span class="status-chip status-chip--mint">Auto</span>
-              <span class="saved-preview__note">hereda de</span>
-            </div>
-            <button type="button" class="app-btn app-btn--primary app-btn--full" data-nav-target="leccion">Ver contenido</button>
-          </article>
-
-          <article class="saved-card" data-saved-type="fragmentos" data-saved-search="ventajas del polimorfismo programación orientada a objetos python vehiculo">
-            <div class="saved-card__head">
-              <span class="status-chip status-chip--purple">Fragmentos</span>
-              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#5558F5" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
-                <path d="M19 21l-7-5-7 5V5a2 2 0 0 1 2-2h10a2 2 0 0 1 2 2z"></path>
-              </svg>
-            </div>
-            <h3 class="saved-card__title">Ventajas del polimorfismo</h3>
-            <p class="saved-card__course">Programación Orientada a Objetos</p>
-            <div class="code-snippet"><code>for vehiculo in vehiculos:<br>&nbsp;&nbsp;vehiculo.moverse()</code></div>
-            <button type="button" class="app-btn app-btn--primary app-btn--full" data-nav-target="leccion">Ver contenido</button>
-          </article>
-
-          <article class="saved-card" data-saved-type="ia" data-saved-search="explicación sencilla de herencia programación orientada a objetos clase hija base">
-            <div class="saved-card__head">
-              <span class="status-chip status-chip--mint">Explicaciones con IA</span>
-              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#5558F5" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
-                <path d="M19 21l-7-5-7 5V5a2 2 0 0 1 2-2h10a2 2 0 0 1 2 2z"></path>
-              </svg>
-            </div>
-            <h3 class="saved-card__title">Explicación sencilla de herencia</h3>
-            <p class="saved-card__course">Programación Orientada a Objetos</p>
-            <div class="saved-preview">
-              <p class="saved-preview__quote">«Una clase hija aprovecha lo que su clase base ya sabe hacer».</p>
-            </div>
-            <button type="button" class="app-btn app-btn--primary app-btn--full" data-nav-target="leccion">Ver contenido</button>
-          </article>
-
-          <article class="saved-card" data-saved-type="conceptos" data-saved-search="campo magnético física ii formula">
-            <div class="saved-card__head">
-              <span class="status-chip status-chip--purple">Conceptos</span>
-              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#5558F5" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
-                <path d="M19 21l-7-5-7 5V5a2 2 0 0 1 2-2h10a2 2 0 0 1 2 2z"></path>
-              </svg>
-            </div>
-            <h3 class="saved-card__title">Campo magnético</h3>
-            <p class="saved-card__course">Física II</p>
-            <div class="saved-preview saved-preview--formula">
-              <span>F = q · (v × B)</span>
-            </div>
-            <button type="button" class="app-btn app-btn--primary app-btn--full" data-nav-target="leccion">Ver contenido</button>
-          </article>
-        </div>
-      </section>
-
-      <section class="app-view" data-view="mi-progreso" data-group="progreso" data-title="Mi progreso">
-        <div class="view-header">
-          <h1 class="view-title">Mi progreso</h1>
-          <p class="view-subtitle">Descubre cómo evoluciona tu aprendizaje, paso a paso.</p>
-        </div>
-
-        <div class="progress-toolbar">
-          <button type="button" class="period-pill">
-            <span>Este mes</span>
-            <span aria-hidden="true">⌄</span>
-          </button>
-          <span class="progress-toolbar__note">Tu aprendizaje en perspectiva</span>
-        </div>
-
-        <div class="stats-row">
-          <article class="stat-card stat-card--tall">
-            <div class="stat-card__top">
-              <span class="icon-box icon-box--purple" aria-hidden="true">
-                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                  <path d="M2 3h6a4 4 0 0 1 4 4v14a3 3 0 0 0-3-3H2z"></path>
-                  <path d="M22 3h-6a4 4 0 0 0-4 4v14a3 3 0 0 1 3-3h7z"></path>
-                </svg>
-              </span>
-              <div>
-                <p class="stat-card__value">8</p>
-                <p class="stat-card__label">Temas completados</p>
-              </div>
-            </div>
-            <p class="stat-card__foot">Conocimiento que ya hiciste tuyo.</p>
-          </article>
-
-          <article class="stat-card stat-card--tall">
-            <div class="stat-card__top">
-              <span class="icon-box icon-box--purple" aria-hidden="true">
-                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                  <circle cx="12" cy="12" r="10"></circle>
-                  <polyline points="8 12 11 15 16 9"></polyline>
-                </svg>
-              </span>
-              <div>
-                <p class="stat-card__value">76 %</p>
-                <p class="stat-card__label">Promedio de aciertos</p>
-              </div>
-            </div>
-            <p class="stat-card__foot">Cada intento cuenta para mejorar.</p>
-          </article>
-
-          <article class="stat-card stat-card--tall">
-            <div class="stat-card__top">
-              <span class="icon-box icon-box--mint" aria-hidden="true">
-                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                  <path d="M8.5 14.5A2.5 2.5 0 0 0 11 12c0-1.38-.5-2-1-3-1.07-2.14-.22-4.05 2-6 .5 2.5 2 4.9 4 6.5 2 1.6 3 3.5 3 5.5a7 7 0 1 1-14 0c0-1.15.43-2.29 1-3a2.5 2.5 0 0 0 2.5 2.5z"></path>
-                </svg>
-              </span>
-              <div>
-                <p class="stat-card__value">4</p>
-                <p class="stat-card__label">Semanas de preparación</p>
-              </div>
-            </div>
-            <p class="stat-card__foot">La constancia se convierte en hábito.</p>
-          </article>
-        </div>
-
-        <article class="chart-card">
-          <h2 class="chart-card__title">Evolución de aprendizaje</h2>
-          <p class="chart-card__sub">Temas completados, acumulados por semana</p>
-
-          <div class="line-chart-wrap">
-            <svg viewBox="0 0 760 200" class="line-chart-svg" role="img" aria-label="Evolución de aprendizaje de S1 a S5 alcanzando 8 temas">
-              <defs>
-                <linearGradient id="areaGrad" x1="0" y1="0" x2="0" y2="1">
-                  <stop offset="0%" stop-color="#5558F5" stop-opacity="0.16"/>
-                  <stop offset="100%" stop-color="#5558F5" stop-opacity="0.02"/>
-                </linearGradient>
-              </defs>
-
-              <line x1="48" y1="30" x2="730" y2="30" stroke="#EEF0F6" stroke-width="1"/>
-              <line x1="48" y1="65" x2="730" y2="65" stroke="#EEF0F6" stroke-width="1"/>
-              <line x1="48" y1="100" x2="730" y2="100" stroke="#EEF0F6" stroke-width="1"/>
-              <line x1="48" y1="135" x2="730" y2="135" stroke="#EEF0F6" stroke-width="1"/>
-              <line x1="48" y1="170" x2="730" y2="170" stroke="#EEF0F6" stroke-width="1"/>
-
-              <text x="26" y="34" class="chart-axis-text">8</text>
-              <text x="26" y="69" class="chart-axis-text">6</text>
-              <text x="26" y="104" class="chart-axis-text">4</text>
-              <text x="26" y="139" class="chart-axis-text">2</text>
-              <text x="26" y="174" class="chart-axis-text">0</text>
-
-              <polygon points="60,152 225,118 390,100 555,65 720,30 720,170 60,170" fill="url(#areaGrad)"/>
-              <polyline points="60,152 225,118 390,100 555,65 720,30" fill="none" stroke="#5558F5" stroke-width="2.5"/>
-
-              <circle cx="60" cy="152" r="4" fill="#5558F5"/>
-              <circle cx="225" cy="118" r="4" fill="#5558F5"/>
-              <circle cx="390" cy="100" r="4" fill="#5558F5"/>
-              <circle cx="555" cy="65" r="4" fill="#5558F5"/>
-              <circle cx="720" cy="30" r="4.5" fill="#5558F5"/>
-
-              <rect x="630" y="10" width="58" height="24" rx="7" fill="#5558F5"/>
-              <text x="659" y="26" text-anchor="middle" fill="#FFFFFF" font-size="11" font-weight="600">8 temas</text>
-
-              <text x="60" y="194" text-anchor="middle" class="chart-axis-text">S1</text>
-              <text x="225" y="194" text-anchor="middle" class="chart-axis-text">S2</text>
-              <text x="390" y="194" text-anchor="middle" class="chart-axis-text">S3</text>
-              <text x="555" y="194" text-anchor="middle" class="chart-axis-text">S4</text>
-              <text x="720" y="194" text-anchor="middle" class="chart-axis-text">S5</text>
-            </svg>
-          </div>
-        </article>
-
-        <div class="progress-bottom-grid">
-          <article class="chart-card">
-            <h2 class="chart-card__title">Radar de competencias</h2>
-            <p class="chart-card__sub">Tus fortalezas y oportunidades de práctica</p>
-
-            <div class="radar-chart-container">
-              <svg viewBox="0 0 360 280" class="radar-svg" role="img" aria-label="Radar de competencias: Comprensión, Aplicación, Análisis, Síntesis y Razonamiento">
-                <polygon points="180,46 276,116 239,230 121,230 84,116" fill="none" stroke="#EAECEF" stroke-width="1"/>
-                <polygon points="180,74 252,126 224,210 136,210 108,126" fill="none" stroke="#EAECEF" stroke-width="1"/>
-                <polygon points="180,102 228,136 210,190 150,190 132,136" fill="none" stroke="#EAECEF" stroke-width="1"/>
-                <polygon points="180,130 204,146 195,170 165,170 156,146" fill="none" stroke="#EAECEF" stroke-width="1"/>
-
-                <line x1="180" y1="154" x2="180" y2="46" stroke="#EAECEF" stroke-width="1"/>
-                <line x1="180" y1="154" x2="276" y2="116" stroke="#EAECEF" stroke-width="1"/>
-                <line x1="180" y1="154" x2="239" y2="230" stroke="#EAECEF" stroke-width="1"/>
-                <line x1="180" y1="154" x2="121" y2="230" stroke="#EAECEF" stroke-width="1"/>
-                <line x1="180" y1="154" x2="84" y2="116" stroke="#EAECEF" stroke-width="1"/>
-
-                <polygon points="180,74 242,130 218,204 128,224 102,124" fill="rgba(20, 184, 166, 0.22)" stroke="#0F766E" stroke-width="2"/>
-                <circle cx="180" cy="74" r="3.5" fill="#0F766E"/>
-                <circle cx="242" cy="130" r="3.5" fill="#0F766E"/>
-                <circle cx="218" cy="204" r="3.5" fill="#0F766E"/>
-                <circle cx="128" cy="224" r="3.5" fill="#0F766E"/>
-                <circle cx="102" cy="124" r="3.5" fill="#0F766E"/>
-
-                <text x="180" y="30" text-anchor="middle" class="radar-label">Comprensión</text>
-                <text x="292" y="120" text-anchor="start" class="radar-label">Aplicación</text>
-                <text x="252" y="254" text-anchor="start" class="radar-label">Análisis</text>
-                <text x="108" y="254" text-anchor="end" class="radar-label">Síntesis</text>
-                <text x="68" y="120" text-anchor="end" class="radar-label">Razonamiento</text>
-              </svg>
-            </div>
-          </article>
-
-          <article class="progress-recommend-card">
-            <div class="progress-recommend-card__head">
-              <h2 class="progress-recommend-card__title">Recomendación<br>de NexIA</h2>
-              <svg class="progress-recommend-card__illus" viewBox="0 0 160 125" aria-hidden="true"><use href="#illus-doc"></use></svg>
-            </div>
-
-            <p class="progress-recommend-card__text">
-              Tu comprensión está avanzando. Te recomendamos reforzar la aplicación práctica mediante ejercicios y simulaciones.
-            </p>
-
-            <ul class="progress-recommend-card__list">
-              <li><span class="check-circle check-circle--white" aria-hidden="true">✓</span><span>Ejercicios de aplicación</span></li>
-              <li><span class="check-circle check-circle--white" aria-hidden="true">✓</span><span>Simulaciones de casos reales</span></li>
-            </ul>
-
-            <button type="button" class="app-btn app-btn--white" data-nav-target="repaso-home">Ir a repaso →</button>
-          </article>
-        </div>
-
-        <div class="memory-tip-banner">
-          <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#5558F5" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
-            <path d="M12 3l1.9 5.8a2 2 0 0 0 1.3 1.3L21 12l-5.8 1.9a2 2 0 0 0-1.3 1.3L12 21l-1.9-5.8a2 2 0 0 0-1.3-1.3L3 12l5.8-1.9a2 2 0 0 0 1.3-1.3L12 3z"></path>
-          </svg>
-          <div>
-            <h3 class="memory-tip-banner__title">Cada avance cuenta</h3>
-            <p class="memory-tip-banner__text">Mantén el hábito: tu aprendizaje mejora con una práctica constante.</p>
-          </div>
-        </div>
-      </section>
-
-      <section class="app-view" data-view="perfil" data-group="perfil" data-title="Perfil">
-        <div class="view-header">
-          <h1 class="view-title">Mi perfil</h1>
-          <p class="view-subtitle">Administra tu información y tus preferencias de aprendizaje.</p>
-        </div>
-
-        <article class="profile-hero-card">
-          <div class="profile-hero-card__user">
-            <img src="assets/img/avatar-usuario.png" alt="Estudiante NexIA" class="profile-hero-card__avatar">
-            <div>
-              <h2 class="profile-hero-card__name">Estudiante NexIA</h2>
-              <p class="profile-hero-card__role">Cuenta de estudiante</p>
-            </div>
-          </div>
-          <button type="button" class="app-btn app-btn--outline app-btn--wide">Editar</button>
-        </article>
-
-        <div class="profile-grid">
-          <article class="profile-card">
-            <div class="profile-card__head">
-              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#5558F5" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
-                <path d="M2 3h6a4 4 0 0 1 4 4v14a3 3 0 0 0-3-3H2z"></path>
-                <path d="M22 3h-6a4 4 0 0 0-4 4v14a3 3 0 0 1 3-3h7z"></path>
-              </svg>
-              <h2 class="profile-card__title">Preferencias de aprendizaje</h2>
-            </div>
-            <p class="profile-card__sub">¿Cómo prefieres estudiar?</p>
-
-            <div class="pref-radios">
-              <label class="pref-radio">
-                <input type="radio" name="studyPref" value="lectura" checked>
-                <span>Lectura breve</span>
-              </label>
-              <label class="pref-radio">
-                <input type="radio" name="studyPref" value="audio">
-                <span>Explicaciones en audio</span>
-              </label>
-              <label class="pref-radio">
-                <input type="radio" name="studyPref" value="video">
-                <span>Videos y contenido visual</span>
-              </label>
-            </div>
-          </article>
-
-          <article class="profile-card">
-            <div class="profile-card__head">
-              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#5558F5" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
-                <circle cx="12" cy="12" r="10"></circle>
-                <polyline points="12 6 12 12 16 14"></polyline>
-              </svg>
-              <h2 class="profile-card__title">Horario de estudio</h2>
-            </div>
-            <p class="profile-card__sub">Horario preferido para estudiar</p>
-
-            <div class="schedule-pill">
-              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#5558F5" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
-                <circle cx="12" cy="12" r="10"></circle>
-                <polyline points="12 6 12 12 16 14"></polyline>
-              </svg>
-              <span>19:00 – 21:00</span>
-            </div>
-
-            <div class="setting-toggle-row">
-              <span>Silenciar recordatorios fuera de mi horario</span>
-              <label class="switch">
-                <input type="checkbox" checked aria-label="Silenciar recordatorios fuera de mi horario">
-                <span class="switch__slider"></span>
-              </label>
-            </div>
-          </article>
-        </div>
-
-        <article class="profile-settings-card">
-          <div class="profile-settings-card__left">
-            <div class="profile-card__head">
-              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#5558F5" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
-                <circle cx="12" cy="12" r="3"></circle>
-                <path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1-2.83 2.83l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-4 0v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1 0-4h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 2.83-2.83l.06.06a1.65 1.65 0 0 0 1.82.33H9a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 4 0v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82V9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 0 4h-.09a1.65 1.65 0 0 0-1.51 1z"></path>
-              </svg>
-              <h2 class="profile-card__title">Configuración general</h2>
-            </div>
-            <p class="profile-card__sub">Personaliza tu experiencia</p>
-          </div>
-
-          <div class="profile-settings-card__right">
-            <div class="setting-toggle-row">
-              <span>Recibir recordatorios de estudio</span>
-              <label class="switch">
-                <input type="checkbox" checked aria-label="Recibir recordatorios de estudio">
-                <span class="switch__slider"></span>
-              </label>
-            </div>
-            <hr class="scheduled-divider">
-            <div class="setting-toggle-row">
-              <span>Activar modo oscuro</span>
-              <label class="switch">
-                <input type="checkbox" id="darkModeToggle" aria-label="Activar modo oscuro">
-                <span class="switch__slider"></span>
-              </label>
-            </div>
-          </div>
-        </article>
-
-        <article class="profile-security-card">
-          <div class="profile-security-card__left">
-            <span class="icon-box icon-box--mint" aria-hidden="true">
-              <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"></path>
-                <polyline points="9 12 11 14 15 10"></polyline>
-              </svg>
-            </span>
-            <div>
-              <h2 class="profile-card__title">Seguridad de la cuenta</h2>
-              <p class="profile-card__sub">Gestiona tu contraseña y las opciones de acceso.</p>
-            </div>
-          </div>
-          <button type="button" class="app-btn app-btn--outline">Configuración de seguridad</button>
-        </article>
-
-        <div class="profile-logout-row">
-          <a href="login.html" class="app-btn app-btn--outline">
-            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
-              <path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"></path>
-              <polyline points="16 17 21 12 16 7"></polyline>
-              <line x1="21" y1="12" x2="9" y2="12"></line>
-            </svg>
-            <span>Cerrar sesión</span>
-          </a>
-          <span class="profile-protected">
-            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#0F766E" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
-              <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"></path>
-              <polyline points="9 12 11 14 15 10"></polyline>
-            </svg>
-            <span>Tu cuenta está protegida.</span>
-          </span>
-        </div>
-      </section>
+      </noscript>
     </main>
   </div>
 
-  <nav class="app-bottom-nav" aria-label="Navegación móvil">
-    <button type="button" class="bottom-nav__btn is-active" data-nav-group="inicio" data-nav-target="inicio-dashboard">
-      <span class="bottom-nav__icon">
-        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-          <path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"></path>
-          <polyline points="9 22 9 12 15 12 15 22"></polyline>
-        </svg>
-      </span>
+  <nav class="app-bottom-nav" aria-label="Navegación principal (móvil)">
+    <a href="#/inicio" class="bottom-nav__btn" data-nav-group="inicio">
+      <span class="bottom-nav__icon"><svg class="icon" width="19" height="19" aria-hidden="true"><use href="#i-home"></use></svg></span>
       <span class="bottom-nav__label">Inicio</span>
-    </button>
-    <button type="button" class="bottom-nav__btn" data-nav-group="temas" data-nav-target="mis-temas">
-      <span class="bottom-nav__icon">
-        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-          <path d="M2 3h6a4 4 0 0 1 4 4v14a3 3 0 0 0-3-3H2z"></path>
-          <path d="M22 3h-6a4 4 0 0 0-4 4v14a3 3 0 0 1 3-3h7z"></path>
-        </svg>
-      </span>
+    </a>
+    <a href="#/temas" class="bottom-nav__btn" data-nav-group="temas">
+      <span class="bottom-nav__icon"><svg class="icon" width="19" height="19" aria-hidden="true"><use href="#i-book"></use></svg></span>
       <span class="bottom-nav__label">Temas</span>
-    </button>
-    <button type="button" class="bottom-nav__btn" data-nav-group="repaso" data-nav-target="repaso-home">
-      <span class="bottom-nav__icon">
-        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-          <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"></path>
-          <polyline points="14 2 14 8 20 8"></polyline>
-          <line x1="16" y1="13" x2="8" y2="13"></line>
-          <line x1="16" y1="17" x2="8" y2="17"></line>
-        </svg>
-      </span>
+    </a>
+    <a href="#/repaso" class="bottom-nav__btn" data-nav-group="repaso">
+      <span class="bottom-nav__icon"><svg class="icon" width="19" height="19" aria-hidden="true"><use href="#i-file"></use></svg></span>
       <span class="bottom-nav__label">Repaso</span>
-    </button>
-    <button type="button" class="bottom-nav__btn" data-nav-group="guardados" data-nav-target="mis-guardados">
-      <span class="bottom-nav__icon">
-        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-          <path d="M19 21l-7-5-7 5V5a2 2 0 0 1 2-2h10a2 2 0 0 1 2 2z"></path>
-        </svg>
-      </span>
+    </a>
+    <a href="#/guardados" class="bottom-nav__btn" data-nav-group="guardados">
+      <span class="bottom-nav__icon"><svg class="icon" width="19" height="19" aria-hidden="true"><use href="#i-bookmark"></use></svg></span>
       <span class="bottom-nav__label">Guardados</span>
-    </button>
-    <button type="button" class="bottom-nav__btn" data-nav-group="progreso" data-nav-target="mi-progreso">
-      <span class="bottom-nav__icon">
-        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-          <line x1="18" y1="20" x2="18" y2="10"></line>
-          <line x1="12" y1="20" x2="12" y2="4"></line>
-          <line x1="6" y1="20" x2="6" y2="14"></line>
-        </svg>
-      </span>
-      <span class="bottom-nav__label">Progreso</span>
-    </button>
+    </a>
+    <a href="#/espacios" class="bottom-nav__btn" data-nav-group="espacios">
+      <span class="bottom-nav__icon"><svg class="icon" width="19" height="19" aria-hidden="true"><use href="#i-users"></use></svg></span>
+      <span class="bottom-nav__label">Espacios</span>
+    </a>
   </nav>
 
-  <script src="js/app.js"></script>
+  <div class="toast-region" id="toastRegion" role="status" aria-live="polite"></div>
+
+  <!-- Núcleo: utilidades, lectura de documentos, análisis, base de datos y cuentas -->
+  <script src="js/core/utils.js" defer></script>
+  <script src="js/core/extract.js" defer></script>
+  <script src="js/core/analyzer.js" defer></script>
+  <script src="js/core/sample.js" defer></script>
+  <script src="js/core/store.js" defer></script>
+  <script src="js/core/auth.js" defer></script>
+  <script src="js/core/ai.js" defer></script>
+  <!-- Aplicación: interfaz, datos del estudiante, vistas y arranque -->
+  <script src="js/app/ui.js" defer></script>
+  <script src="js/app/state.js" defer></script>
+  <script src="js/app/views-home.js" defer></script>
+  <script src="js/app/views-learn.js" defer></script>
+  <script src="js/app/views-review.js" defer></script>
+  <script src="js/app/views-more.js" defer></script>
+  <script src="js/app/views-spaces.js" defer></script>
+  <script src="js/app/app.js" defer></script>
 </body>
 </html>

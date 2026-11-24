@@ -111,6 +111,10 @@ textarea:focus-visible,
   outline-color: var(--color-text-on-primary);
 }
 
+section[id] {
+  scroll-margin-top: 84px;
+}
+
 .container {
   width: 100%;
   max-width: var(--container-max);
@@ -685,9 +689,17 @@ textarea:focus-visible,
 .mode-option {
   padding: 14px 16px;
   border-radius: var(--radius-md);
+  border: 1px solid transparent;
   display: flex;
   flex-direction: column;
   gap: 6px;
+  text-align: left;
+  cursor: pointer;
+  transition: border-color 0.18s ease, background-color 0.18s ease;
+}
+
+.mode-option:hover {
+  border-color: var(--color-primary);
 }
 
 .mode-option--active {

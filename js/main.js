@@ -28,7 +28,25 @@ desktopLinks.forEach((link) => {
   });
 });
 
+const formatContent = {
+  lectura: {
+    title: '¿Qué es la IA generativa?',
+    text: 'Aprende el concepto, explora un ejemplo y comprueba lo que has comprendido.'
+  },
+  audio: {
+    title: 'Escucha la explicación en 3 minutos',
+    text: 'Repasa las ideas clave en formato de audio guiado mientras tomas apuntes.'
+  },
+  practica: {
+    title: 'Aplica lo que acabas de estudiar',
+    text: 'Resuelve preguntas personalizadas con retroalimentación inmediata de NexIA.'
+  }
+};
+
 const formatTabs = document.querySelectorAll('.format-tab');
+const formatPreviewTitle = document.getElementById('formatPreviewTitle');
+const formatPreviewText = document.getElementById('formatPreviewText');
+
 formatTabs.forEach((tab) => {
   tab.addEventListener('click', () => {
     formatTabs.forEach((t) => {
@@ -37,30 +55,30 @@ formatTabs.forEach((tab) => {
     });
     tab.classList.add('format-tab--active');
     tab.setAttribute('aria-selected', 'true');
+
+    const key = tab.dataset.format;
+    if (key && formatContent[key] && formatPreviewTitle && formatPreviewText) {
+      formatPreviewTitle.textContent = formatContent[key].title;
+      formatPreviewText.textContent = formatContent[key].text;
+    }
   });
 });
 
 const modeOptions = document.querySelectorAll('.mode-option');
 modeOptions.forEach((option) => {
-  option.style.cursor = 'pointer';
   option.addEventListener('click', () => {
     modeOptions.forEach((opt) => {
       opt.classList.remove('mode-option--active');
       opt.classList.add('mode-option--muted');
+      opt.setAttribute('aria-checked', 'false');
       const dot = opt.querySelector('.radio-dot');
       if (dot) dot.classList.remove('radio-dot--active');
     });
     option.classList.remove('mode-option--muted');
     option.classList.add('mode-option--active');
+    option.setAttribute('aria-checked', 'true');
     const activeDot = option.querySelector('.radio-dot');
     if (activeDot) activeDot.classList.add('radio-dot--active');
   });
 });
 
-const loginForm = document.getElementById('loginForm');
-if (loginForm) {
-  loginForm.addEventListener('submit', (event) => {
-    event.preventDefault();
-    window.location.href = 'app.html';
-  });
-}
