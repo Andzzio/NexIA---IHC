@@ -172,6 +172,10 @@
   gap: 8px;
 }
 
+.sidebar-promo__icon {
+  color: #2DD4BF;
+}
+
 .sidebar-promo__title {
   font-size: 0.95rem;
   font-weight: 700;

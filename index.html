@@ -31,7 +31,7 @@
           <span aria-hidden="true">↗</span>
         </a>
 
-        <button class="menu-toggle" id="menuToggle" aria-label="Abrir menú de navegación" aria-expanded="false" aria-controls="mobileDrawer">
+        <button type="button" class="menu-toggle" id="menuToggle" aria-label="Abrir menú de navegación" aria-expanded="false" aria-controls="mobileDrawer">
           <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" aria-hidden="true">
             <line x1="3" y1="6" x2="21" y2="6"></line>
             <line x1="3" y1="12" x2="21" y2="12"></line>
@@ -41,26 +41,26 @@
       </div>
     </div>
 
-    <nav class="mobile-drawer" id="mobileDrawer" aria-label="Menú móvil" aria-hidden="true">
+    <nav class="mobile-drawer" id="mobileDrawer" aria-label="Menú móvil" inert>
       <div>
         <p class="mobile-drawer__eyebrow">EXPLORA NEXIA</p>
         <ul class="mobile-drawer__list">
           <li>
             <a href="#como-funciona" class="mobile-drawer__link">
               <span>Cómo funciona</span>
-              <span class="mobile-drawer__arrow" aria-hidden="true">↗</span>
+              <span aria-hidden="true" class="mobile-drawer__arrow">↗</span>
             </a>
           </li>
           <li>
             <a href="#funcionalidades" class="mobile-drawer__link">
               <span>Funcionalidades</span>
-              <span class="mobile-drawer__arrow" aria-hidden="true">↗</span>
+              <span aria-hidden="true" class="mobile-drawer__arrow">↗</span>
             </a>
           </li>
           <li>
             <a href="#progreso" class="mobile-drawer__link">
               <span>Progreso y racha</span>
-              <span class="mobile-drawer__arrow" aria-hidden="true">↗</span>
+              <span aria-hidden="true" class="mobile-drawer__arrow">↗</span>
             </a>
           </li>
         </ul>
@@ -88,8 +88,8 @@
               Convierte tus documentos o un tema de investigación en un curso diseñado para ti. Tú marcas el objetivo. NexIA traza el camino.
             </p>
             <p class="hero-footnote">A tu medida. Desde el primer paso.</p>
-            <p style="margin-top:22px">
-              <a href="login.html" class="header-cta-desktop" style="display:inline-flex">
+            <p class="hero-cta-wrap">
+              <a href="login.html" class="hero-cta">
                 <span>Empezar ahora</span>
                 <span aria-hidden="true">↗</span>
               </a>
@@ -252,21 +252,23 @@
 
             <div class="feature-inner-box">
               <div class="mode-options-grid" role="radiogroup" aria-label="Modo de inicio">
-                <button type="button" class="mode-option mode-option--active" role="radio" aria-checked="true">
-                  <div class="mode-option__head">
+                <label class="mode-option mode-option--active">
+                  <input type="radio" class="visually-hidden" name="modo-inicio" value="diagnostico" checked>
+                  <span class="mode-option__head">
                     <span class="radio-dot radio-dot--active" aria-hidden="true"></span>
                     <span class="mode-option__title">Evaluación diagnóstica</span>
-                  </div>
-                  <p class="mode-option__desc">Descubre tu punto de partida.</p>
-                </button>
+                  </span>
+                  <span class="mode-option__desc">Descubre tu punto de partida.</span>
+                </label>
 
-                <button type="button" class="mode-option mode-option--muted" role="radio" aria-checked="false">
-                  <div class="mode-option__head">
+                <label class="mode-option mode-option--muted">
+                  <input type="radio" class="visually-hidden" name="modo-inicio" value="directa">
+                  <span class="mode-option__head">
                     <span class="radio-dot" aria-hidden="true"></span>
                     <span class="mode-option__title">Enseñanza directa</span>
-                  </div>
-                  <p class="mode-option__desc">Empieza a aprender sin test inicial.</p>
-                </button>
+                  </span>
+                  <span class="mode-option__desc">Empieza a aprender sin test inicial.</span>
+                </label>
               </div>
             </div>
           </article>
@@ -339,32 +341,32 @@
 
               <div class="streak-days">
                 <div class="streak-day">
-                  <span class="streak-day__label">L</span>
-                  <span class="streak-day__box streak-day__box--done" aria-label="Completado">✓</span>
+                  <span class="streak-day__label" aria-hidden="true">L</span>
+                  <span class="streak-day__box streak-day__box--done" role="img" aria-label="Lunes: Completado">✓</span>
                 </div>
                 <div class="streak-day">
-                  <span class="streak-day__label">M</span>
-                  <span class="streak-day__box streak-day__box--done" aria-label="Completado">✓</span>
+                  <span class="streak-day__label" aria-hidden="true">M</span>
+                  <span class="streak-day__box streak-day__box--done" role="img" aria-label="Martes: Completado">✓</span>
                 </div>
                 <div class="streak-day">
-                  <span class="streak-day__label">X</span>
-                  <span class="streak-day__box streak-day__box--done" aria-label="Completado">✓</span>
+                  <span class="streak-day__label" aria-hidden="true">X</span>
+                  <span class="streak-day__box streak-day__box--done" role="img" aria-label="Miércoles: Completado">✓</span>
                 </div>
                 <div class="streak-day">
-                  <span class="streak-day__label">J</span>
-                  <span class="streak-day__box streak-day__box--done" aria-label="Completado">✓</span>
+                  <span class="streak-day__label" aria-hidden="true">J</span>
+                  <span class="streak-day__box streak-day__box--done" role="img" aria-label="Jueves: Completado">✓</span>
                 </div>
                 <div class="streak-day">
-                  <span class="streak-day__label">V</span>
-                  <span class="streak-day__box streak-day__box--current" aria-label="Racha actual">✓</span>
+                  <span class="streak-day__label" aria-hidden="true">V</span>
+                  <span class="streak-day__box streak-day__box--current" role="img" aria-label="Viernes: Racha actual">✓</span>
                 </div>
                 <div class="streak-day">
-                  <span class="streak-day__label">S</span>
-                  <span class="streak-day__box streak-day__box--pending" aria-label="Pendiente">–</span>
+                  <span class="streak-day__label" aria-hidden="true">S</span>
+                  <span class="streak-day__box streak-day__box--pending" role="img" aria-label="Sábado: Pendiente">–</span>
                 </div>
                 <div class="streak-day">
-                  <span class="streak-day__label">D</span>
-                  <span class="streak-day__box streak-day__box--pending" aria-label="Pendiente">–</span>
+                  <span class="streak-day__label" aria-hidden="true">D</span>
+                  <span class="streak-day__box streak-day__box--pending" role="img" aria-label="Domingo: Pendiente">–</span>
                 </div>
               </div>
 

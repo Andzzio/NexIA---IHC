@@ -7,7 +7,11 @@ if (menuToggle && mobileDrawer) {
   menuToggle.addEventListener('click', () => {
     const isOpen = mobileDrawer.classList.toggle('is-open');
     menuToggle.setAttribute('aria-expanded', String(isOpen));
-    mobileDrawer.setAttribute('aria-hidden', String(!isOpen));
+    if (isOpen) {
+      mobileDrawer.removeAttribute('inert');
+    } else {
+      mobileDrawer.setAttribute('inert', '');
+    }
     document.body.style.overflow = isOpen ? 'hidden' : '';
   });
 
@@ -15,7 +19,7 @@ if (menuToggle && mobileDrawer) {
     link.addEventListener('click', () => {
       mobileDrawer.classList.remove('is-open');
       menuToggle.setAttribute('aria-expanded', 'false');
-      mobileDrawer.setAttribute('aria-hidden', 'true');
+      mobileDrawer.setAttribute('inert', '');
       document.body.style.overflow = '';
     });
   });
@@ -65,20 +69,21 @@ formatTabs.forEach((tab) => {
 });
 
 const modeOptions = document.querySelectorAll('.mode-option');
+const syncModeOption = (option) => {
+  const input = option.querySelector('input[type="radio"]');
+  const active = Boolean(input && input.checked);
+  option.classList.toggle('mode-option--active', active);
+  option.classList.toggle('mode-option--muted', !active);
+  const dot = option.querySelector('.radio-dot');
+  if (dot) dot.classList.toggle('radio-dot--active', active);
+};
+
 modeOptions.forEach((option) => {
-  option.addEventListener('click', () => {
-    modeOptions.forEach((opt) => {
-      opt.classList.remove('mode-option--active');
-      opt.classList.add('mode-option--muted');
-      opt.setAttribute('aria-checked', 'false');
-      const dot = opt.querySelector('.radio-dot');
-      if (dot) dot.classList.remove('radio-dot--active');
-    });
-    option.classList.remove('mode-option--muted');
-    option.classList.add('mode-option--active');
-    option.setAttribute('aria-checked', 'true');
-    const activeDot = option.querySelector('.radio-dot');
-    if (activeDot) activeDot.classList.add('radio-dot--active');
+  const input = option.querySelector('input[type="radio"]');
+  if (!input) return;
+  input.addEventListener('change', () => {
+    modeOptions.forEach(syncModeOption);
   });
+  syncModeOption(option);
 });
 
