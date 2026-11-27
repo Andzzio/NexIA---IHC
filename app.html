@@ -103,6 +103,14 @@
       </div>
 
       <div class="app-topbar__right">
+        <button type="button" class="mobility-toggle-btn" id="mobilityToggleBtn" aria-pressed="false">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+            <path d="M3 18v-6a9 9 0 0 1 18 0v6"></path>
+            <path d="M21 19a2 2 0 0 1-2 2h-1a2 2 0 0 1-2-2v-3a2 2 0 0 1 2-2h3zM3 19a2 2 0 0 0 2 2h1a2 2 0 0 0 2-2v-3a2 2 0 0 0-2-2H3z"></path>
+          </svg>
+          <span>Modo Movilidad</span>
+        </button>
+
         <span class="app-topbar__date">22 de noviembre de 2026</span>
 
         <button class="app-user-trigger" data-nav-target="perfil" aria-label="Ir a perfil de usuario">
@@ -654,10 +662,11 @@
 
         <div class="lesson-layout">
           <div class="lesson-main">
-            <div class="segmented-tabs" role="tablist" aria-label="Formato de la lección">
+            <div class="segmented-tabs segmented-tabs--4" role="tablist" aria-label="Formato de la lección">
               <button type="button" class="segmented-tab is-active" role="tab" aria-selected="true" data-lesson-tab="lectura">Lectura</button>
               <button type="button" class="segmented-tab" role="tab" aria-selected="false" data-lesson-tab="audio">Audio</button>
               <button type="button" class="segmented-tab" role="tab" aria-selected="false" data-lesson-tab="video">Video</button>
+              <button type="button" class="segmented-tab" role="tab" aria-selected="false" data-lesson-tab="mapa">Mapa mental</button>
             </div>
 
             <div class="concept-nav">
@@ -709,6 +718,17 @@
                     </svg>
                     <span>Subrayar</span>
                   </button>
+                  <button type="button" class="app-btn app-btn--outline app-btn--sm" id="seniorsToggleBtn" aria-expanded="false">
+                    <span>Consejos de Seniors</span>
+                  </button>
+                </div>
+
+                <div class="seniors-panel" id="seniorsPanel" hidden>
+                  <div class="seniors-panel__head">
+                    <span class="status-chip status-chip--purple">CONSEJOS DE SENIORS</span>
+                    <span class="extra-card__hint">Aportes validados de alumnos de ciclos superiores</span>
+                  </div>
+                  <div class="seniors-list" id="seniorsList"></div>
                 </div>
               </div>
 
@@ -798,6 +818,63 @@
                   </svg>
                 </div>
               </div>
+
+              <div class="lesson-panel" data-lesson-panel="mapa">
+                <div class="lesson-card__head">
+                  <h2 class="lesson-card__title">Mapa mental interactivo · POO</h2>
+                  <div class="mindmap-controls">
+                    <button type="button" class="mindmap-ctrl-btn" id="mmZoomOut" aria-label="Alejar mapa">−</button>
+                    <button type="button" class="mindmap-ctrl-btn" id="mmZoomReset" aria-label="Restablecer vista">100%</button>
+                    <button type="button" class="mindmap-ctrl-btn" id="mmZoomIn" aria-label="Acercar mapa">+</button>
+                  </div>
+                </div>
+
+                <p class="lesson-card__caption">Arrastra el lienzo para explorar y toca cualquier nodo para ver su definición.</p>
+
+                <div class="mindmap-viewport" id="mindmapViewport">
+                  <svg class="mindmap-svg" id="mindmapSvg" viewBox="0 0 600 320" role="img" aria-label="Mapa mental interactivo de Programación Orientada a Objetos">
+                    <g id="mindmapCanvas">
+                      <line x1="300" y1="160" x2="145" y2="80" class="mm-edge" data-mm-edge="herencia"/>
+                      <line x1="300" y1="160" x2="465" y2="80" class="mm-edge" data-mm-edge="polimorfismo"/>
+                      <line x1="300" y1="160" x2="145" y2="245" class="mm-edge" data-mm-edge="encapsulamiento"/>
+                      <line x1="300" y1="160" x2="465" y2="245" class="mm-edge" data-mm-edge="abstraccion"/>
+
+                      <g class="mm-node mm-node--root" tabindex="0" role="button" data-mm-node="poo">
+                        <rect x="235" y="136" width="130" height="48" rx="24"/>
+                        <text x="300" y="165" text-anchor="middle">POO</text>
+                      </g>
+
+                      <g class="mm-node" tabindex="0" role="button" data-mm-node="herencia">
+                        <rect x="75" y="56" width="140" height="44" rx="14"/>
+                        <text x="145" y="83" text-anchor="middle">Herencia</text>
+                      </g>
+
+                      <g class="mm-node" tabindex="0" role="button" data-mm-node="polimorfismo">
+                        <rect x="395" y="56" width="145" height="44" rx="14"/>
+                        <text x="467" y="83" text-anchor="middle">Polimorfismo</text>
+                      </g>
+
+                      <g class="mm-node" tabindex="0" role="button" data-mm-node="encapsulamiento">
+                        <rect x="65" y="222" width="160" height="44" rx="14"/>
+                        <text x="145" y="249" text-anchor="middle">Encapsulamiento</text>
+                      </g>
+
+                      <g class="mm-node" tabindex="0" role="button" data-mm-node="abstraccion">
+                        <rect x="395" y="222" width="145" height="44" rx="14"/>
+                        <text x="467" y="249" text-anchor="middle">Abstracción</text>
+                      </g>
+                    </g>
+                  </svg>
+
+                  <div class="mindmap-popover" id="mindmapPopover" hidden>
+                    <div class="mindmap-popover__head">
+                      <strong id="mindmapPopTitle"></strong>
+                      <button type="button" class="mindmap-popover__close" id="mindmapPopClose" aria-label="Cerrar definición">×</button>
+                    </div>
+                    <p id="mindmapPopDesc"></p>
+                  </div>
+                </div>
+              </div>
             </article>
           </div>
 
@@ -855,6 +932,57 @@
           </div>
           <button type="button" class="app-btn app-btn--primary app-btn--wide" data-nav-target="autoevaluacion">Practicar concepto</button>
         </div>
+
+        <div class="lesson-extras-grid">
+          <article class="extra-card" id="pollCard">
+            <div class="extra-card__head">
+              <span class="status-chip status-chip--purple">ENCUESTA RÁPIDA</span>
+              <span class="extra-card__tag">Sin puntaje · Opinión del aula</span>
+            </div>
+            <h2 class="extra-card__title">¿Qué tema prefieres profundizar primero en la clase presencial?</h2>
+            <div class="poll-options" id="pollOptions" role="radiogroup" aria-label="Opciones de encuesta">
+              <button type="button" class="poll-option" role="radio" aria-checked="false" data-poll-opt="0">
+                <span class="quiz-option__mark" aria-hidden="true"></span>
+                <span>Herencia y clases base</span>
+              </button>
+              <button type="button" class="poll-option" role="radio" aria-checked="false" data-poll-opt="1">
+                <span class="quiz-option__mark" aria-hidden="true"></span>
+                <span>Polimorfismo en casos reales</span>
+              </button>
+              <button type="button" class="poll-option" role="radio" aria-checked="false" data-poll-opt="2">
+                <span class="quiz-option__mark" aria-hidden="true"></span>
+                <span>Diseño de clases abstractas</span>
+              </button>
+            </div>
+            <div class="poll-results" id="pollResults" hidden></div>
+            <div class="extra-card__footer" id="pollFooter">
+              <span class="extra-card__hint">Vota para descubrir qué eligió el resto del salón.</span>
+              <button type="button" class="app-btn app-btn--primary app-btn--sm" id="pollVoteBtn" disabled>Votar</button>
+            </div>
+          </article>
+
+          <article class="extra-card" id="difficultyCard">
+            <div class="extra-card__head">
+              <span class="status-chip status-chip--mint">PERCEPCIÓN DEL MÓDULO</span>
+              <button type="button" class="text-action-btn" id="difficultySkipBtn">Saltar</button>
+            </div>
+            <h2 class="extra-card__title">¿Qué tan difícil te pareció este módulo?</h2>
+            <p class="extra-card__hint">Paso opcional · No afecta tu nota en la autoevaluación.</p>
+
+            <div class="difficulty-scale" id="difficultyScale" role="radiogroup" aria-label="Nivel de dificultad">
+              <button type="button" class="difficulty-btn" role="radio" aria-checked="false" data-difficulty="Fácil">Fácil</button>
+              <button type="button" class="difficulty-btn" role="radio" aria-checked="false" data-difficulty="Regular">Regular</button>
+              <button type="button" class="difficulty-btn" role="radio" aria-checked="false" data-difficulty="Difícil">Difícil</button>
+            </div>
+
+            <div class="difficulty-comment-wrap" id="difficultyCommentWrap" hidden>
+              <input type="text" id="difficultyComment" class="form-input" placeholder="Comentario opcional para tu docente...">
+              <button type="button" class="app-btn app-btn--primary app-btn--sm" id="difficultySubmitBtn">Enviar valoración</button>
+            </div>
+
+            <p class="difficulty-status" id="difficultyStatus" hidden></p>
+          </article>
+        </div>
       </section>
 
       <section class="app-view" data-view="autoevaluacion" data-group="temas" data-title="Mis temas">
@@ -879,8 +1007,15 @@
 
         <div class="quiz-layout">
           <article class="quiz-card">
-            <h2 class="quiz-card__question">¿Qué permite la herencia en programación orientada a objetos?</h2>
-            <p class="quiz-card__hint">Elige una respuesta.</p>
+            <div class="quiz-card__top-row">
+              <h2 class="quiz-card__question">¿Qué permite la herencia en programación orientada a objetos?</h2>
+              <button type="button" class="app-btn app-btn--outline app-btn--sm" id="quizHintBtn">Ver pista IA</button>
+            </div>
+            <p class="quiz-card__hint">Elige una respuesta. Tómate tu tiempo para reflexionar.</p>
+
+            <div class="quiz-hint-box" id="quizHintBox" hidden>
+              <strong>Pista de NexIA:</strong> Piensa en cómo una clase hija aprovecha el código de la clase base sin tener que escribirlo nuevamente.
+            </div>
 
             <div class="quiz-options" id="quizOptions" role="radiogroup" aria-label="Alternativas">
               <button type="button" class="quiz-option" role="radio" aria-checked="false" data-correct="true">
@@ -949,6 +1084,17 @@
             </svg>
             <span class="donut__label">60 %</span>
           </div>
+        </article>
+
+        <article class="reflection-card" id="reflectionBreakdown">
+          <div class="reflection-card__head">
+            <div>
+              <p class="view-eyebrow">DESGLOSE DE PUNTUACIÓN</p>
+              <h2 class="result-card__title" id="reflectionTitle">Lectura reflexiva</h2>
+            </div>
+            <span class="status-chip status-chip--mint" id="reflectionBadge">Reflexión activa · +25 pts</span>
+          </div>
+          <p class="extra-card__hint" id="reflectionDetail">Se premia pensar y usar pistas de IA antes que adivinar con clics rápidos.</p>
         </article>
 
         <div class="result-cards">
@@ -1079,6 +1225,56 @@
           </div>
           <button type="button" class="app-btn app-btn--outline app-btn--wide" data-nav-target="calendario-repaso">Ver calendario</button>
         </article>
+
+        <h2 class="subsection-title">Postclase · Apuntes y dudas de tu sesión</h2>
+
+        <div class="postclass-grid">
+          <article class="extra-card" id="postclassNotesCard">
+            <div class="extra-card__head">
+              <span class="status-chip status-chip--purple">POSTCLASE · OCR IA</span>
+              <span class="extra-card__tag">JPG, PNG o texto</span>
+            </div>
+            <h3 class="extra-card__title">Sube tus apuntes de clase presencial</h3>
+            <p class="extra-card__hint">NexIA los compara con el temario oficial para detectar conceptos omitidos.</p>
+
+            <div class="notes-upload-row">
+              <input type="file" id="notesFileInput" accept=".jpg,.jpeg,.png,.txt" hidden>
+              <button type="button" class="app-btn app-btn--outline app-btn--sm" id="notesUploadBtn">Subir foto (JPG/PNG)</button>
+              <button type="button" class="app-btn app-btn--muted app-btn--sm" id="notesBlurryBtn">Probar foto borrosa</button>
+            </div>
+            <p class="extra-card__hint" id="notesFileName"></p>
+
+            <textarea id="notesTextInput" class="notes-textarea" rows="3" placeholder="O pega aquí tus apuntes de la clase... Ej. La herencia permite reutilizar métodos de la clase Vehículo en Auto..."></textarea>
+
+            <button type="button" class="app-btn app-btn--primary app-btn--sm" id="analyzeNotesBtn">Analizar apuntes con IA</button>
+
+            <p class="upload-error" id="notesErrorMsg" role="alert" hidden></p>
+
+            <div class="notes-result" id="notesResult" hidden>
+              <div class="notes-result__block notes-result__block--ok">
+                <h4>Puntos clave bien capturados</h4>
+                <ul class="check-list" id="notesCapturedList"></ul>
+              </div>
+              <div class="notes-result__block notes-result__block--miss">
+                <h4>Conceptos omitidos en tus apuntes</h4>
+                <ul class="check-list" id="notesOmittedList"></ul>
+              </div>
+            </div>
+          </article>
+
+          <article class="extra-card" id="postclassDoubtsCard">
+            <div class="extra-card__head">
+              <span class="status-chip status-chip--mint">POSTCLASE · DUDAS MARCADAS</span>
+              <span class="extra-card__tag" id="doubtsCountTag">0 temas marcados</span>
+            </div>
+            <h3 class="extra-card__title">Tu paquete de reforzamiento postclase</h3>
+            <p class="extra-card__hint">Las dudas que marques en clase con «Marcar Duda» aparecerán aquí con fichas y mini-ejercicios.</p>
+
+            <div class="doubts-list" id="postclassDoubtsList">
+              <p class="extra-card__hint" id="doubtsEmptyHint">Aún no has marcado dudas durante la clase. Usa el botón flotante «Marcar Duda».</p>
+            </div>
+          </article>
+        </div>
       </section>
 
       <section class="app-view" data-view="calendario-repaso" data-group="repaso" data-title="Repaso">
@@ -2593,6 +2789,57 @@ class Perro extends Animal {
       <span class="bottom-nav__label">Progreso</span>
     </button>
   </nav>
+
+  <div class="mobility-audio-bar" id="mobilityAudioBar" hidden>
+    <div class="mobility-audio-bar__info">
+      <strong>Modo Movilidad activo · Audio en segundo plano</strong>
+      <span>Herencia y polimorfismo · 01:24 / 03:48</span>
+    </div>
+    <div class="mobility-audio-bar__actions">
+      <button type="button" class="app-btn app-btn--white" id="mobilityPlayBtn">Pausar audio</button>
+      <button type="button" class="app-btn app-btn--outline" id="mobilityExitBtn">Salir</button>
+    </div>
+  </div>
+
+  <button type="button" class="doubt-fab" id="markDoubtFab" aria-label="Marcar duda conceptual durante la clase presencial">
+    <span class="doubt-fab__dot" aria-hidden="true"></span>
+    <span>Marcar Duda</span>
+  </button>
+
+  <div class="doubt-modal" id="doubtModal" role="dialog" aria-modal="true" aria-labelledby="doubtModalTitle" hidden>
+    <div class="doubt-modal__box">
+      <div class="doubt-modal__head">
+        <div>
+          <span class="status-chip status-chip--mint">CLASE EN CURSO · <span id="doubtTimeNow">19:45</span></span>
+          <h2 class="doubt-modal__title" id="doubtModalTitle">Marcar duda conceptual</h2>
+        </div>
+        <button type="button" class="mindmap-popover__close" id="doubtModalClose" aria-label="Cerrar">×</button>
+      </div>
+      <p class="extra-card__hint">Selecciona el subtema que el docente está explicando para añadirlo a tu paquete Postclase:</p>
+
+      <div class="doubt-topics" id="doubtTopics">
+        <button type="button" class="doubt-topic-btn" data-doubt-topic="Herencia múltiple" data-doubt-summary="Permite que una clase herede atributos de más de una clase base; requiere cuidar el orden de resolución de métodos (MRO).">
+          <strong>Herencia múltiple</strong>
+          <span>Sílabo · Bloque actual</span>
+        </button>
+        <button type="button" class="doubt-topic-btn" data-doubt-topic="Sobreescritura de métodos" data-doubt-summary="Una subclase redefine un método de la clase padre usando la misma firma para adaptar su comportamiento.">
+          <strong>Sobreescritura de métodos</strong>
+          <span>Sílabo · Bloque actual</span>
+        </button>
+        <button type="button" class="doubt-topic-btn" data-doubt-topic="Polimorfismo en ejecución" data-doubt-summary="El programa decide en tiempo de ejecución qué implementación de método invocar según el objeto real.">
+          <strong>Polimorfismo en ejecución</strong>
+          <span>Sílabo · Siguiente bloque</span>
+        </button>
+      </div>
+
+      <p class="difficulty-status" id="doubtModalFeedback" hidden></p>
+
+      <div class="doubt-modal__footer">
+        <button type="button" class="app-btn app-btn--outline app-btn--sm" id="goPostclassBtn">Ir a Postclase</button>
+        <button type="button" class="app-btn app-btn--primary app-btn--sm" id="confirmDoubtBtn" disabled>Confirmar duda</button>
+      </div>
+    </div>
+  </div>
 
   <script src="js/app.js"></script>
 </body>

@@ -20,6 +20,11 @@ function navigateToView(targetViewId) {
 
   if (!activeView) return;
 
+  if (targetViewId === 'autoevaluacion' && typeof quizStartTime !== 'undefined') {
+    quizStartTime = Date.now();
+    quizClickTimestamps = [];
+  }
+
   const activeGroup = activeView.dataset.group || 'inicio';
   const activeTitle = activeView.dataset.title || 'Inicio';
 
@@ -218,12 +223,34 @@ const quizNote = document.getElementById('quizNote');
 const quizSideTitle = document.getElementById('quizSideTitle');
 const quizSideDesc = document.getElementById('quizSideDesc');
 const quizSideList = document.getElementById('quizSideList');
+const quizHintBtn = document.getElementById('quizHintBtn');
+const quizHintBox = document.getElementById('quizHintBox');
+const reflectionTitle = document.getElementById('reflectionTitle');
+const reflectionBadge = document.getElementById('reflectionBadge');
+const reflectionDetail = document.getElementById('reflectionDetail');
+
 let selectedOption = null;
 let quizEvaluated = false;
+let quizStartTime = Date.now();
+let quizClickTimestamps = [];
+let quizUsedHint = false;
+let quizAttemptCount = 0;
+
+if (quizHintBtn && quizHintBox) {
+  quizHintBtn.addEventListener('click', () => {
+    quizUsedHint = true;
+    quizHintBox.hidden = false;
+    quizHintBtn.disabled = true;
+    quizHintBtn.textContent = 'Pista activada';
+  });
+}
 
 function resetQuizState() {
   selectedOption = null;
   quizEvaluated = false;
+  quizStartTime = Date.now();
+  quizClickTimestamps = [];
+  quizAttemptCount += 1;
 
   quizOptions.forEach((opt) => {
     opt.classList.remove('is-selected', 'is-correct', 'is-wrong');
@@ -254,6 +281,10 @@ function resetQuizState() {
 quizOptions.forEach((opt) => {
   opt.addEventListener('click', () => {
     if (quizEvaluated) return;
+    const now = Date.now();
+    quizClickTimestamps = quizClickTimestamps.filter((ts) => now - ts < 5000);
+    quizClickTimestamps.push(now);
+
     quizOptions.forEach((item) => {
       item.classList.remove('is-selected');
       item.setAttribute('aria-checked', 'false');
@@ -270,6 +301,8 @@ if (quizCheckBtn) {
     if (!selectedOption || quizEvaluated) return;
     quizEvaluated = true;
 
+    const elapsedSec = (Date.now() - quizStartTime) / 1000;
+    const rapidGuessing = quizClickTimestamps.length >= 3 || elapsedSec < 3;
     const isCorrect = selectedOption.dataset.correct === 'true';
 
     quizOptions.forEach((opt) => {
@@ -290,7 +323,9 @@ if (quizCheckBtn) {
         quizFeedback.hidden = false;
         quizFeedback.classList.add('quiz-feedback--error');
         quizFeedbackTitle.textContent = 'ⓘ Respuesta incorrecta';
-        quizFeedbackText.textContent = 'La herencia no elimina objetos. Permite reutilizar los atributos y métodos de otra clase.';
+        quizFeedbackText.textContent = rapidGuessing
+          ? 'Respondiste muy rápido. Te recomendamos leer con más calma: la herencia permite reutilizar atributos y métodos de otra clase.'
+          : 'La herencia no elimina objetos. Permite reutilizar los atributos y métodos de otra clase.';
       }
       if (quizSubtitle) quizSubtitle.textContent = 'Herencia y polimorfismo · Cada intento es una oportunidad para aprender.';
       if (quizNote) quizNote.textContent = 'Concepto a reforzar: Herencia';
@@ -302,8 +337,31 @@ if (quizCheckBtn) {
     } else if (quizFeedback && quizFeedbackTitle && quizFeedbackText) {
       quizFeedback.hidden = false;
       quizFeedback.classList.add('quiz-feedback--success');
-      quizFeedbackTitle.textContent = '✓ Respuesta correcta';
-      quizFeedbackText.textContent = 'Exacto. La herencia permite que una clase hija reutilice atributos y métodos de su clase base.';
+      if (rapidGuessing) {
+        quizFeedbackTitle.textContent = '✓ Acierto con puntaje mínimo (+5 pts)';
+        quizFeedbackText.textContent = 'Detectamos selecciones en pocos segundos. Te recomendamos leer con más calma antes de marcar.';
+        if (reflectionTitle) reflectionTitle.textContent = 'Lectura acelerada';
+        if (reflectionBadge) reflectionBadge.textContent = 'Puntaje mínimo · +5 pts';
+        if (reflectionDetail) reflectionDetail.textContent = 'Se penalizó la selección rápida (< 3 s o múltiples cambios en < 5 s).';
+      } else if (quizAttemptCount === 0 && quizUsedHint) {
+        quizFeedbackTitle.textContent = '✓ Reflexión activa (+25 pts)';
+        quizFeedbackText.textContent = 'Excelente: usaste la pista de IA y respondiste con calma al primer intento.';
+        if (reflectionTitle) reflectionTitle.textContent = 'Lectura reflexiva';
+        if (reflectionBadge) reflectionBadge.textContent = 'Reflexión activa · +25 pts';
+        if (reflectionDetail) reflectionDetail.textContent = 'Bonificación otorgada por usar pista de IA y acertar en el primer intento.';
+      } else if (quizAttemptCount === 0) {
+        quizFeedbackTitle.textContent = '✓ Respuesta reflexiva (+20 pts)';
+        quizFeedbackText.textContent = 'Exacto. La herencia permite que una clase hija reutilice atributos y métodos de su clase base.';
+        if (reflectionTitle) reflectionTitle.textContent = 'Lectura reflexiva';
+        if (reflectionBadge) reflectionBadge.textContent = 'Primer intento · +20 pts';
+        if (reflectionDetail) reflectionDetail.textContent = 'Respondiste con calma y precisión en tu primer intento.';
+      } else {
+        quizFeedbackTitle.textContent = '✓ Respuesta correcta por descarte (+10 pts)';
+        quizFeedbackText.textContent = 'Acertaste tras reintentar. Usar una pista de IA en el primer intento otorga mayor bonificación.';
+        if (reflectionTitle) reflectionTitle.textContent = 'Acierto por reintento';
+        if (reflectionBadge) reflectionBadge.textContent = 'Descarte · +10 pts';
+        if (reflectionDetail) reflectionDetail.textContent = 'Usar la pista de IA en el primer intento otorga más puntos que responder por descarte.';
+      }
     }
 
     quizCheckBtn.hidden = true;
@@ -508,3 +566,497 @@ spaceExerciseOptions.forEach((opt) => {
     opt.setAttribute('aria-checked', 'true');
   });
 });
+
+const mindmapDefs = {
+  poo: {
+    title: 'Programación Orientada a Objetos',
+    desc: 'Paradigma que organiza el software en clases y objetos que encapsulan estado y comportamiento.'
+  },
+  herencia: {
+    title: 'Herencia',
+    desc: 'Permite crear una clase hija que reutiliza atributos y métodos de una clase base sin duplicar código.'
+  },
+  polimorfismo: {
+    title: 'Polimorfismo',
+    desc: 'Capacidad de que un mismo método adopte comportamientos distintos según la subclase que lo ejecute.'
+  },
+  encapsulamiento: {
+    title: 'Encapsulamiento',
+    desc: 'Protege el estado interno de un objeto exponiendo únicamente interfaces controladas.'
+  },
+  abstraccion: {
+    title: 'Abstracción',
+    desc: 'Modela solo las características esenciales de una entidad ocultando los detalles de implementación.'
+  }
+};
+
+const mindmapViewport = document.getElementById('mindmapViewport');
+const mindmapCanvas = document.getElementById('mindmapCanvas');
+const mmZoomIn = document.getElementById('mmZoomIn');
+const mmZoomOut = document.getElementById('mmZoomOut');
+const mmZoomReset = document.getElementById('mmZoomReset');
+const mindmapPopover = document.getElementById('mindmapPopover');
+const mindmapPopTitle = document.getElementById('mindmapPopTitle');
+const mindmapPopDesc = document.getElementById('mindmapPopDesc');
+const mindmapPopClose = document.getElementById('mindmapPopClose');
+const mmNodes = document.querySelectorAll('.mm-node');
+const mmEdges = document.querySelectorAll('.mm-edge');
+
+let mmScale = 1;
+let mmX = 0;
+let mmY = 0;
+let mmDragging = false;
+let mmStartX = 0;
+let mmStartY = 0;
+
+function updateMindmapTransform() {
+  if (mindmapCanvas) {
+    mindmapCanvas.setAttribute('transform', `translate(${mmX} ${mmY}) scale(${mmScale})`);
+  }
+  if (mmZoomReset) {
+    mmZoomReset.textContent = `${Math.round(mmScale * 100)}%`;
+  }
+}
+
+if (mmZoomIn) {
+  mmZoomIn.addEventListener('click', () => {
+    mmScale = Math.min(1.8, Number((mmScale + 0.2).toFixed(2)));
+    updateMindmapTransform();
+  });
+}
+
+if (mmZoomOut) {
+  mmZoomOut.addEventListener('click', () => {
+    mmScale = Math.max(0.6, Number((mmScale - 0.2).toFixed(2)));
+    updateMindmapTransform();
+  });
+}
+
+if (mmZoomReset) {
+  mmZoomReset.addEventListener('click', () => {
+    mmScale = 1;
+    mmX = 0;
+    mmY = 0;
+    updateMindmapTransform();
+  });
+}
+
+if (mindmapViewport) {
+  mindmapViewport.addEventListener('pointerdown', (event) => {
+    if (event.target.closest('.mm-node') || event.target.closest('.mindmap-popover')) return;
+    mmDragging = true;
+    mmStartX = event.clientX - mmX;
+    mmStartY = event.clientY - mmY;
+  });
+
+  window.addEventListener('pointermove', (event) => {
+    if (!mmDragging) return;
+    mmX = event.clientX - mmStartX;
+    mmY = event.clientY - mmStartY;
+    updateMindmapTransform();
+  });
+
+  window.addEventListener('pointerup', () => {
+    mmDragging = false;
+  });
+}
+
+function clearMindmapSelection() {
+  mmNodes.forEach((n) => n.classList.remove('is-active', 'is-dimmed'));
+  mmEdges.forEach((e) => e.classList.remove('is-dimmed'));
+  if (mindmapPopover) mindmapPopover.hidden = true;
+}
+
+mmNodes.forEach((node) => {
+  const selectNode = () => {
+    const key = node.dataset.mmNode;
+    const info = key ? mindmapDefs[key] : null;
+    if (!info) return;
+
+    mmNodes.forEach((n) => {
+      const keep = n.dataset.mmNode === key || n.dataset.mmNode === 'poo';
+      n.classList.toggle('is-active', n.dataset.mmNode === key);
+      n.classList.toggle('is-dimmed', !keep);
+    });
+    mmEdges.forEach((e) => {
+      e.classList.toggle('is-dimmed', key !== 'poo' && e.dataset.mmEdge !== key);
+    });
+
+    if (mindmapPopTitle) mindmapPopTitle.textContent = info.title;
+    if (mindmapPopDesc) mindmapPopDesc.textContent = info.desc;
+    if (mindmapPopover) mindmapPopover.hidden = false;
+  };
+
+  node.addEventListener('click', selectNode);
+  node.addEventListener('keydown', (event) => {
+    if (event.key === 'Enter' || event.key === ' ') {
+      event.preventDefault();
+      selectNode();
+    }
+  });
+});
+
+if (mindmapPopClose) {
+  mindmapPopClose.addEventListener('click', clearMindmapSelection);
+}
+
+const pollOptions = document.querySelectorAll('.poll-option');
+const pollVoteBtn = document.getElementById('pollVoteBtn');
+const pollResults = document.getElementById('pollResults');
+const pollOptionsWrap = document.getElementById('pollOptions');
+const pollFooter = document.getElementById('pollFooter');
+const pollData = [
+  { label: 'Herencia y clases base', votes: 8 },
+  { label: 'Polimorfismo en casos reales', votes: 14 },
+  { label: 'Diseño de clases abstractas', votes: 5 }
+];
+let selectedPollIndex = null;
+
+pollOptions.forEach((opt) => {
+  opt.addEventListener('click', () => {
+    pollOptions.forEach((item) => {
+      item.classList.remove('is-selected');
+      item.setAttribute('aria-checked', 'false');
+    });
+    opt.classList.add('is-selected');
+    opt.setAttribute('aria-checked', 'true');
+    selectedPollIndex = Number(opt.dataset.pollOpt);
+    if (pollVoteBtn) pollVoteBtn.disabled = false;
+  });
+});
+
+if (pollVoteBtn) {
+  pollVoteBtn.addEventListener('click', () => {
+    if (selectedPollIndex === null) return;
+    pollData[selectedPollIndex].votes += 1;
+    const total = pollData.reduce((acc, item) => acc + item.votes, 0);
+
+    if (pollResults) {
+      pollResults.innerHTML = pollData
+        .map((item, idx) => {
+          const pct = Math.round((item.votes / total) * 100);
+          const cls = idx === selectedPollIndex ? 'poll-bar-row poll-bar-row--mine' : 'poll-bar-row';
+          return `<div class="${cls}"><div class="poll-bar-row__head"><span>${item.label}</span><span>${pct}%</span></div><div class="progress-track"><span class="progress-fill" style="width:${pct}%"></span></div></div>`;
+        })
+        .join('');
+      pollResults.hidden = false;
+    }
+    if (pollOptionsWrap) pollOptionsWrap.hidden = true;
+    if (pollFooter) pollFooter.hidden = true;
+  });
+}
+
+const difficultyBtns = document.querySelectorAll('.difficulty-btn');
+const difficultyCommentWrap = document.getElementById('difficultyCommentWrap');
+const difficultyComment = document.getElementById('difficultyComment');
+const difficultySubmitBtn = document.getElementById('difficultySubmitBtn');
+const difficultySkipBtn = document.getElementById('difficultySkipBtn');
+const difficultyStatus = document.getElementById('difficultyStatus');
+const difficultyScale = document.getElementById('difficultyScale');
+let chosenDifficulty = '';
+
+difficultyBtns.forEach((btn) => {
+  btn.addEventListener('click', () => {
+    difficultyBtns.forEach((b) => {
+      b.classList.remove('is-selected');
+      b.setAttribute('aria-checked', 'false');
+    });
+    btn.classList.add('is-selected');
+    btn.setAttribute('aria-checked', 'true');
+    chosenDifficulty = btn.dataset.difficulty || '';
+    if (difficultyCommentWrap) difficultyCommentWrap.hidden = false;
+  });
+});
+
+if (difficultySubmitBtn) {
+  difficultySubmitBtn.addEventListener('click', () => {
+    if (!chosenDifficulty) return;
+    if (difficultyScale) difficultyScale.hidden = true;
+    if (difficultyCommentWrap) difficultyCommentWrap.hidden = true;
+    if (difficultySkipBtn) difficultySkipBtn.hidden = true;
+    if (difficultyStatus) {
+      difficultyStatus.textContent = `Valoración «${chosenDifficulty}» registrada. Se actualizó el indicador de dificultad del módulo.`;
+      difficultyStatus.hidden = false;
+    }
+  });
+}
+
+if (difficultySkipBtn) {
+  difficultySkipBtn.addEventListener('click', () => {
+    if (difficultyScale) difficultyScale.hidden = true;
+    if (difficultyCommentWrap) difficultyCommentWrap.hidden = true;
+    difficultySkipBtn.hidden = true;
+    if (difficultyStatus) {
+      difficultyStatus.textContent = 'Progreso de lectura guardado al 100 % sin registrar percepción.';
+      difficultyStatus.hidden = false;
+    }
+  });
+}
+
+const mobilityToggleBtn = document.getElementById('mobilityToggleBtn');
+const mobilityAudioBar = document.getElementById('mobilityAudioBar');
+const mobilityPlayBtn = document.getElementById('mobilityPlayBtn');
+const mobilityExitBtn = document.getElementById('mobilityExitBtn');
+let mobilityAudioPlaying = true;
+
+function setMobilityMode(enabled) {
+  document.body.classList.toggle('mobility-mode', enabled);
+  if (mobilityToggleBtn) {
+    mobilityToggleBtn.setAttribute('aria-pressed', String(enabled));
+  }
+  if (mobilityAudioBar) {
+    mobilityAudioBar.hidden = !enabled;
+  }
+}
+
+if (mobilityToggleBtn) {
+  mobilityToggleBtn.addEventListener('click', () => {
+    const next = !document.body.classList.contains('mobility-mode');
+    setMobilityMode(next);
+  });
+}
+
+if (mobilityExitBtn) {
+  mobilityExitBtn.addEventListener('click', () => setMobilityMode(false));
+}
+
+if (mobilityPlayBtn) {
+  mobilityPlayBtn.addEventListener('click', () => {
+    mobilityAudioPlaying = !mobilityAudioPlaying;
+    mobilityPlayBtn.textContent = mobilityAudioPlaying ? 'Pausar audio' : 'Reproducir audio';
+  });
+}
+
+const seniorsToggleBtn = document.getElementById('seniorsToggleBtn');
+const seniorsPanel = document.getElementById('seniorsPanel');
+const seniorsList = document.getElementById('seniorsList');
+
+const seniorTipsData = [
+  {
+    id: 's1',
+    author: 'Mateo R. · 8.º ciclo',
+    text: 'Piensa en la herencia como un molde de galletas: Vehículo define la forma base y Auto solo agrega sus detalles sin rehacer todo.',
+    votes: 14,
+    voted: false
+  },
+  {
+    id: 's2',
+    author: 'Valeria C. · 7.º ciclo',
+    text: 'Si dudas entre heredar o copiar código, pregúntate: ¿un Auto ES UN Vehículo? Si la respuesta es sí, usa herencia.',
+    votes: 11,
+    voted: false
+  },
+  {
+    id: 's3',
+    author: 'Diego M. · 9.º ciclo',
+    text: 'En el parcial siempre preguntan sobreescritura: recuerda que la clase hija puede redefinir moverse() sin tocar la clase padre.',
+    votes: 9,
+    voted: false
+  }
+];
+
+function renderSeniorTips() {
+  if (!seniorsList) return;
+  const sorted = [...seniorTipsData].sort((a, b) => b.votes - a.votes);
+  seniorsList.innerHTML = sorted
+    .map((tip) => `
+      <div class="senior-note">
+        <div class="senior-note__meta">
+          <span class="senior-note__author">${tip.author}</span>
+          <span>Validado</span>
+        </div>
+        <p class="senior-note__text">${tip.text}</p>
+        <button type="button" class="senior-upvote-btn ${tip.voted ? 'is-voted' : ''}" data-senior-id="${tip.id}">
+          Me sirvió (${tip.votes})
+        </button>
+      </div>
+    `)
+    .join('');
+}
+
+if (seniorsToggleBtn && seniorsPanel) {
+  renderSeniorTips();
+  seniorsToggleBtn.addEventListener('click', () => {
+    const opening = seniorsPanel.hidden;
+    seniorsPanel.hidden = !opening;
+    seniorsToggleBtn.setAttribute('aria-expanded', String(opening));
+  });
+}
+
+if (seniorsList) {
+  seniorsList.addEventListener('click', (event) => {
+    const btn = event.target.closest('[data-senior-id]');
+    if (!btn) return;
+    const tip = seniorTipsData.find((item) => item.id === btn.dataset.seniorId);
+    if (!tip) return;
+    tip.voted = !tip.voted;
+    tip.votes += tip.voted ? 1 : -1;
+    renderSeniorTips();
+  });
+}
+
+const notesFileInput = document.getElementById('notesFileInput');
+const notesUploadBtn = document.getElementById('notesUploadBtn');
+const notesBlurryBtn = document.getElementById('notesBlurryBtn');
+const notesFileName = document.getElementById('notesFileName');
+const notesTextInput = document.getElementById('notesTextInput');
+const analyzeNotesBtn = document.getElementById('analyzeNotesBtn');
+const notesErrorMsg = document.getElementById('notesErrorMsg');
+const notesResult = document.getElementById('notesResult');
+const notesCapturedList = document.getElementById('notesCapturedList');
+const notesOmittedList = document.getElementById('notesOmittedList');
+let notesHasFile = false;
+let notesIsBlurry = false;
+
+if (notesUploadBtn && notesFileInput) {
+  notesUploadBtn.addEventListener('click', () => notesFileInput.click());
+  notesFileInput.addEventListener('change', () => {
+    if (notesFileInput.files && notesFileInput.files.length > 0) {
+      const f = notesFileInput.files[0];
+      notesHasFile = true;
+      notesIsBlurry = /borros|blur/i.test(f.name);
+      if (notesFileName) notesFileName.textContent = `Archivo cargado: ${f.name}`;
+      if (notesErrorMsg) notesErrorMsg.hidden = true;
+    }
+  });
+}
+
+if (notesBlurryBtn) {
+  notesBlurryBtn.addEventListener('click', () => {
+    notesHasFile = true;
+    notesIsBlurry = true;
+    if (notesFileName) notesFileName.textContent = 'Archivo cargado: libreta_borrosa.jpg';
+    if (notesResult) notesResult.hidden = true;
+    if (notesErrorMsg) {
+      notesErrorMsg.textContent = 'No se pudo leer la imagen con claridad, por favor intenta tomar la foto con mejor iluminación.';
+      notesErrorMsg.hidden = false;
+    }
+  });
+}
+
+if (analyzeNotesBtn) {
+  analyzeNotesBtn.addEventListener('click', () => {
+    const textVal = notesTextInput ? notesTextInput.value.trim() : '';
+    if (notesIsBlurry) {
+      if (notesResult) notesResult.hidden = true;
+      if (notesErrorMsg) {
+        notesErrorMsg.textContent = 'No se pudo leer la imagen con claridad, por favor intenta tomar la foto con mejor iluminación.';
+        notesErrorMsg.hidden = false;
+      }
+      return;
+    }
+    if (!notesHasFile && !textVal) {
+      if (notesErrorMsg) {
+        notesErrorMsg.textContent = 'Sube una fotografía (JPG/PNG) o escribe tus apuntes para analizarlos.';
+        notesErrorMsg.hidden = false;
+      }
+      return;
+    }
+
+    if (notesErrorMsg) notesErrorMsg.hidden = true;
+    if (notesCapturedList) {
+      notesCapturedList.innerHTML = '<li><span class="check-circle" aria-hidden="true">✓</span><span>Herencia entre clase base y subclase</span></li><li><span class="check-circle" aria-hidden="true">✓</span><span>Reutilización del método moverse()</span></li>';
+    }
+    if (notesOmittedList) {
+      notesOmittedList.innerHTML = '<li><span class="check-circle" aria-hidden="true">!</span><span>Sobreescritura de métodos con @override</span></li><li><span class="check-circle" aria-hidden="true">!</span><span>Diferencia entre clase abstracta e interfaz</span></li>';
+    }
+    if (notesResult) notesResult.hidden = false;
+  });
+}
+
+const markDoubtFab = document.getElementById('markDoubtFab');
+const doubtModal = document.getElementById('doubtModal');
+const doubtModalClose = document.getElementById('doubtModalClose');
+const doubtTimeNow = document.getElementById('doubtTimeNow');
+const doubtTopicBtns = document.querySelectorAll('.doubt-topic-btn');
+const confirmDoubtBtn = document.getElementById('confirmDoubtBtn');
+const goPostclassBtn = document.getElementById('goPostclassBtn');
+const doubtModalFeedback = document.getElementById('doubtModalFeedback');
+const postclassDoubtsList = document.getElementById('postclassDoubtsList');
+const doubtsEmptyHint = document.getElementById('doubtsEmptyHint');
+const doubtsCountTag = document.getElementById('doubtsCountTag');
+let selectedDoubtBtn = null;
+const recordedDoubts = [];
+
+function getCurrentTimeLabel() {
+  const now = new Date();
+  const hh = String(now.getHours()).padStart(2, '0');
+  const mm = String(now.getMinutes()).padStart(2, '0');
+  return `${hh}:${mm}`;
+}
+
+function renderRecordedDoubts() {
+  if (!postclassDoubtsList) return;
+  if (doubtsCountTag) {
+    doubtsCountTag.textContent = recordedDoubts.length === 1 ? '1 tema marcado' : `${recordedDoubts.length} temas marcados`;
+  }
+  if (recordedDoubts.length === 0) return;
+  if (doubtsEmptyHint) doubtsEmptyHint.hidden = true;
+
+  postclassDoubtsList.innerHTML = recordedDoubts
+    .map((item) => `
+      <div class="doubt-card">
+        <div class="doubt-card__head">
+          <span class="doubt-card__title">${item.topic}</span>
+          <span class="doubt-card__time">Marcado ${item.time}</span>
+        </div>
+        <p class="doubt-card__summary">${item.summary}</p>
+        <button type="button" class="app-btn app-btn--primary app-btn--sm" data-nav-target="practiquemos">Practicar mini-ejercicio</button>
+      </div>
+    `)
+    .join('');
+}
+
+if (markDoubtFab && doubtModal) {
+  markDoubtFab.addEventListener('click', () => {
+    if (doubtTimeNow) doubtTimeNow.textContent = getCurrentTimeLabel();
+    if (doubtModalFeedback) doubtModalFeedback.hidden = true;
+    doubtModal.hidden = false;
+  });
+}
+
+if (doubtModalClose && doubtModal) {
+  doubtModalClose.addEventListener('click', () => {
+    doubtModal.hidden = true;
+  });
+}
+
+doubtTopicBtns.forEach((btn) => {
+  btn.addEventListener('click', () => {
+    doubtTopicBtns.forEach((b) => b.classList.remove('is-selected'));
+    btn.classList.add('is-selected');
+    selectedDoubtBtn = btn;
+    if (confirmDoubtBtn) confirmDoubtBtn.disabled = false;
+  });
+});
+
+if (confirmDoubtBtn) {
+  confirmDoubtBtn.addEventListener('click', () => {
+    if (!selectedDoubtBtn) return;
+    const topic = selectedDoubtBtn.dataset.doubtTopic || '';
+    const summary = selectedDoubtBtn.dataset.doubtSummary || '';
+    const time = getCurrentTimeLabel();
+    if (!recordedDoubts.some((d) => d.topic === topic)) {
+      recordedDoubts.push({ topic, summary, time });
+      renderRecordedDoubts();
+    }
+    if (doubtModalFeedback) {
+      doubtModalFeedback.textContent = `«${topic}» registrado a las ${time} y añadido a tu paquete Postclase.`;
+      doubtModalFeedback.hidden = false;
+    }
+  });
+}
+
+if (goPostclassBtn && doubtModal) {
+  goPostclassBtn.addEventListener('click', () => {
+    doubtModal.hidden = true;
+    navigateToView('repaso-home');
+  });
+}
+
+const darkModeToggle = document.getElementById('darkModeToggle');
+if (darkModeToggle) {
+  darkModeToggle.addEventListener('change', () => {
+    document.body.classList.toggle('dark-mode', darkModeToggle.checked);
+  });
+}
