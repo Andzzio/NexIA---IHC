@@ -30,7 +30,7 @@ desktopLinks.forEach((link) => {
 
 const formatContent = {
   lectura: {
-    title: '¿Qué es la IA generativa?',
+    title: '¿Qué es el polimorfismo?',
     text: 'Aprende el concepto, explora un ejemplo y comprueba lo que has comprendido.'
   },
   audio: {
@@ -86,6 +86,46 @@ const loginForm = document.getElementById('loginForm');
 if (loginForm) {
   loginForm.addEventListener('submit', (event) => {
     event.preventDefault();
+
+    const emailInput = document.getElementById('email');
+    const passwordInput = document.getElementById('password');
+    const errorBox = document.getElementById('loginError');
+    const email = (emailInput?.value || '').trim().toLowerCase();
+    const password = passwordInput?.value || '';
+
+    const DOCENTE_EMAIL = 'docente@gmail.com';
+    const DOCENTE_PASSWORD = 'Docente123';
+
+    if (errorBox) {
+      errorBox.hidden = true;
+      errorBox.textContent = '';
+    }
+
+    if (email === DOCENTE_EMAIL) {
+      if (password === DOCENTE_PASSWORD) {
+        localStorage.setItem('nexia_role', 'docente');
+        localStorage.setItem('nexia_user', JSON.stringify({
+          email: DOCENTE_EMAIL,
+          name: 'Docente NexIA',
+          role: 'docente'
+        }));
+        window.location.href = 'docente.html';
+        return;
+      }
+
+      if (errorBox) {
+        errorBox.hidden = false;
+        errorBox.textContent = 'Contraseña incorrecta para la cuenta docente.';
+      }
+      return;
+    }
+
+    localStorage.setItem('nexia_role', 'estudiante');
+    localStorage.setItem('nexia_user', JSON.stringify({
+      email: email || 'estudiante@gmail.com',
+      name: 'Usuario',
+      role: 'estudiante'
+    }));
     window.location.href = 'app.html';
   });
 }

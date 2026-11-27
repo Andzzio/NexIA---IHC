@@ -1,0 +1,613 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>NexIA — Panel docente</title>
+  <link rel="icon" type="image/png" href="assets/img/favicon.png">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Sora:wght@600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="css/styles.css">
+  <link rel="stylesheet" href="css/app.css">
+  <link rel="stylesheet" href="css/docente.css">
+</head>
+<body class="app-body docente-body">
+  <a href="#contenido-principal" class="skip-link">Saltar al contenido</a>
+
+  <header class="app-topbar">
+    <div class="app-topbar__brand">
+      <button class="app-mobile-menu-btn" id="appSidebarToggle" aria-label="Alternar menú lateral">
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round">
+          <line x1="4" y1="7" x2="20" y2="7"></line>
+          <line x1="4" y1="12" x2="16" y2="12"></line>
+          <line x1="4" y1="17" x2="20" y2="17"></line>
+        </svg>
+      </button>
+      <a href="index.html" class="app-logo-link">
+        <img src="assets/img/logo-nexia.png" alt="NexIA" class="app-logo-img">
+      </a>
+    </div>
+
+    <div class="app-topbar__main">
+      <div class="app-topbar__left">
+        <button class="app-collapse-btn" id="desktopSidebarToggle" aria-label="Alternar barra lateral">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round">
+            <line x1="4" y1="7" x2="20" y2="7"></line>
+            <line x1="4" y1="12" x2="14" y2="12"></line>
+            <line x1="4" y1="17" x2="18" y2="17"></line>
+          </svg>
+        </button>
+        <nav class="app-breadcrumb" aria-label="Ruta de navegación">
+          <span class="app-breadcrumb__root">Panel docente</span>
+          <span class="app-breadcrumb__sep" aria-hidden="true">›</span>
+          <span class="app-breadcrumb__current" id="breadcrumbCurrent">Preclase</span>
+        </nav>
+      </div>
+
+      <div class="app-topbar__right">
+        <span class="live-pill" id="liveUpdatePill" aria-live="polite">
+          <span class="live-pill__dot" aria-hidden="true"></span>
+          Actualización en vivo
+        </span>
+        <span class="app-topbar__date">26 de noviembre de 2026</span>
+        <button class="app-user-trigger" data-nav-target="perfil-docente" aria-label="Ir a perfil docente">
+          <img src="assets/img/avatar-usuario.png" alt="" class="app-user-avatar">
+          <span class="app-user-info">
+            <span class="app-user-name">Docente NexIA</span>
+            <span class="app-user-role">Docente</span>
+          </span>
+          <span class="app-user-chevron" aria-hidden="true">⌄</span>
+        </button>
+        <button class="app-mobile-profile-btn" data-nav-target="perfil-docente" aria-label="Mi perfil">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"></path>
+            <circle cx="12" cy="7" r="4"></circle>
+          </svg>
+        </button>
+      </div>
+    </div>
+  </header>
+
+  <div class="app-shell">
+    <aside class="app-sidebar" id="appSidebar" aria-label="Menú del panel docente">
+      <div class="app-sidebar__top">
+        <p class="app-sidebar__eyebrow">DIAGNÓSTICO PRECLASE</p>
+        <nav class="sidebar-nav">
+          <button type="button" class="sidebar-nav__btn is-active" data-nav-group="preclase" data-nav-target="panel-preclase">
+            <svg width="19" height="19" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"></path><polyline points="9 22 9 12 15 12 15 22"></polyline></svg>
+            <span>Panel preclase</span>
+          </button>
+          <button type="button" class="sidebar-nav__btn" data-nav-group="actividades" data-nav-target="actividades">
+            <svg width="19" height="19" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"></circle><polyline points="12 6 12 12 16 14"></polyline></svg>
+            <span>Actividades</span>
+          </button>
+          <button type="button" class="sidebar-nav__btn" data-nav-group="tendencia" data-nav-target="tendencia">
+            <svg width="19" height="19" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="22 12 18 12 15 21 9 3 6 12 2 12"></polyline></svg>
+            <span>Tendencia</span>
+          </button>
+          <button type="button" class="sidebar-nav__btn" data-nav-group="contenido" data-nav-target="crear-contenido">
+            <svg width="19" height="19" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 20h9"></path><path d="M16.5 3.5a2.1 2.1 0 0 1 3 3L7 19l-4 1 1-4 12.5-12.5z"></path></svg>
+            <span>Crear contenido</span>
+          </button>
+          <button type="button" class="sidebar-nav__btn" data-nav-group="analitica" data-nav-target="analitica">
+            <svg width="19" height="19" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="18" y1="20" x2="18" y2="10"></line><line x1="12" y1="20" x2="12" y2="4"></line><line x1="6" y1="20" x2="6" y2="14"></line></svg>
+            <span>Analítica IA</span>
+          </button>
+          <button type="button" class="sidebar-nav__btn" data-nav-group="config" data-nav-target="configuracion">
+            <svg width="19" height="19" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="3"></circle><path d="M19.4 15a1.7 1.7 0 0 0 .3 1.8l.1.1a2 2 0 1 1-2.8 2.8l-.1-.1a1.7 1.7 0 0 0-1.8-.3 1.7 1.7 0 0 0-1 1.5V21a2 2 0 1 1-4 0v-.1a1.7 1.7 0 0 0-1-1.5 1.7 1.7 0 0 0-1.8.3l-.1.1a2 2 0 1 1-2.8-2.8l.1-.1a1.7 1.7 0 0 0 .3-1.8 1.7 1.7 0 0 0-1.5-1H3a2 2 0 1 1 0-4h.1a1.7 1.7 0 0 0 1.5-1 1.7 1.7 0 0 0-.3-1.8l-.1-.1a2 2 0 1 1 2.8-2.8l.1.1a1.7 1.7 0 0 0 1.8.3H9a1.7 1.7 0 0 0 1-1.5V3a2 2 0 1 1 4 0v.1a1.7 1.7 0 0 0 1 1.5 1.7 1.7 0 0 0 1.8-.3l.1-.1a2 2 0 1 1 2.8 2.8l-.1.1a1.7 1.7 0 0 0-.3 1.8V9c.2.7.8 1.2 1.5 1.3H21a2 2 0 1 1 0 4h-.1a1.7 1.7 0 0 0-1.5 1z"></path></svg>
+            <span>Configuración</span>
+          </button>
+          <button type="button" class="sidebar-nav__btn" data-nav-group="perfil" data-nav-target="perfil-docente">
+            <svg width="19" height="19" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"></path><circle cx="12" cy="7" r="4"></circle></svg>
+            <span>Perfil</span>
+          </button>
+        </nav>
+      </div>
+
+      <div class="app-sidebar__bottom">
+        <div class="sidebar-promo">
+          <div class="sidebar-promo__icon" aria-hidden="true">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#2DD4BF" stroke-width="2"><path d="M12 3l1.9 5.8a2 2 0 0 0 1.3 1.3L21 12l-5.8 1.9a2 2 0 0 0-1.3 1.3L12 21l-1.9-5.8a2 2 0 0 0-1.3-1.3L3 12l5.8-1.9a2 2 0 0 0 1.3-1.3L12 3z"></path></svg>
+          </div>
+          <h2 class="sidebar-promo__title">Diagnóstico antes de clase</h2>
+          <p class="sidebar-promo__text">Enfoca la sesión en los conceptos críticos del grupo.</p>
+        </div>
+        <div class="sidebar-user">
+          <img src="assets/img/avatar-usuario.png" alt="" class="sidebar-user__avatar">
+          <div>
+            <p class="sidebar-user__name">Docente NexIA</p>
+            <p class="sidebar-user__role">Cuenta de docente</p>
+          </div>
+        </div>
+      </div>
+    </aside>
+
+    <main class="app-main" id="contenido-principal">
+
+      <!-- HU01 + HU03 + HU04 + HU05 + HU06 + HU14 -->
+      <section class="app-view is-active" data-view="panel-preclase" data-group="preclase" data-title="Preclase">
+        <div class="view-header view-header--row">
+          <div>
+            <p class="view-eyebrow">CURSO · PROGRAMACIÓN ORIENTADA A OBJETOS</p>
+            <h1 class="view-title">Reporte preclase</h1>
+            <p class="view-subtitle">Errores frecuentes, participación y comprensión por tema · Semana 8</p>
+          </div>
+          <div class="view-header__actions">
+            <label class="module-filter">
+              <span class="sr-only">Filtrar por micromódulo</span>
+              <select id="moduleFilter" class="form-input module-filter__select" aria-label="Micromódulos de la semana">
+                <option value="todos">Ver Todos</option>
+                <option value="m1">M1 · Herencia</option>
+                <option value="m2">M2 · Polimorfismo</option>
+                <option value="m3">M3 · Sobreescritura</option>
+                <option value="m4">M4 · Clases abstractas</option>
+              </select>
+            </label>
+            <button type="button" class="app-btn app-btn--outline" id="exportReportBtn">Exportar Reporte</button>
+          </div>
+        </div>
+
+        <div class="doc-kpi-grid" id="preclaseKpis">
+          <article class="stat-card stat-card--tall">
+            <div class="stat-card__top">
+              <span class="icon-box icon-box--purple" aria-hidden="true">%</span>
+              <p class="stat-card__value" id="kpiParticipacion">78%</p>
+            </div>
+            <p class="stat-card__label">Participación</p>
+            <p class="stat-card__foot" id="kpiParticipacionFoot">19 de 24 completaron</p>
+          </article>
+          <article class="stat-card stat-card--tall">
+            <div class="stat-card__top">
+              <span class="icon-box icon-box--mint" aria-hidden="true">✓</span>
+              <p class="stat-card__value" id="kpiComprension">64%</p>
+            </div>
+            <p class="stat-card__label">Comprensión general</p>
+            <p class="stat-card__foot">Asimilación del grupo</p>
+          </article>
+          <article class="stat-card stat-card--tall">
+            <div class="stat-card__top">
+              <span class="icon-box icon-box--amber" aria-hidden="true">!</span>
+              <p class="stat-card__value" id="kpiCriticos">3</p>
+            </div>
+            <p class="stat-card__label">Temas críticos</p>
+            <p class="stat-card__foot">Requieren nivelación</p>
+          </article>
+          <article class="stat-card stat-card--tall">
+            <div class="stat-card__top">
+              <span class="icon-box icon-box--purple" aria-hidden="true">⏱</span>
+              <p class="stat-card__value" id="kpiLive">+2</p>
+            </div>
+            <p class="stat-card__label">Nuevos intentos</p>
+            <p class="stat-card__foot">Últimos 5 minutos</p>
+          </article>
+        </div>
+
+        <article class="exec-card" id="executiveCard">
+          <p class="exec-card__eyebrow">TARJETA EJECUTIVA · PRIORIDAD EN CLASE</p>
+          <h2 class="exec-card__title">3 puntos teóricos a aclarar hoy</h2>
+          <ol class="exec-card__list" id="executivePoints">
+            <li><strong>Polimorfismo vs sobrecarga:</strong> el 58% confunde ambos conceptos.</li>
+            <li><strong>Sobreescritura de métodos:</strong> errores al identificar qué método se ejecuta.</li>
+            <li><strong>Clases abstractas:</strong> duda sobre cuándo declarar un método abstracto.</li>
+          </ol>
+        </article>
+
+        <div class="doc-split-grid">
+          <article class="chart-card">
+            <div class="chart-card__head">
+              <div>
+                <h2 class="chart-card__title">Errores más frecuentes</h2>
+                <p class="chart-card__sub">Síntesis del cuestionario preclase</p>
+              </div>
+              <span class="status-chip status-chip--purple" id="chartModuleLabel">Todos los módulos</span>
+            </div>
+            <div class="topic-bars" id="errorBars">
+              <button type="button" class="topic-bar-item topic-bar-item--clickable" data-concept="polimorfismo">
+                <div class="topic-bar-item__head"><span>Polimorfismo</span><span class="space-code-text">68% error</span></div>
+                <div class="progress-track"><span class="progress-fill progress-fill--danger" style="width:68%"></span></div>
+              </button>
+              <button type="button" class="topic-bar-item topic-bar-item--clickable" data-concept="sobreescritura">
+                <div class="topic-bar-item__head"><span>Sobreescritura</span><span class="space-code-text">52% error</span></div>
+                <div class="progress-track"><span class="progress-fill progress-fill--warn" style="width:52%"></span></div>
+              </button>
+              <button type="button" class="topic-bar-item topic-bar-item--clickable" data-concept="abstractas">
+                <div class="topic-bar-item__head"><span>Clases abstractas</span><span class="space-code-text">41% error</span></div>
+                <div class="progress-track"><span class="progress-fill progress-fill--warn" style="width:41%"></span></div>
+              </button>
+              <button type="button" class="topic-bar-item topic-bar-item--clickable" data-concept="herencia">
+                <div class="topic-bar-item__head"><span>Herencia</span><span class="space-code-text">22% error</span></div>
+                <div class="progress-track"><span class="progress-fill" style="width:22%"></span></div>
+              </button>
+            </div>
+            <div class="concept-breakdown" id="conceptBreakdown" hidden>
+              <h3 class="concept-breakdown__title" id="conceptBreakdownTitle">Desglose</h3>
+              <ul class="concept-breakdown__list" id="conceptBreakdownList"></ul>
+            </div>
+          </article>
+
+          <article class="chart-card">
+            <h2 class="chart-card__title">Mapa de áreas cognitivas</h2>
+            <p class="chart-card__sub">Frente al mínimo definido (60%)</p>
+            <div class="heat-list" id="cognitiveHeat">
+              <div class="heat-row heat-row--critical">
+                <div><p class="heat-row__label">Aplicación</p><p class="heat-row__meta">Mín. 60% · Actual 48%</p></div>
+                <span class="heat-badge">Crítico</span>
+              </div>
+              <div class="heat-row heat-row--warn">
+                <div><p class="heat-row__label">Comprensión</p><p class="heat-row__meta">Mín. 60% · Actual 57%</p></div>
+                <span class="heat-badge heat-badge--warn">Bajo mínimo</span>
+              </div>
+              <div class="heat-row heat-row--ok">
+                <div><p class="heat-row__label">Análisis</p><p class="heat-row__meta">Mín. 60% · Actual 71%</p></div>
+                <span class="heat-badge heat-badge--ok">En rango</span>
+              </div>
+              <div class="heat-row heat-row--ok">
+                <div><p class="heat-row__label">Recuerdo</p><p class="heat-row__meta">Mín. 55% · Actual 82%</p></div>
+                <span class="heat-badge heat-badge--ok">En rango</span>
+              </div>
+            </div>
+          </article>
+        </div>
+
+        <article class="chart-card">
+          <div class="chart-card__head">
+            <div>
+              <h2 class="chart-card__title">Estudiantes del grupo</h2>
+              <p class="chart-card__sub">Haz clic en un nombre para ver el detalle del intento</p>
+            </div>
+            <div class="student-filter-bar">
+              <div class="filter-chips" role="group" aria-label="Filtrar por estado">
+                <button type="button" class="filter-chip is-active" data-student-filter="todos">Todos</button>
+                <button type="button" class="filter-chip" data-student-filter="completado">Completado</button>
+                <button type="button" class="filter-chip" data-student-filter="en-proceso">En proceso</button>
+                <button type="button" class="filter-chip" data-student-filter="sin-iniciar">Sin iniciar</button>
+              </div>
+              <button type="button" class="app-btn app-btn--primary" id="sendReminderBtn" hidden>Enviar recordatorio</button>
+            </div>
+          </div>
+
+          <div class="student-table-wrap">
+            <table class="student-table" id="studentTable">
+              <thead>
+                <tr>
+                  <th scope="col"><input type="checkbox" id="selectAllLagging" aria-label="Seleccionar rezagados" hidden></th>
+                  <th scope="col">Estudiante</th>
+                  <th scope="col">Estado</th>
+                  <th scope="col">Acierto</th>
+                  <th scope="col">Tiempo</th>
+                </tr>
+              </thead>
+              <tbody id="studentTableBody"></tbody>
+            </table>
+          </div>
+        </article>
+      </section>
+
+      <!-- HU02 -->
+      <section class="app-view" data-view="actividades" data-group="actividades" data-title="Actividades">
+        <div class="view-header">
+          <p class="view-eyebrow">NIVELACIÓN EN CLASE · 20–30 MIN</p>
+          <h1 class="view-title">Catálogo de actividades</h1>
+          <p class="view-subtitle">Dinámicas breves recomendadas según los puntos débiles del reporte preclase.</p>
+        </div>
+
+        <div class="recommend-banner">
+          <div>
+            <p class="recommend-banner__eyebrow">RECOMENDADO PARA TU GRUPO</p>
+            <h2 class="recommend-banner__title">Prioriza polimorfismo y sobreescritura</h2>
+            <p class="recommend-banner__text">NexIA seleccionó 3 dinámicas alineadas a los errores detectados esta semana.</p>
+          </div>
+          <button type="button" class="app-btn app-btn--white" data-nav-target="panel-preclase">Ver reporte</button>
+        </div>
+
+        <div class="activity-filters">
+          <label>
+            <span class="form-label">Duración</span>
+            <select id="activityDuration" class="form-input">
+              <option value="20-30">20–30 minutos</option>
+              <option value="15">15 minutos</option>
+              <option value="45">45 minutos</option>
+            </select>
+          </label>
+          <label>
+            <span class="form-label">Concepto a reforzar</span>
+            <select id="activityConcept" class="form-input">
+              <option value="todos">Todos</option>
+              <option value="polimorfismo">Polimorfismo</option>
+              <option value="sobreescritura">Sobreescritura</option>
+              <option value="herencia">Herencia</option>
+              <option value="abstractas">Clases abstractas</option>
+            </select>
+          </label>
+        </div>
+
+        <div class="activity-grid" id="activityGrid"></div>
+      </section>
+
+      <!-- HU07 -->
+      <section class="app-view" data-view="tendencia" data-group="tendencia" data-title="Tendencia">
+        <div class="view-header">
+          <p class="view-eyebrow">COMPROMISO DEL SALÓN</p>
+          <h1 class="view-title">Tendencia histórica</h1>
+          <p class="view-subtitle">Participación del grupo a lo largo de las semanas del ciclo.</p>
+        </div>
+
+        <article class="chart-card chart-card--trend">
+          <h2 class="chart-card__title">Participación semanal</h2>
+          <p class="chart-card__sub">Eje X: semanas · Eje Y: % de participación</p>
+          <div class="trend-chart-wrap">
+            <svg id="trendChart" class="trend-chart" viewBox="0 0 640 280" role="img" aria-labelledby="trendTitle">
+              <title id="trendTitle">Tendencia de participación por semana</title>
+            </svg>
+            <div class="trend-tooltip" id="trendTooltip" hidden></div>
+          </div>
+          <ul class="trend-legend">
+            <li><span class="trend-legend__swatch"></span> Participación del grupo</li>
+          </ul>
+        </article>
+      </section>
+
+      <!-- HU09 + HU10 + HU12 + HU13 -->
+      <section class="app-view" data-view="crear-contenido" data-group="contenido" data-title="Crear contenido">
+        <div class="view-header">
+          <p class="view-eyebrow">ESPACIO COMPARTIDO · ASISTIDO POR IA</p>
+          <h1 class="view-title">Crear módulo preclase</h1>
+          <p class="view-subtitle">Define profundidad, recursos externos y genera evaluación o flashcards.</p>
+        </div>
+
+        <div class="create-grid">
+          <article class="chart-card">
+            <h2 class="chart-card__title">Material base</h2>
+            <div class="form-group">
+              <label class="form-label" for="moduleTitleInput">Título del módulo</label>
+              <input type="text" id="moduleTitleInput" class="form-input" value="Herencia y polimorfismo">
+            </div>
+            <div class="form-group">
+              <label class="form-label" for="complexityLevel">Nivel de Complejidad</label>
+              <select id="complexityLevel" class="form-input">
+                <option value="basico">Básico — analogías y ejemplos cotidianos</option>
+                <option value="intermedio" selected>Intermedio — equilibrio teoría/práctica</option>
+                <option value="tecnico">Técnico — tecnicismos y rigor formal</option>
+              </select>
+            </div>
+            <div class="form-group">
+              <label class="form-label" for="moduleNotes">Apuntes o texto fuente</label>
+              <textarea id="moduleNotes" class="form-textarea" rows="6">El polimorfismo permite que un mismo mensaje produzca comportamientos distintos según la clase receptora. No confundir con la sobrecarga de métodos.</textarea>
+            </div>
+            <div class="create-actions">
+              <button type="button" class="app-btn app-btn--primary" id="rewriteLevelBtn">Adaptar nivel con IA</button>
+              <button type="button" class="app-btn app-btn--outline" id="undoRewriteBtn" disabled>Deshacer cambio</button>
+            </div>
+            <p class="inline-hint" id="rewriteHint" hidden>Material reescrito al nivel seleccionado.</p>
+          </article>
+
+          <article class="chart-card">
+            <h2 class="chart-card__title">Recursos multimedia</h2>
+            <p class="chart-card__sub">YouTube, Spotify o Vimeo — se previsualizan en la app</p>
+            <div class="form-group">
+              <label class="form-label" for="mediaUrlInput">URL del recurso</label>
+              <input type="url" id="mediaUrlInput" class="form-input" placeholder="https://www.youtube.com/watch?v=...">
+            </div>
+            <button type="button" class="app-btn app-btn--outline app-btn--full" id="previewMediaBtn">Previsualizar recurso</button>
+            <div class="media-preview" id="mediaPreview" hidden>
+              <div class="media-preview__frame" id="mediaPreviewFrame"></div>
+              <p class="media-preview__track">Tracking de clics / reproducción: activo para analítica</p>
+            </div>
+
+            <hr class="card-divider">
+
+            <h2 class="chart-card__title">Generar con IA</h2>
+            <div class="create-actions create-actions--stack">
+              <button type="button" class="app-btn app-btn--primary" id="generateQuizBtn" data-nav-target="borrador-eval">Generar cuestionario (borrador)</button>
+              <button type="button" class="app-btn app-btn--outline" id="generateFlashcardsBtn">Generar Flashcards</button>
+            </div>
+          </article>
+        </div>
+
+        <article class="chart-card" id="flashcardsDraft" hidden>
+          <div class="chart-card__head">
+            <div>
+              <h2 class="chart-card__title">Borrador de flashcards</h2>
+              <p class="chart-card__sub">Edita anverso y reverso antes de publicar</p>
+            </div>
+            <button type="button" class="app-btn app-btn--primary" id="publishFlashcardsBtn">Publicar flashcards</button>
+          </div>
+          <div class="flash-draft-grid" id="flashDraftGrid"></div>
+        </article>
+      </section>
+
+      <!-- HU09 borrador -->
+      <section class="app-view" data-view="borrador-eval" data-group="contenido" data-title="Borrador de evaluación">
+        <div class="view-header view-header--row">
+          <div>
+            <p class="view-eyebrow">NO VISIBLE PARA ESTUDIANTES</p>
+            <h1 class="view-title">Borrador de evaluación</h1>
+            <p class="view-subtitle">Revisa, edita o elimina las preguntas propuestas por la IA.</p>
+          </div>
+          <button type="button" class="app-btn app-btn--primary" id="approvePublishBtn">Aprobar y Publicar</button>
+        </div>
+
+        <div class="draft-list" id="draftQuestionList"></div>
+
+        <div class="publish-success" id="publishSuccess" hidden>
+          <h2 class="publish-success__title">Espacio publicado</h2>
+          <p class="publish-success__text">Código único para unirse:</p>
+          <p class="publish-success__code" id="spaceJoinCode">NX-7K29</p>
+          <button type="button" class="app-btn app-btn--outline" id="copySpaceCodeBtn">Copiar código</button>
+        </div>
+      </section>
+
+      <!-- HU11 + HU16 -->
+      <section class="app-view" data-view="analitica" data-group="analitica" data-title="Analítica IA">
+        <div class="view-header view-header--row">
+          <div>
+            <p class="view-eyebrow">OPINIÓN DEL GRUPO · RESPUESTAS ABIERTAS</p>
+            <h1 class="view-title">Analítica con IA</h1>
+            <p class="view-subtitle">Clústeres, nube de palabras y preguntas de debate para el aula.</p>
+          </div>
+          <button type="button" class="app-btn app-btn--primary" id="generateDebateBtn">Generar preguntas de debate</button>
+        </div>
+
+        <article class="chart-card">
+          <h2 class="chart-card__title">Análisis de respuestas abiertas</h2>
+          <p class="chart-card__sub">Conceptos más mencionados en notas de voz y texto libre</p>
+          <div class="word-cloud" id="wordCloud" role="list"></div>
+          <div class="cluster-examples" id="clusterExamples" hidden>
+            <h3 class="cluster-examples__title" id="clusterExamplesTitle">Ejemplos anónimos</h3>
+            <ul id="clusterExamplesList"></ul>
+          </div>
+        </article>
+
+        <div class="debate-grid" id="debateGrid" hidden></div>
+      </section>
+
+      <!-- HU08 + HU15 -->
+      <section class="app-view" data-view="configuracion" data-group="config" data-title="Configuración">
+        <div class="view-header">
+          <p class="view-eyebrow">ESPACIO Y TUTOR</p>
+          <h1 class="view-title">Configuración del curso</h1>
+          <p class="view-subtitle">Umbrales cognitivos y estilo del tutor virtual.</p>
+        </div>
+
+        <div class="create-grid">
+          <article class="chart-card">
+            <h2 class="chart-card__title">Puntaje mínimo por área cognitiva</h2>
+            <p class="chart-card__sub">Si el estudiante no alcanza el mínimo, se resaltan secciones de la lectura base (sin material nuevo).</p>
+            <div class="threshold-list">
+              <label class="threshold-row">
+                <span>Comprensión</span>
+                <input type="number" class="form-input threshold-input" data-area="comprension" min="0" max="100" value="60">
+                <span>%</span>
+              </label>
+              <label class="threshold-row">
+                <span>Aplicación</span>
+                <input type="number" class="form-input threshold-input" data-area="aplicacion" min="0" max="100" value="60">
+                <span>%</span>
+              </label>
+              <label class="threshold-row">
+                <span>Análisis</span>
+                <input type="number" class="form-input threshold-input" data-area="analisis" min="0" max="100" value="55">
+                <span>%</span>
+              </label>
+            </div>
+            <button type="button" class="app-btn app-btn--primary" id="saveThresholdsBtn">Guardar umbrales</button>
+            <p class="inline-hint" id="thresholdSaved" hidden>Umbrales guardados. Estudiantes sobre el corte no reciben material adicional.</p>
+          </article>
+
+          <article class="chart-card">
+            <h2 class="chart-card__title">Estilo del Tutor AI</h2>
+            <p class="chart-card__sub">Las respuestas automáticas seguirán la metodología elegida.</p>
+            <div class="tutor-style-options" role="radiogroup" aria-label="Estilo del Tutor AI">
+              <button type="button" class="tutor-style is-active" role="radio" aria-checked="true" data-tutor="socratico">
+                <strong>Método Socrático</strong>
+                <span>Responde con preguntas guiadas</span>
+              </button>
+              <button type="button" class="tutor-style" role="radio" aria-checked="false" data-tutor="directo">
+                <strong>Explicación Directa</strong>
+                <span>Respuestas claras y concisas</span>
+              </button>
+              <button type="button" class="tutor-style" role="radio" aria-checked="false" data-tutor="minerva">
+                <strong>Enfoque Minerva</strong>
+                <span>Aprendizaje activo basado en casos</span>
+              </button>
+            </div>
+            <p class="inline-hint" id="tutorStyleHint">Estilo activo: Método Socrático</p>
+          </article>
+        </div>
+      </section>
+
+      <section class="app-view" data-view="perfil-docente" data-group="perfil" data-title="Perfil">
+        <div class="view-header">
+          <h1 class="view-title">Perfil docente</h1>
+          <p class="view-subtitle">Cuenta vinculada al panel de diagnóstico preclase.</p>
+        </div>
+        <article class="profile-hero-card">
+          <img src="assets/img/avatar-usuario.png" alt="" class="profile-hero-card__avatar">
+          <div>
+            <h2 class="profile-hero-card__name">Docente NexIA</h2>
+            <p class="profile-hero-card__role">Cuenta de docente · docente@gmail.com</p>
+          </div>
+        </article>
+        <div class="profile-actions">
+          <a href="login.html" class="app-btn app-btn--outline" id="logoutDocente">Cerrar sesión</a>
+        </div>
+      </section>
+    </main>
+  </div>
+
+  <nav class="bottom-nav" aria-label="Navegación inferior docente">
+    <button type="button" class="bottom-nav__btn is-active" data-nav-group="preclase" data-nav-target="panel-preclase"><span>Preclase</span></button>
+    <button type="button" class="bottom-nav__btn" data-nav-group="actividades" data-nav-target="actividades"><span>Actividades</span></button>
+    <button type="button" class="bottom-nav__btn" data-nav-group="contenido" data-nav-target="crear-contenido"><span>Crear</span></button>
+    <button type="button" class="bottom-nav__btn" data-nav-group="analitica" data-nav-target="analitica"><span>Analítica</span></button>
+    <button type="button" class="bottom-nav__btn" data-nav-group="perfil" data-nav-target="perfil-docente"><span>Perfil</span></button>
+  </nav>
+
+  <!-- Modal detalle estudiante HU03 -->
+  <div class="doc-modal" id="studentModal" hidden>
+    <div class="doc-modal__backdrop" data-close-modal></div>
+    <div class="doc-modal__panel" role="dialog" aria-modal="true" aria-labelledby="studentModalTitle">
+      <header class="doc-modal__header">
+        <div>
+          <p class="view-eyebrow">DETALLE DEL INTENTO</p>
+          <h2 id="studentModalTitle">Estudiante</h2>
+        </div>
+        <button type="button" class="doc-modal__close" data-close-modal aria-label="Cerrar">×</button>
+      </header>
+      <div class="doc-modal__body" id="studentModalBody"></div>
+    </div>
+  </div>
+
+  <!-- Modal recordatorio HU04 -->
+  <div class="doc-modal" id="reminderModal" hidden>
+    <div class="doc-modal__backdrop" data-close-modal></div>
+    <div class="doc-modal__panel" role="dialog" aria-modal="true" aria-labelledby="reminderModalTitle">
+      <header class="doc-modal__header">
+        <h2 id="reminderModalTitle">Enviar recordatorio</h2>
+        <button type="button" class="doc-modal__close" data-close-modal aria-label="Cerrar">×</button>
+      </header>
+      <div class="doc-modal__body">
+        <p class="chart-card__sub">Se enviará con copia oculta (CCO) para preservar la privacidad.</p>
+        <label class="form-label" for="reminderTemplate">Plantilla editable</label>
+        <textarea id="reminderTemplate" class="form-textarea" rows="5">Hola, te recuerdo completar la autoevaluación preclase de esta semana antes de la sesión presencial. Te tomará unos 15 minutos y nos ayuda a enfocar la clase. ¡Gracias!</textarea>
+        <p class="inline-hint" id="reminderRecipients"></p>
+        <div class="create-actions">
+          <button type="button" class="app-btn app-btn--primary" id="confirmReminderBtn">Enviar con CCO</button>
+          <button type="button" class="app-btn app-btn--outline" data-close-modal>Cancelar</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Modal exportar HU05 -->
+  <div class="doc-modal" id="exportModal" hidden>
+    <div class="doc-modal__backdrop" data-close-modal></div>
+    <div class="doc-modal__panel" role="dialog" aria-modal="true" aria-labelledby="exportModalTitle">
+      <header class="doc-modal__header">
+        <h2 id="exportModalTitle">Exportar Reporte</h2>
+        <button type="button" class="doc-modal__close" data-close-modal aria-label="Cerrar">×</button>
+      </header>
+      <div class="doc-modal__body">
+        <p class="chart-card__sub">Incluye: curso, fecha, % de asimilación general y detalle por alumno.</p>
+        <div class="export-options">
+          <button type="button" class="export-option" data-export="pdf">
+            <strong>PDF (gráfico)</strong>
+            <span>Reporte visual para evidencia académica</span>
+          </button>
+          <button type="button" class="export-option" data-export="excel">
+            <strong>Excel (tabular)</strong>
+            <span>Datos por alumno y por tema</span>
+          </button>
+        </div>
+        <p class="inline-hint" id="exportFeedback" hidden></p>
+      </div>
+    </div>
+  </div>
+
+  <!-- Toast -->
+  <div class="doc-toast" id="docToast" hidden role="status"></div>
+
+  <script src="js/docente.js"></script>
+</body>
+</html>

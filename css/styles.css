@@ -1,6 +1,7 @@
 :root {
-  --color-primary: #5558F5;
-  --color-primary-dark: #3B32B3;
+  /* Paleta NexIA (guía de estilos HCI) */
+  --color-primary: #5B5FEF;
+  --color-primary-dark: #4338CA;
   --color-primary-soft: #EAEAFE;
   --color-primary-text: #4338CA;
 
@@ -8,25 +9,26 @@
   --color-mint-row: #EFFBF7;
   --color-mint-badge: #C6FAEA;
   --color-mint-text: #0F766E;
+  --color-secondary: #14B8A6;
 
   --color-amber-bg: #FDF7E7;
   --color-amber-badge: #FDE8B9;
-  --color-amber-solid: #EEA008;
+  --color-amber-solid: #F59E0B;
   --color-amber-text: #92400E;
 
-  --color-bg-main: #F8F9FC;
+  --color-bg-main: #F9FAFB;
   --color-surface: #FFFFFF;
   --color-surface-muted: #F3F4F8;
 
-  --color-text-main: #181A20;
-  --color-text-muted: #687082;
+  --color-text-main: #1E1E2E;
+  --color-text-muted: #6B7280;
   --color-text-on-primary: #FFFFFF;
 
   --color-border: #E4E7EF;
-  --color-input-border: #8E95A5;
+  --color-input-border: #6B7280;
 
-  --shadow-sm: 0 2px 8px rgba(24, 26, 32, 0.04);
-  --shadow-card: 0 12px 32px rgba(24, 26, 32, 0.08);
+  --shadow-sm: 0 2px 8px rgba(30, 30, 46, 0.04);
+  --shadow-card: 0 12px 32px rgba(30, 30, 46, 0.08);
 
   --radius-sm: 8px;
   --radius-md: 12px;
@@ -35,6 +37,7 @@
   --radius-pill: 9999px;
 
   --font-sans: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+  --font-display: 'Sora', 'Inter', sans-serif;
   --container-max: 1120px;
 }
 
@@ -276,6 +279,7 @@ section[id] {
 
 .hero-title {
   margin-top: 20px;
+  font-family: var(--font-display);
   font-size: 2.5rem;
   line-height: 1.12;
   font-weight: 700;
@@ -291,10 +295,53 @@ section[id] {
   max-width: 500px;
 }
 
+.hero-cta-row {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+  margin-top: 22px;
+}
+
+.hero-cta {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 44px;
+  padding: 10px 18px;
+  border-radius: var(--radius-pill);
+  font-size: 0.92rem;
+  font-weight: 600;
+  transition: background-color 0.15s ease, color 0.15s ease, border-color 0.15s ease;
+}
+
+.hero-cta--primary {
+  background-color: var(--color-primary);
+  color: var(--color-text-on-primary);
+}
+
+.hero-cta--primary:hover {
+  background-color: var(--color-primary-dark);
+}
+
+.hero-cta--secondary {
+  background-color: var(--color-surface);
+  color: var(--color-primary-dark);
+  border: 1px solid var(--color-border);
+}
+
+.hero-cta--secondary:hover {
+  background-color: var(--color-primary-soft);
+  border-color: #C7C8FB;
+}
+
 .hero-footnote {
-  margin-top: 32px;
+  margin-top: 20px;
   font-size: 0.82rem;
   color: var(--color-text-muted);
+}
+
+.footer-cta__btn {
+  margin-top: 18px;
 }
 
 .hero-showcase {
@@ -437,6 +484,7 @@ section[id] {
 }
 
 .section-title {
+  font-family: var(--font-display);
   font-size: 1.85rem;
   line-height: 1.18;
   font-weight: 700;
@@ -881,7 +929,7 @@ section[id] {
   display: inline-flex;
   align-items: center;
   justify-content: center;
-  font-size: 0.8rem;
+  font-size: 0.72rem;
   font-weight: 700;
 }
 
@@ -1297,6 +1345,58 @@ section[id] {
   margin-top: 18px;
   font-size: 0.74rem;
   color: var(--color-text-muted);
+}
+
+.auth-demo-hints {
+  margin-top: 8px;
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.auth-demo-hints .auth-card__footnote {
+  margin-top: 0;
+}
+
+.auth-error {
+  margin: 0 0 12px;
+  padding: 10px 12px;
+  border-radius: var(--radius-sm);
+  background: #FEE2E2;
+  color: #991B1B;
+  border: 1px solid #FECACA;
+  font-size: 0.85rem;
+  font-weight: 500;
+}
+
+.auth-promo__roles {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 10px;
+  margin-top: 18px;
+}
+
+.auth-role-chip {
+  padding: 10px 12px;
+  border-radius: var(--radius-md);
+  background: rgba(255, 255, 255, 0.14);
+  border: 1px solid rgba(255, 255, 255, 0.22);
+}
+
+.auth-role-chip__label {
+  display: block;
+  font-size: 0.72rem;
+  font-weight: 700;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+  opacity: 0.85;
+  margin-bottom: 4px;
+}
+
+.auth-role-chip__text {
+  font-size: 0.88rem;
+  font-weight: 600;
+  line-height: 1.35;
 }
 
 .auth-caption {

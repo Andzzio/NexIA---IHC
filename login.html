@@ -37,13 +37,13 @@
 
           <div class="auth-promo__box">
             <div class="auth-promo__item">
-              <h2 class="auth-promo__item-title">Antes de clase</h2>
-              <p class="auth-promo__item-sub">Micromódulos breves + tutor IA</p>
+              <h2 class="auth-promo__item-title">Estudiante</h2>
+              <p class="auth-promo__item-sub">Micromódulos, tutor IA y autoevaluación</p>
             </div>
             <hr class="auth-promo__divider">
             <div class="auth-promo__item">
-              <h2 class="auth-promo__item-title">Después de clase</h2>
-              <p class="auth-promo__item-sub">Desafíos y refuerzo personalizado</p>
+              <h2 class="auth-promo__item-title">Docente</h2>
+              <p class="auth-promo__item-sub">Diagnóstico preclase, analítica y dinámicas</p>
             </div>
           </div>
         </section>
@@ -52,17 +52,18 @@
           <section class="auth-card" aria-labelledby="loginHeading">
             <p class="auth-card__eyebrow">BIENVENIDO A NEXIA</p>
             <h1 class="auth-card__title" id="loginHeading">Inicia sesión</h1>
-            <p class="auth-card__subtitle">Accede con tu correo institucional.</p>
+            <p class="auth-card__subtitle">Accede como estudiante o docente con tu correo.</p>
 
-            <form class="auth-form" id="loginForm">
+            <form class="auth-form" id="loginForm" novalidate>
               <div class="form-group">
-                <label for="email" class="form-label">Correo institucional</label>
+                <label for="email" class="form-label">Correo</label>
                 <input
                   type="email"
                   id="email"
                   name="email"
                   class="form-input"
-                  placeholder="tu.correo@universidad.edu"
+                  placeholder="docente@gmail.com o tu correo"
+                  autocomplete="username"
                   required
                 >
               </div>
@@ -75,9 +76,12 @@
                   name="password"
                   class="form-input"
                   placeholder="Ingresa tu contraseña"
+                  autocomplete="current-password"
                   required
                 >
               </div>
+
+              <p class="auth-error" id="loginError" role="alert" hidden></p>
 
               <div class="auth-actions">
                 <button type="submit" class="auth-btn auth-btn--primary">Iniciar sesión</button>
@@ -85,7 +89,10 @@
               </div>
             </form>
 
-            <p class="auth-card__footnote">Usa las credenciales de tu institución.</p>
+            <div class="auth-demo-hints">
+              <p class="auth-card__footnote"><strong>Docente:</strong> docente@gmail.com · Docente123</p>
+              <p class="auth-card__footnote"><strong>Estudiante:</strong> cualquier otro correo (demo)</p>
+            </div>
           </section>
 
           <p class="auth-caption">NexIA · Aprender, comprender, avanzar.</p>

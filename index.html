@@ -3,11 +3,11 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>NexIA — Tu curiosidad. Tu ritmo. Tu próximo nivel.</title>
+  <title>NexIA — Aprende y enseña con diagnóstico preclase</title>
   <link rel="icon" type="image/png" href="assets/img/favicon.png">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Sora:wght@600;700&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="css/styles.css">
 </head>
 <body>
@@ -21,9 +21,10 @@
         </a>
 
         <nav class="desktop-nav" aria-label="Navegación principal">
+          <a href="#para-quien" class="desktop-nav__link">Para quién</a>
           <a href="#como-funciona" class="desktop-nav__link">Cómo funciona</a>
           <a href="#funcionalidades" class="desktop-nav__link">Funcionalidades</a>
-          <a href="#progreso" class="desktop-nav__link">Progreso</a>
+          <a href="#progreso" class="desktop-nav__link">Impacto</a>
         </nav>
 
         <a href="login.html" class="header-cta-desktop">
@@ -46,6 +47,12 @@
         <p class="mobile-drawer__eyebrow">EXPLORA NEXIA</p>
         <ul class="mobile-drawer__list">
           <li>
+            <a href="#para-quien" class="mobile-drawer__link">
+              <span>Estudiante y docente</span>
+              <span class="mobile-drawer__arrow" aria-hidden="true">↗</span>
+            </a>
+          </li>
+          <li>
             <a href="#como-funciona" class="mobile-drawer__link">
               <span>Cómo funciona</span>
               <span class="mobile-drawer__arrow" aria-hidden="true">↗</span>
@@ -59,7 +66,7 @@
           </li>
           <li>
             <a href="#progreso" class="mobile-drawer__link">
-              <span>Progreso y racha</span>
+              <span>Impacto en el aula</span>
               <span class="mobile-drawer__arrow" aria-hidden="true">↗</span>
             </a>
           </li>
@@ -78,52 +85,56 @@
       <div class="container">
         <div class="hero-grid">
           <div class="hero-content">
-            <span class="pill-badge pill-badge--purple">IA QUE SE ADAPTA A TI</span>
+            <span class="pill-badge pill-badge--purple">AULA INVERTIDA · ESTUDIANTE Y DOCENTE</span>
             <h1 class="hero-title">
-              Tu curiosidad.<br>
-              Tu ritmo.<br>
-              Tu próximo nivel.
+              Prepárate antes.<br>
+              Diagnostica a tiempo.<br>
+              Llega listo a clase.
             </h1>
             <p class="hero-description">
-              Convierte tus documentos o un tema de investigación en un curso diseñado para ti. Tú marcas el objetivo. NexIA traza el camino.
+              NexIA conecta micromódulos preclase del estudiante con un panel docente de dudas, participación y dinámicas de nivelación.
             </p>
-            <p class="hero-footnote">A tu medida. Desde el primer paso.</p>
+            <div class="hero-cta-row">
+              <a href="login.html" class="hero-cta hero-cta--primary">Soy estudiante</a>
+              <a href="login.html" class="hero-cta hero-cta--secondary">Soy docente</a>
+            </div>
+            <p class="hero-footnote">Una sola plataforma. Dos experiencias conectadas.</p>
           </div>
 
           <div class="hero-showcase">
             <div class="showcase-top-row">
               <div class="showcase-source-card">
-                <span class="pdf-pill">PDF</span>
+                <span class="pdf-pill">PRE</span>
                 <div>
-                  <p class="source-card__title">Tu investigación</p>
-                  <p class="source-card__subtitle">El punto de partida</p>
+                  <p class="source-card__title">Autoevaluación</p>
+                  <p class="source-card__subtitle">Antes de la sesión</p>
                 </div>
               </div>
 
               <div class="showcase-floating-pill">
                 <span aria-hidden="true">✓</span>
-                <span>Un objetivo. Tu propia ruta.</span>
+                <span>Diagnóstico listo para clase</span>
               </div>
             </div>
 
             <div class="showcase-route-card">
-              <span class="pill-badge pill-badge--purple">TU RUTA, CONECTADA</span>
-              <h2 class="route-card__title">Domina la IA generativa</h2>
-              <p class="route-card__subtitle">Objetivo: aplicar IA en tu investigación</p>
+              <span class="pill-badge pill-badge--purple">PANEL DOCENTE</span>
+              <h2 class="route-card__title">Temas con mayor duda</h2>
+              <p class="route-card__subtitle">Participación 78% · Comprensión 64%</p>
 
               <div class="route-card__meta">
-                <span class="meta-chip">4 semanas</span>
-                <span class="meta-chip">20 min / día</span>
+                <span class="meta-chip">3 críticos</span>
+                <span class="meta-chip">En vivo</span>
               </div>
 
               <div class="route-card__modules">
                 <div class="module-item module-item--done">
                   <span class="module-item__check" aria-hidden="true">✓</span>
-                  <span>Fundamentos y posibilidades</span>
+                  <span>Herencia — 78% comprensión</span>
                 </div>
                 <div class="module-item module-item--next">
-                  <span class="module-item__num">02</span>
-                  <span>Diseña mejores instrucciones</span>
+                  <span class="module-item__num">!</span>
+                  <span>Polimorfismo — priorizar en clase</span>
                 </div>
               </div>
             </div>
@@ -132,39 +143,39 @@
       </div>
     </section>
 
-    <section class="section-pathway">
+    <section class="section-pathway" id="para-quien">
       <div class="container">
         <h2 class="section-title">
-          No necesitas más contenido.<br>
-          Necesitas tu propio camino.
+          Una plataforma.<br>
+          Dos roles que se refuerzan.
         </h2>
 
         <div class="pathway-grid">
           <article class="pathway-card">
-            <p class="pathway-card__from">Documentos dispersos</p>
+            <p class="pathway-card__from">Estudiante</p>
             <h3 class="pathway-card__to">
               <span class="pathway-card__arrow" aria-hidden="true">↳</span>
-              <span>Del caos a la claridad</span>
+              <span>De material largo a micromódulos</span>
             </h3>
-            <p class="pathway-card__result">Una ruta con sentido</p>
+            <p class="pathway-card__result">Lee, practica y llega preparado</p>
           </article>
 
           <article class="pathway-card">
-            <p class="pathway-card__from">Un temario para todos</p>
+            <p class="pathway-card__from">Docente</p>
             <h3 class="pathway-card__to">
               <span class="pathway-card__arrow" aria-hidden="true">↳</span>
-              <span>De lo genérico a lo tuyo</span>
+              <span>De intuición a diagnóstico</span>
             </h3>
-            <p class="pathway-card__result">Un objetivo que te mueve</p>
+            <p class="pathway-card__result">Ve dudas, participación y rezagos</p>
           </article>
 
           <article class="pathway-card">
-            <p class="pathway-card__from">Horas sin saber si avanzas</p>
+            <p class="pathway-card__from">Sesión presencial</p>
             <h3 class="pathway-card__to">
               <span class="pathway-card__arrow" aria-hidden="true">↳</span>
-              <span>De estudiar a comprender</span>
+              <span>De nivelar todo a profundizar</span>
             </h3>
-            <p class="pathway-card__result">Competencias que puedes ver</p>
+            <p class="pathway-card__result">Clase enfocada en lo crítico</p>
           </article>
         </div>
       </div>
@@ -172,31 +183,31 @@
 
     <section class="section-steps" id="como-funciona">
       <div class="container">
-        <h2 class="section-title">De una idea a un «lo entiendo».</h2>
-        <p class="section-subtitle">Tres pasos. Una experiencia que se adapta a ti.</p>
+        <h2 class="section-title">Del material preclase al foco en aula.</h2>
+        <p class="section-subtitle">Tres pasos compartidos entre estudiante y docente.</p>
 
         <div class="steps-grid">
           <article class="step-card">
             <span class="step-badge step-badge--purple">01</span>
-            <h3 class="step-card__title">Dale un punto de partida</h3>
+            <h3 class="step-card__title">Publica o únete al espacio</h3>
             <p class="step-card__desc">
-              Sube documentos o explora un tema que quieras investigar.
+              El docente crea el módulo; el estudiante se une con código y completa la preparación.
             </p>
           </article>
 
           <article class="step-card">
             <span class="step-badge step-badge--purple">02</span>
-            <h3 class="step-card__title">Dibuja tu propia meta</h3>
+            <h3 class="step-card__title">Diagnóstico automático</h3>
             <p class="step-card__desc">
-              Define tu objetivo, tu nivel y el tiempo del que dispones.
+              Autoevaluaciones alimentan el reporte: errores frecuentes, participación y áreas cognitivas.
             </p>
           </article>
 
           <article class="step-card">
             <span class="step-badge step-badge--mint">03</span>
-            <h3 class="step-card__title">Aprende a tu manera</h3>
+            <h3 class="step-card__title">Nivelación en 20–30 min</h3>
             <p class="step-card__desc">
-              Empieza con un diagnóstico o ve directo a aprender.
+              Actividades sugeridas y puntos prioritarios para la sesión presencial.
             </p>
           </article>
         </div>
@@ -206,21 +217,21 @@
     <section class="section-features" id="funcionalidades">
       <div class="container">
         <h2 class="section-title">
-          No todos aprendemos igual.<br>
-          Tu curso tampoco debería.
+          Lo que necesita cada rol.<br>
+          En la misma experiencia.
         </h2>
 
         <div class="features-grid">
           <article class="feature-card feature-card--purple">
             <div class="feature-card__header">
-              <h3 class="feature-card__title">Comprueba lo aprendido</h3>
-              <p class="feature-card__subtitle">Desafíos rápidos para medir el progreso diario.</p>
+              <h3 class="feature-card__title">Estudiante · Comprueba lo aprendido</h3>
+              <p class="feature-card__subtitle">Autoevaluación preclase con tutor IA.</p>
             </div>
 
             <div class="feature-inner-box">
               <p class="inner-box__eyebrow">QUIERO PONERME A PRUEBA...</p>
-              <h4 class="inner-box__title">¿Comprendistes este concepto?</h4>
-              <p class="inner-box__text">Pon a prueba tus conocimientos con preguntas personalizadas.</p>
+              <h4 class="inner-box__title">¿Comprendiste este concepto?</h4>
+              <p class="inner-box__text">Preguntas personalizadas y pistas antes de la clase presencial.</p>
 
               <div class="quiz-actions">
                 <span class="quiz-btn quiz-btn--primary">Practicar conceptos</span>
@@ -234,32 +245,32 @@
                 </span>
               </div>
 
-              <p class="inner-box__footnote">Tus respuestas adaptan las próximas lecciones.</p>
+              <p class="inner-box__footnote">Tus respuestas alimentan el diagnóstico del docente.</p>
             </div>
           </article>
 
           <article class="feature-card feature-card--mint">
             <div class="feature-card__header">
-              <h3 class="feature-card__title">Elige cómo empezar.</h3>
-              <p class="feature-card__subtitle">Con diagnóstico o directamente al contenido.</p>
+              <h3 class="feature-card__title">Docente · Diagnóstico preclase</h3>
+              <p class="feature-card__subtitle">Errores frecuentes, participación y comprensión.</p>
             </div>
 
             <div class="feature-inner-box">
-              <div class="mode-options-grid" role="radiogroup" aria-label="Modo de inicio">
+              <div class="mode-options-grid" role="radiogroup" aria-label="Vista docente">
                 <button type="button" class="mode-option mode-option--active" role="radio" aria-checked="true">
                   <div class="mode-option__head">
                     <span class="radio-dot radio-dot--active" aria-hidden="true"></span>
-                    <span class="mode-option__title">Evaluación diagnóstica</span>
+                    <span class="mode-option__title">Reporte consolidado</span>
                   </div>
-                  <p class="mode-option__desc">Descubre tu punto de partida.</p>
+                  <p class="mode-option__desc">Temas críticos y mapa cognitivo.</p>
                 </button>
 
                 <button type="button" class="mode-option mode-option--muted" role="radio" aria-checked="false">
                   <div class="mode-option__head">
                     <span class="radio-dot" aria-hidden="true"></span>
-                    <span class="mode-option__title">Enseñanza directa</span>
+                    <span class="mode-option__title">Actividades 20–30 min</span>
                   </div>
-                  <p class="mode-option__desc">Empieza a aprender sin test inicial.</p>
+                  <p class="mode-option__desc">Dinámicas para nivelar al grupo.</p>
                 </button>
               </div>
             </div>
@@ -267,8 +278,8 @@
 
           <article class="feature-card feature-card--neutral">
             <div class="feature-card__header">
-              <h3 class="feature-card__title">Un concepto. Distintas formas.</h3>
-              <p class="feature-card__subtitle">Lee, escucha y pon a prueba lo aprendido.</p>
+              <h3 class="feature-card__title">Estudiante · Varias formas de aprender</h3>
+              <p class="feature-card__subtitle">Lectura, audio y práctica en un micromódulo.</p>
             </div>
 
             <div class="feature-inner-box">
@@ -278,7 +289,7 @@
                 <button type="button" class="format-tab" role="tab" aria-selected="false" data-format="practica">Práctica</button>
               </div>
 
-              <h4 class="inner-box__title" id="formatPreviewTitle">¿Qué es la IA generativa?</h4>
+              <h4 class="inner-box__title" id="formatPreviewTitle">¿Qué es el polimorfismo?</h4>
               <p class="inner-box__text" id="formatPreviewText">
                 Aprende el concepto, explora un ejemplo y comprueba lo que has comprendido.
               </p>
@@ -287,14 +298,14 @@
 
           <article class="feature-card feature-card--amber">
             <div class="feature-card__header">
-              <h3 class="feature-card__title">Aprende conectado a tus fuentes.</h3>
-              <p class="feature-card__subtitle">De tus documentos a explicaciones con contexto.</p>
+              <h3 class="feature-card__title">Docente · Contenido con IA</h3>
+              <p class="feature-card__subtitle">Borradores editables, flashcards y tutor configurable.</p>
             </div>
 
             <div class="feature-inner-box">
-              <span class="pill-badge pill-badge--amber">TU MATERIAL</span>
-              <h4 class="inner-box__title inner-box__title--spaced">«Relaciona esta idea con mi tema».</h4>
-              <p class="inner-box__text">Una explicación que parte de lo que estudias.</p>
+              <span class="pill-badge pill-badge--amber">CREAR ESPACIO</span>
+              <h4 class="inner-box__title inner-box__title--spaced">«Aprobar y publicar» con código único.</h4>
+              <p class="inner-box__text">Revisa preguntas de la IA, incrusta YouTube/Spotify y define el estilo del tutor.</p>
             </div>
           </article>
         </div>
@@ -306,85 +317,85 @@
         <div class="progress-grid">
           <div class="progress-left">
             <h2 class="section-title">
-              No cuentes horas.<br>
-              Descubre lo que ya sabes.
+              Visibilidad para el aula.<br>
+              Claridad para el estudiante.
             </h2>
             <p class="progress-description">
-              Visualiza tus competencias, identifica qué reforzar y decide tu siguiente paso con más claridad.
+              El estudiante ve su evolución por áreas cognitivas. El docente ve la tendencia del grupo y qué reforzar en clase.
             </p>
 
             <ul class="progress-checks">
               <li class="progress-check-item">
                 <span class="progress-check-icon" aria-hidden="true">✓</span>
-                <span>Reconoce tus fortalezas</span>
+                <span>Estudiante: fortalezas y repaso priorizado</span>
               </li>
               <li class="progress-check-item">
                 <span class="progress-check-icon" aria-hidden="true">✓</span>
-                <span>Enfoca el esfuerzo donde más importa</span>
+                <span>Docente: participación semanal y temas críticos</span>
               </li>
             </ul>
 
-            <p class="progress-small-note">Un aprendizaje que puedes entender y orientar.</p>
+            <p class="progress-small-note">Menos tiempo nivelando. Más tiempo profundizando.</p>
 
             <div class="streak-card">
-              <p class="streak-card__eyebrow">LA CONSTANCIA TAMBIÉN CUENTA</p>
-              <h3 class="streak-card__title">5 días de racha</h3>
-              <p class="streak-card__subtitle">Un pequeño avance cada día.</p>
+              <p class="streak-card__eyebrow">COMPROMISO PRECLASE</p>
+              <h3 class="streak-card__title">78% de participación</h3>
+              <p class="streak-card__subtitle">Semana 8 · Polimorfismo</p>
 
               <div class="streak-days">
                 <div class="streak-day">
-                  <span class="streak-day__label">L</span>
-                  <span class="streak-day__box streak-day__box--done" aria-label="Completado">✓</span>
+                  <span class="streak-day__label">S4</span>
+                  <span class="streak-day__box streak-day__box--done" aria-label="Completado">79</span>
                 </div>
                 <div class="streak-day">
-                  <span class="streak-day__label">M</span>
-                  <span class="streak-day__box streak-day__box--done" aria-label="Completado">✓</span>
+                  <span class="streak-day__label">S5</span>
+                  <span class="streak-day__box streak-day__box--done" aria-label="Completado">81</span>
                 </div>
                 <div class="streak-day">
-                  <span class="streak-day__label">X</span>
-                  <span class="streak-day__box streak-day__box--done" aria-label="Completado">✓</span>
+                  <span class="streak-day__label">S6</span>
+                  <span class="streak-day__box streak-day__box--done" aria-label="Completado">74</span>
                 </div>
                 <div class="streak-day">
-                  <span class="streak-day__label">J</span>
-                  <span class="streak-day__box streak-day__box--done" aria-label="Completado">✓</span>
+                  <span class="streak-day__label">S7</span>
+                  <span class="streak-day__box streak-day__box--done" aria-label="Completado">71</span>
                 </div>
                 <div class="streak-day">
-                  <span class="streak-day__label">V</span>
-                  <span class="streak-day__box streak-day__box--current" aria-label="Racha actual">✓</span>
+                  <span class="streak-day__label">S8</span>
+                  <span class="streak-day__box streak-day__box--current" aria-label="Semana actual">78</span>
                 </div>
                 <div class="streak-day">
-                  <span class="streak-day__label">S</span>
+                  <span class="streak-day__label">S9</span>
                   <span class="streak-day__box streak-day__box--pending" aria-label="Pendiente">–</span>
                 </div>
                 <div class="streak-day">
-                  <span class="streak-day__label">D</span>
+                  <span class="streak-day__label">S10</span>
                   <span class="streak-day__box streak-day__box--pending" aria-label="Pendiente">–</span>
                 </div>
               </div>
 
-              <p class="streak-card__footer">Cada día de aprendizaje suma a tu constancia.</p>
+              <p class="streak-card__footer">Tendencia histórica del compromiso del salón.</p>
             </div>
           </div>
 
           <div class="progress-right">
             <div class="radar-card">
-              <h3 class="radar-card__title">Así se ve tu evolución</h3>
+              <h3 class="radar-card__title">Áreas cognitivas del grupo</h3>
 
               <div class="radar-legend">
                 <span class="radar-legend__item radar-legend__item--before">
                   <span class="radar-legend__line radar-legend__line--before"></span>
-                  <span>Antes</span>
+                  <span>Mínimo docente</span>
                 </span>
                 <span class="radar-legend__item radar-legend__item--now">
                   <span class="radar-legend__line radar-legend__line--now"></span>
-                  <span>Ahora</span>
+                  <span>Resultado actual</span>
                 </span>
               </div>
 
               <div class="radar-chart-container">
                 <svg class="radar-svg" viewBox="0 0 380 300" role="img" aria-labelledby="radarTitle radarDesc">
-                  <title id="radarTitle">Evolución de competencias en NexIA</title>
-                  <desc id="radarDesc">Comparación entre Antes (línea discontinua: Comprender 47 %, Aplicar 50 %, Analizar 52 %, Crear 40 %, Evaluar 44 %) y Ahora (línea continua: Comprender 80 %, Aplicar 83 %, Analizar 81 %, Crear 82 %, Evaluar 78 %).</desc>
+                  <title id="radarTitle">Áreas cognitivas del grupo en NexIA</title>
+                  <desc id="radarDesc">Comparación entre mínimo docente y resultado actual del grupo por área cognitiva.</desc>
                   <polygon points="190,45 299,124 257,252 123,252 81,124" fill="none" stroke="#EAECEF" stroke-width="1" />
                   <polygon points="190,74 272,133 240,229 140,229 108,133" fill="none" stroke="#EAECEF" stroke-width="1" />
                   <polygon points="190,103 244,142 224,206 156,206 136,142" fill="none" stroke="#EAECEF" stroke-width="1" />
@@ -418,12 +429,13 @@
     <div class="container">
       <div class="footer-cta">
         <h2 class="footer-cta__title">
-          Haz espacio para<br>
-          lo que puedes llegar a saber.
+          Estudiante o docente:<br>
+          la clase empieza mejor preparada.
         </h2>
         <p class="footer-cta__subtitle">
-          Empieza con una idea. Conviértela en tu propia ruta.
+          Inicia sesión y elige tu experiencia. Docente demo: docente@gmail.com
         </p>
+        <a href="login.html" class="hero-cta hero-cta--primary footer-cta__btn">Ir a iniciar sesión</a>
       </div>
 
       <hr class="footer-divider">
